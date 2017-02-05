@@ -1,2 +1,2 @@
-# grails-actuator
-Production ready features
+# g2Actuator
+Provides a lighweight back port of some of Spring Boot Actuator capabilites for Grails 2 Applications.
