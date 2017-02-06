@@ -1,2 +1,2 @@
 # g2actuator
-Provides a lighweight back port of some of Spring Boot Actuator capabilites for Grails 2 Applications.
+Provides a light-weight back port of some of Spring Boot Actuator capabilities for Grails 2 Applications.

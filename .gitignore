@@ -3,6 +3,7 @@
 ### Grails ###
 
 *.iws
+*.iml
 *Db.properties
 *Db.script
 .settings
@@ -31,6 +32,8 @@ stacktrace.log
 # User-specific stuff:
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/compiler.xml
+.idea/vcs.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources/
@@ -40,6 +43,10 @@ stacktrace.log
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/sonarlint/*
+.idea/copyright/*
 
 # Gradle:
 .idea/gradle.xml
@@ -48,13 +55,9 @@ stacktrace.log
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
 
-## File-based project format:
-*.iws
-
 ## Plugin-specific files:
 
 # IntelliJ
-/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
