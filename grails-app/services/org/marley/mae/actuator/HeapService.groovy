@@ -13,6 +13,13 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 
+/**
+ * A Service to expose heapdumps.
+ *
+ * Based on Spring Boot's HeapdumpMvcEndpoint by Lari Hotari and Phillip Webb.
+ *
+ * @author jsampson
+ */
 @Transactional
 class HeapService {
     private HeapDumper heapDumper;
@@ -21,15 +28,15 @@ class HeapService {
 
     File dumpIt(boolean live)
             throws IOException, ServletException, InterruptedException {
+        File file
         try {
             if (this.lock.tryLock(this.timeout, TimeUnit.MILLISECONDS)) {
                 try {
                     if (this.heapDumper == null) {
                         this.heapDumper = createHeapDumper();
                     }
-                    File file = createTempFile(live);
+                    file = createTempFile(live);
                     this.heapDumper.dumpHeap(file, live);
-                    return file
                 }
                 finally {
                     this.lock.unlock();
@@ -39,8 +46,11 @@ class HeapService {
             }
         }
         catch (InterruptedException ex) {
+            //TODO log?
             Thread.currentThread().interrupt();
         }
+
+        file
     }
 
     private File createTempFile(boolean live) throws IOException {

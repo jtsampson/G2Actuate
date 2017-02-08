@@ -6,6 +6,19 @@ import java.lang.management.ManagementFactory
 import java.lang.management.MemoryUsage
 import java.lang.management.ThreadMXBean
 
+/**
+ * A service to expose metrics. Currently only
+ *  - basic
+ *  - management
+ *  - heap
+ *  - non-heap
+ *  - thread
+ *  - class loading
+ *  - garbage collection
+ *  TODO: user supplied metrics
+ *
+ *  @author jsampson
+ */
 class MetricService {
     static final long timestamp = System.currentTimeMillis()
 
@@ -30,7 +43,7 @@ class MetricService {
         }
         basic["mem.free"] = runtime.freeMemory();
         basic["processors"] = runtime.availableProcessors()
-        basic["instance.uptime"] = System.currentTimeMillis() - this.timestamp
+        basic["instance.uptime"] = System.currentTimeMillis() - timestamp
         basic
     }
 

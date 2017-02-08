@@ -1,4 +1,5 @@
 // configuration for plugin testing - will not be included in the plugin zip
+grails.mime.use.accept.header = true
 grails.mime.types = [
         hal : ['application/hal+json', 'application/hal+xml'],
         json: ['application/json', 'text/json'],
@@ -23,4 +24,9 @@ log4j = {
             'org.springframework',
             'org.hibernate',
             'net.sf.ehcache.hibernate'
+}
+
+g2actuator.infoContributor = { info ->
+    info['added-by-info-contrib'] = true
+    info
 }

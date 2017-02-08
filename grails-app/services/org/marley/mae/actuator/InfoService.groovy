@@ -5,11 +5,24 @@ import grails.util.Holders
 import grails.util.Metadata
 import groovy.json.JsonSlurper
 
+import javax.annotation.PostConstruct
+
+/**
+ * A service to expose informational data
+ * currently:
+ *  - application
+ *  - grails (plugins)
+ *  - scm (build info)
+ */
 class InfoService {
 
-    def static final random = new Random(new Date().getTime());
-    def scm = 'GIT'
     def grailsApplication
+    def infoContributor
+
+    @PostConstruct
+    def init(){
+        infoContributor = grailsApplication.config?.g2actuator?.infoContributor
+    }
 
     def collectInfo() {
         TreeMap info = [:]
@@ -17,6 +30,12 @@ class InfoService {
         info << app()
         info << grails()
         info << scm()
+
+        // Allow owning applications to add information.
+        if (infoContributor instanceof Closure) {
+            info = infoContributor(info)
+        }
+
         info
     }
 

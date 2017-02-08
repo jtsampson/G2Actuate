@@ -1,8 +1,19 @@
 package org.marley.mae.actuator
 
+import grails.converters.JSON
+import grails.converters.XML
+
 class ActuatorController {
 
-    static responseFormats = ['json']
+    ActuatorController() {
+        JSON.createNamedConfig('PASS-THROUGH-JSON') {
+            it.registerObjectMarshaller(String) {  ->
+                it.toString()
+            }
+        }
+    }
+
+    //static responseFormats = ['json','xml']
     // static allowedMethods = [info: "GET",
     //                          metrics: 'GET',
     //                         env: 'GET']
@@ -10,14 +21,16 @@ class ActuatorController {
     def metricService
     def envService
     def heapService
+    def beanService
 
     def info() {
         respond infoService.collectInfo()
+        // TODO: Can I support both XML and JSON for all what about /beans endpoint?
         //        def model = infoService.collectInfo()
-//        withFormat {
-//            json { render model as JSON }
-//            xml { render model as XML }
-//        }
+        //        withFormat {
+        //            json { render model as JSON }
+        //            xml { render model as XML }
+        //        }
     }
 
     def metrics() {
@@ -29,6 +42,13 @@ class ActuatorController {
     }
 
     def dump() {
-        respond heapService.dumpIt()
+        respond heapService.dumpIt(params?.live ?: true)
+    }
+
+    def beans(){
+        response.setContentType("application/json");
+        JSON.use('PASS-THROUGH-JSON'){
+            render beanService.collectBeans();
+        }
     }
 }
