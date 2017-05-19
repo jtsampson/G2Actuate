@@ -1,12 +1,20 @@
 # Grails 2 Actuator (g2actuator)
 
-The Grails 2 Actuator is a grails plugin providing some of the capabilities of the [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready.html).
+The Grails 2 Actuator is a Grails 2 plugin providing some of the capabilities of the [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready.html).
 
-## Grails Version
+### Contents
+ - [Grails Version](#GrailsVersion)
+ - [Build](#Build)
+ - [Install](#Install)
+ - [Features](#Features)
+ - [Available Endpoints](#AvailableEndpoints)
+ - [Customizing endpoints](#Customization)
+
+## <a name="GrailsVersion">Grails Version</a>
 
 Built and tested with Grails 2.4.4 applications. May Port to 2.5.6 when I feel it is sufficiently complete.
 
-## Building the Actuator
+## <a name="Build">Build</a>
 
  1. Clone the repository
  1. Build and install the plugin using the grails wrapper
@@ -20,7 +28,7 @@ Unix:
 ./grailsw MavenInstall
 ```
 
-## Install the Actuator
+## <a name="Install">Install</a>
 Update BuildConfig.groovy:
 ```groovy
 
@@ -31,7 +39,7 @@ dependencies {
 ```
 
 
-## Features
+## <a name="Features">Features</a>
 
  * **Endpoints** Grails 2 Actuator endpoints allow you to monitor and interact with your application. Grails 2 Actuator includes a number 
 of built-in endpoints For example, the metrics endpoint provides basic application metrics information. Start up your 
@@ -40,7 +48,7 @@ application and look at `/metrics` (and see `/mappings` for a list of other HTTP
  * **Audit** TODO...maybe
  * **Process Monitoring** TODO...maybe
  
-## Endpoints
+## <a name="AvailableEndpoints">Available Endpoints</a>
 | ID                 | Description                                                                | Sensitive Default |
 | ------------------ | -------------------------------------------------------------------------- | ----------------- |
 | **/beans**         | Displays a complete list of all the Spring beans in your application.      | TODO              |
@@ -49,3 +57,5 @@ application and look at `/metrics` (and see `/mappings` for a list of other HTTP
 | **/info**          | Displays arbitrary application info.                                       | TODO              |
 | **/metrics**       | Shows 'metrics' information for the current application.                   | TODO              |
 | **/mappings**      | Displays a collated list of all URLMapiings paths                          | TODO              |
+
+## <a name="Customizing Endpoints">Customization</a>
