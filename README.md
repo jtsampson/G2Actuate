@@ -25,7 +25,7 @@ Update BuildConfig.groovy:
 ```groovy
 
 dependencies {
-    compile 'org.grails.plugins:g2actuator:3.3.2:0.2-SNAPSHOT'
+    compile 'org.grails.plugins:g2actuator:0.2-SNAPSHOT'
 }
 
 ```
