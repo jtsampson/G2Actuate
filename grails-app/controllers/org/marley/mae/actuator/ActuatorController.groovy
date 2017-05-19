@@ -1,7 +1,6 @@
 package org.marley.mae.actuator
 
 import grails.converters.JSON
-import grails.converters.XML
 
 class ActuatorController {
 
@@ -19,7 +18,7 @@ class ActuatorController {
     //                         env: 'GET']
     def beanService
     def envService
-    def heapService
+    def heapDumpService
     def infoService
     def mappingService
     def metricService
@@ -36,8 +35,8 @@ class ActuatorController {
         //TODO
     }
 
-    def dump() {
-        respond heapService.dumpIt(params?.live ?: true)
+    def heapdump() {
+        respond heapDumpService.dumpIt(params?.live ?: true)
     }
 
     def env() {

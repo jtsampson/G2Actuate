@@ -10,8 +10,9 @@ import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS
 
 class HeapDumpController {
 
+    // TODO work this into config on per endpoint basis.
     boolean isEnabled = true  // you could disable in certain environments by setting false
-    def heapService
+    def heapDumpService
 
 
     def dump() {
@@ -21,7 +22,7 @@ class HeapDumpController {
         }
 
         boolean live = params.live ?: true // live objects only if true
-        File file = heapService.dumpIt(live)
+        File file = heapDumpService.dumpIt(live)
         streamFile(file);
     }
 
@@ -52,7 +53,7 @@ class HeapDumpController {
     // Exception methods:
     //--------------------------------------------
 
-    def tooManyRequestsException(final HeapService.TooManyRequestsException exception) {
+    def tooManyRequestsException(final HeapDumpService.TooManyRequestsException exception) {
         render status: TOO_MANY_REQUESTS
     }
 

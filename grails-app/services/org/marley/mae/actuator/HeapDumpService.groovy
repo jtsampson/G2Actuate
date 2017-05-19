@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock
  * @author jsampson
  */
 @Transactional
-class HeapService {
+class HeapDumpService {
     private HeapDumper heapDumper;
     private final Lock lock = new ReentrantLock();
     private final long timeout = 2000 // milliseconds to try to acquire the lock, else fail.
