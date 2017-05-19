@@ -1,10 +1,10 @@
 // configuration for plugin testing - will not be included in the plugin zip
 grails.mime.use.accept.header = true
 grails.mime.types = [
-        hal : ['application/hal+json', 'application/hal+xml'],
         json: ['application/json', 'text/json'],
         xml : ['text/xml', 'application/xml']
 ]
+grails.mime.disable.accept.header.userAgents = []
 log4j = {
     // Example of changing the log pattern for the default console
     // appender:

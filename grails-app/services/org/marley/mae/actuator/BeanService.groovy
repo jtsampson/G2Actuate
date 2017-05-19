@@ -1,6 +1,7 @@
 package org.marley.mae.actuator
 
 import grails.util.Holders
+import groovy.json.JsonSlurper
 import org.springframework.beans.BeansException
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
@@ -24,15 +25,19 @@ class BeanService {
     private final HierarchyAwareLiveBeansView liveBeansView = new HierarchyAwareLiveBeansView();
 
     @PostConstruct
-    private void init(){
+    private void init() {
         if (Holders.applicationContext.getEnvironment()
                 .getProperty(LiveBeansView.MBEAN_DOMAIN_PROPERTY_NAME) == null) {
             this.liveBeansView.leafContext = Holders.applicationContext;
         }
     }
 
-    public String collectBeans() {
-        return this.liveBeansView.getSnapshotAsJson();
+    def collectBeans() {
+        def snapshot = liveBeansView.getSnapshotAsJson();
+        def slurper = new JsonSlurper()
+
+        // Returning a map so controller can do content negotiation with a map.
+        slurper.parseText(snapshot)
     }
 
     private static class HierarchyAwareLiveBeansView extends LiveBeansView {

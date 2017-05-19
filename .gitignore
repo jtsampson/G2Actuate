@@ -34,6 +34,7 @@ stacktrace.log
 .idea/tasks.xml
 .idea/compiler.xml
 .idea/vcs.xml
+.idea/kotlinc.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources/

@@ -13,42 +13,46 @@ class ActuatorController {
         }
     }
 
-    //static responseFormats = ['json','xml']
+    static responseFormats = ['json','xml']
     // static allowedMethods = [info: "GET",
     //                          metrics: 'GET',
     //                         env: 'GET']
-    def infoService
-    def metricService
+    def beanService
     def envService
     def heapService
-    def beanService
+    def infoService
+    def mappingService
+    def metricService
 
-    def info() {
-        respond infoService.collectInfo()
-        // TODO: Can I support both XML and JSON for all what about /beans endpoint?
-        //        def model = infoService.collectInfo()
-        //        withFormat {
-        //            json { render model as JSON }
-        //            xml { render model as XML }
-        //        }
+    def actuator() {
+        //TODO
     }
 
-    def metrics() {
-        respond metricService.collectMetrics()
+    def beans(){
+        respond beanService.collectBeans()
     }
 
-    def env() {
-        respond envService.collectEnvironment()
+    def configprops(){
+        //TODO
     }
 
     def dump() {
         respond heapService.dumpIt(params?.live ?: true)
     }
 
-    def beans(){
-        response.setContentType("application/json");
-        JSON.use('PASS-THROUGH-JSON'){
-            render beanService.collectBeans();
-        }
+    def env() {
+        respond envService.collectEnvironment()
+    }
+
+    def info() {
+        respond infoService.collectInfo()
+    }
+
+    def mappings() {
+        respond mappingService.collectMappings()
+    }
+
+    def metrics() {
+        respond metricService.collectMetrics()
     }
 }
