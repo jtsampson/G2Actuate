@@ -1,7 +1,7 @@
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-// Based loosley on grails-build-info plugin
+// Based loosely on grails-build-info plugin
 
 eventCreateWarStart = { warname, stagingDir ->
 

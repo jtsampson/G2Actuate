@@ -1,4 +1,4 @@
-package org.marley.mae.actuator
+package com.github.jtsampson.actuate
 
 
 import grails.transaction.Transactional

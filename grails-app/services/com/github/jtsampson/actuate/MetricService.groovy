@@ -1,4 +1,4 @@
-package org.marley.mae.actuator
+package com.github.jtsampson.actuate
 
 import java.lang.management.ClassLoadingMXBean
 import java.lang.management.GarbageCollectorMXBean
