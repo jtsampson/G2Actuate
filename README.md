@@ -4,11 +4,9 @@
   </a>
   <h3 style="color:#990000" align="center">G2Actuate</h3>
   <p align="center">
-    Providing the porduction ready capabilities of the Spring Boot Actuator to Grails 2 Projects.
+    Providing the production ready capabilities of the Spring Boot Actuator to Grails 2 Projects.
   </p>
 </p>
-b2
-
 ### Contents
  - [Grails Version](#GrailsVersion)
  - [Build](#Build)
