@@ -7,6 +7,7 @@
     Providing the production ready capabilities of the Spring Boot Actuator to Grails 2 Projects.
   </p>
 </p>
+
 ### Contents
  - [Grails Version](#GrailsVersion)
  - [Build](#Build)
