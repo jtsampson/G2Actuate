@@ -1,5 +1,3 @@
-![G2Actuate](G2ActuateSmall.png?raw=true "G2Actuate")
-
 <p align="center">
   <a href="https://github.com/jtsampson/g2actuate">
     <img src="G2ActuateSmall.png" width=144 height=144>
@@ -8,7 +6,7 @@
   <h3 align="center">G2Actuate</h3>
 
   <p align="center">
-    The Grails 2 Actuator is a Grails 2 plugin providing some of the capabilities of the
+    Providing the porduction ready capabilities of the Spring Boot Actuator to Grails 2 Projects.
 
     <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready.html"><strong>Spring Boot Actuator</strong></a>
   </p>
