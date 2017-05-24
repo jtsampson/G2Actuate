@@ -47,8 +47,8 @@ dependencies {
 
 ## <a name="Features">Features</a>
 
- * **Endpoints** Grails 2 Actuator endpoints allow you to monitor and interact with your application. Grails 2 Actuator includes a number 
-of built-in endpoints For example, the metrics endpoint provides basic application metrics information. Start up your 
+ * **Endpoints** G2Actuate endpoints allow you to monitor and interact with your application. G2Actuate includes a number 
+of built-in endpoints. For example, the metrics endpoint provides basic application metrics information. Start up your 
 application and look at `/metrics` (and see `/mappings` for a list of other HTTP endpoints).
  * **Metrics** TODO...maybe
  * **Audit** TODO...maybe
