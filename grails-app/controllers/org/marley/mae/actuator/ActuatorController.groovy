@@ -12,16 +12,28 @@ class ActuatorController {
         }
     }
 
-    static responseFormats = ['json','xml']
-    // static allowedMethods = [info: "GET",
-    //                          metrics: 'GET',
-    //                         env: 'GET']
+    static responseFormats = ['json', 'xml']
+
+    static allowedMethods = [actuator   : 'GET',
+                             beans      : 'GET',
+                             configprops: 'GET',
+                             env        : 'GET',
+                             heapdump   : 'GET',
+                             info       : 'GET',
+                             mappings   : 'GET',
+                             metrics    : 'GET',
+                             trace      : 'GET'
+    ]
+
     def beanService
     def envService
     def heapDumpService
     def infoService
     def mappingService
     def metricService
+
+
+    // TODO enabling/disabling should be handled in plugin set up.
 
     def actuator() {
         //TODO
@@ -35,12 +47,12 @@ class ActuatorController {
         //TODO
     }
 
-    def heapdump() {
-        respond heapDumpService.dumpIt(params?.live ?: true)
-    }
-
     def env() {
         respond envService.collectEnvironment()
+    }
+
+    def heapdump() {
+        respond heapDumpService.dumpIt(params?.live ?: true)
     }
 
     def info() {
