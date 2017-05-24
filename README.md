@@ -1,4 +1,19 @@
-# Grails 2 Actuator (g2actuator)
+![G2Actuate](G2ActuateSmall.png?raw=true "G2Actuate")
+
+<p align="center">
+  <a href="https://github.com/jtsampson/g2actuator">
+    <img src="G2ActuateSmall.png" width=144 height=144>
+  </a>
+
+  <h3 align="center">G2Actuate</h3>
+
+  <p align="center">
+    The Grails 2 Actuator is a Grails 2 plugin providing some of the capabilities of the
+
+    <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready.html"><strong>Spring Boot Actuator</strong></a>
+  </p>
+</p>
+b2
 
 The Grails 2 Actuator is a Grails 2 plugin providing some of the capabilities of the [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready.html).
 
