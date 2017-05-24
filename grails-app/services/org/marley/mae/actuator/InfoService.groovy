@@ -21,7 +21,7 @@ class InfoService {
 
     @PostConstruct
     def init(){
-        infoContributor = grailsApplication.config?.g2actuator?.infoContributor
+        infoContributor = grailsApplication.config?.g2actuate?.infoContributor
     }
 
     def collectInfo() {
@@ -80,7 +80,7 @@ class InfoService {
         }
 
         //def description = Metadata.getCurrent().getProperty('app.description') ?: 'app.description not set'
-        def scm = new JsonSlurper().parseText(properties?.scm ?: "{\"message\":\"Nothing found: did you implement g2actuator.scmInfo in buildConfig.groovy?\"}")
+        def scm = new JsonSlurper().parseText(properties?.scm ?: "{\"message\":\"Nothing found: did you implement g2actuate.scmInfo in buildConfig.groovy?\"}")
 
         ['scm': scm]
     }

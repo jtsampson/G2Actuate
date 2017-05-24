@@ -40,7 +40,7 @@ class TraceFilters {
 
     @PostConstruct
     def init() {
-        def endpoints = grailsApplication.config?.g2actuator?.endpoints
+        def endpoints = grailsApplication.config?.g2actuate?.endpoints
         def trace = endpoints?.trace
         assert traceService
 

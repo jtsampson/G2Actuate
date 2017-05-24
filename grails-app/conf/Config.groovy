@@ -26,7 +26,7 @@ log4j = {
             'net.sf.ehcache.hibernate'
 }
 
-g2actuator.infoContributor = { info ->
+g2actuate.infoContributor = { info ->
     info['added-by-info-contrib'] = true
     info
 }

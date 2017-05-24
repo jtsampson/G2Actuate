@@ -11,7 +11,7 @@ class G2actuatorGrailsPlugin {
     // TODO Fill in these fields
     def title = "Grails 2 Actuator Plugin" // Headline display name of the plugin
     def author = "John Sampson"
-    def authorEmail = "jtsampson2000+g2actuator@gmail.com"
+    def authorEmail = "jtsampson2000+g2actuate@gmail.com"
     def description = '''\
 Provides a back port of some of Spring Boot Actuator capabilites for Grails 2 Applications.
 
@@ -30,7 +30,7 @@ Call back 'contributor' closures are provided to you can customise the data retu
 
     def documentation = "http://grails.org/plugin/build-info"
     def license = "APACHE"
-    def developers = [ [ name: "John Sampson", email: "jtsampson2000+g2actuator@gmail.com" ]]
+    def developers = [ [ name: "John Sampson", email: "jtsampson2000+g2actuate@gmail.com" ]]
     def issueManagement = [ system: "Github", url: "https://github.com/jtsampson/g2Actuator/issues" ]
     def scm = [ url: "https://github.com/jtsampson/g2Actuator" ]
 

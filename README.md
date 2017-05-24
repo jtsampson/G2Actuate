@@ -1,7 +1,7 @@
 ![G2Actuate](G2ActuateSmall.png?raw=true "G2Actuate")
 
 <p align="center">
-  <a href="https://github.com/jtsampson/g2actuator">
+  <a href="https://github.com/jtsampson/g2actuate">
     <img src="G2ActuateSmall.png" width=144 height=144>
   </a>
 
@@ -48,7 +48,7 @@ Update BuildConfig.groovy:
 ```groovy
 
 dependencies {
-    compile 'org.grails.plugins:g2actuator:0.2-SNAPSHOT'
+    compile 'org.grails.plugins:g2actuate:0.2-SNAPSHOT'
 }
 
 ```

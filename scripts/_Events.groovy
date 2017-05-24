@@ -7,7 +7,7 @@ eventCreateWarStart = { warname, stagingDir ->
 
     event("AddScmPropertiesStart", [warname, stagingDir])
     def properties = getScmInfo()
-    writeProperties(properties, "${stagingDir}/WEB-INF/classes/application.properties", "Written by g2actuator plugin")
+    writeProperties(properties, "${stagingDir}/WEB-INF/classes/application.properties", "Written by g2actuate plugin")
 
     event("AddScmPropertiesStart", [warname, stagingDir])
 
@@ -27,7 +27,7 @@ def getScmInfo() {
     println "*" * 50
     println "scmInfo()"
     // client provided closure to determine scmInfo
-    def scmInfoClosure = buildConfig.g2actuator.scmInfo
+    def scmInfoClosure = buildConfig.g2actuate.scmInfo
 
     if (scmInfoClosure instanceof Closure) {
         scmInfo = scmInfoClosure()
