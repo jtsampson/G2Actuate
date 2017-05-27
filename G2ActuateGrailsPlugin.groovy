@@ -1,4 +1,4 @@
-class G2actuatorGrailsPlugin {
+class G2ActuateGrailsPlugin {
     // the plugin version
     def version = "0.2-SNAPSHOT"
     // the version or versions of Grails the plugin is designed for

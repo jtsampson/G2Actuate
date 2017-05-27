@@ -10,7 +10,6 @@ class TraceFilters {
     private static final AtomicLong TRACE_COUNTER = new AtomicLong()
     private static final String TRACE_ID_ATTRIBUTE_NAME = 'Controller__TRACE_NUMBER__'
 
-    def traceService
     def grailsApplication
 
     // if true, the request property is collected. User provides a set of overrides.
@@ -27,33 +26,41 @@ class TraceFilters {
                              sessionId     : true,
                              remoteUser    : true]
     
+    // TODO replace with 'trace config' instead of putting 'configuration logic'  here.
     boolean enabled
-    boolean collectRequestHeaders = true
-    boolean collectRequestProperties = true
-    boolean collectResponseHeaders = true
-    boolean collectCookies = true
+    boolean collectCookies
+    boolean collectProperties
+    boolean collectRequestHeaders
+    boolean collectResponseHeaders
 
-    def requestHeaderIncludes
-    def responseHeaderIncludes
-    def requestHeaderExcludes
-    def responseHeaderExcludes
+    def includeRequestHeaders
+    def includeResponseHeaders
+    def excludeRequestHeaders
+    def excludeResponseHeaders
 
     @PostConstruct
     def init() {
-        def endpoints = grailsApplication.config?.g2actuate?.endpoints
-        def trace = endpoints?.trace
-        assert traceService
+        assert grailsApplication
+        def endpoints = grailsApplication?.config?.g2actuate?.endpoints
+        def conf =  endpoints?.trace
 
-        enabled = endpoints?.enabled ?: trace?.enabled ?: true
+        enabled                = conf?.enabled ?: true
+        collectCookies         = conf?.cookies?.collect ?: true
+        collectProperties      = conf?.properties?.collect ?: true
+        collectRequestHeaders  = conf?.request?.headers?.capture ?: true
+        collectResponseHeaders = conf?.response?.headers?.collect ?: true
 
-        collectRequestHeaders = trace?.collectResponseHeaders ?: true
-        collectResponseHeaders = trace?.collectResponseHeaders ?: true
 
-        requestHeaderIncludes = trace?.requestHeaderIncludes ?: null
-        responseHeaderIncludes = trace?.responseHeaderIncludes ?: null
+        includeRequestHeaders  = conf?.request?.headers?.include ?: []
+        includeResponseHeaders = conf?.response?.headers?.include ?: []
 
-        requestHeaderExcludes = trace?.requestHeaderExcludes ?: null
-        responseHeaderExcludes = trace?.responseHeaderExcludes ?: null
+
+        excludeRequestHeaders  = conf?.request?.headers?.exclude ?: []
+        excludeResponseHeaders = conf?.response?.headers?.exclude ?: []
+
+        // TODO Add appropriate Error messages
+        assert (includeRequestHeaders.isEmpty() | excludeRequestHeaders.isEmpty()),  "includeRequestHeaders: One, The Other but not Both"
+        assert !(!includeResponseHeaders.isEmpty() && !excludeResponseHeaders.isEmpty()),  "excludeRequestHeaders: One, The Other but not Both"
     }
 
 
@@ -76,18 +83,19 @@ class TraceFilters {
 
                         def headerNameList = request.headerNames.toList()
 
-                        if (requestHeaderIncludes) {
-                            headerNameList = headerNameList.collect { requestHeaderIncludes.contsins(it.toLowerCase()) }
-                        } else if (requestHeaderExcludes) {
-                            headerNameList = headerNameList.removeAll(requestHeaderExcludes.contains(it.toLowerCase()))
+                        // TODO case sensitivity?
+                        if (includeRequestHeaders) {
+                            headerNameList = headerNameList.intersect(includeRequestHeaders)
+                        } else if (excludeRequestHeaders) {
+                            headerNameList.removeAll(excludeRequestHeaders)
                         }
 
-                        def requestHeaders = [:]
-                        headerNameList.each { name -> requestHeaders.put(name, request.getHeader(name)) }
-                        trace.headers.request = requestHeaders
+                        def requestHeaderMap = new TreeMap()
+                        headerNameList.each { name -> requestHeaderMap.put(name, request.getHeader(name)) }
+                        trace.headers.request = requestHeaderMap
                     }
 
-                    if (collectRequestProperties) {
+                    if (collectProperties) {
                         trace << request.properties.subMap(requestProperties.keySet()).findAll {
                             requestProperties[it.key] && it.value && it.key != 'userPrincipal'
                         }
@@ -113,29 +121,30 @@ class TraceFilters {
 
                     request[TRACE_ID_ATTRIBUTE_NAME] = currentRequestNumber
 
-                    traceService.save(currentRequestNumber, trace)
+                    // TODO: use auto intection of traceService if you can get the test working
+                    def ts = applicationContext.getBean('traceService')
+                    ts.save(currentRequestNumber, trace)
                 }
             }
 
             after = { Map model ->
                 if (enabled) {
 
-
                     Long id = request[TRACE_ID_ATTRIBUTE_NAME]
 
-                    def trace = traceService.find(id)
+                    // TODO: use auto intection of traceService if you can get the test working
+                    def ts = applicationContext.getBean('traceService')
+                    def trace =ts.find(id)
 
                     if (trace) {
 
                         if (collectResponseHeaders) {
-                            def headerNameList = []
+                            def headerNameList = request.headerNames.toList()
 
-                            if (requestHeaderIncludes) {
-                                headerNameList = requestHeaderIncludes
-                            } else if (requestHeaderExcludes) {
-                                headerNameList = request.headerNames.toList().removeAll(requestHeaderExcludes)
-                            } else {
-                                headerNameList = request.headerNames.toList()
+                            if (includeResponseHeaders) {
+                                headerNameList = headerNameList.intersect(includeResponseHeaders)
+                            } else if (excludeResponseHeaders) {
+                                headerNameList.removeAll(excludeResponseHeaders)
                             }
 
                             if (!collectCookies) {
@@ -150,7 +159,7 @@ class TraceFilters {
 
                         trace.status = response.status
                         trace.timeTaken = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - trace.timestamp);
-                        traceService.save(id, trace)
+                        ts.save(id, trace)
                     }
                 }
             }

@@ -7,13 +7,14 @@ import static java.util.Collections.synchronizedMap
 
 
 
-@Transactional
+
 class TraceService {
 
     def capacity
     def reverse
+    def transactional = false
 
-    private static Map<Long, Object> traces = synchronizedMap(new LinkedHashMap<Long, Object>() {
+    static Map<Long, Object> traces = synchronizedMap(new LinkedHashMap<Long, Object>() {
         private static final long serialVersionUID = 12345L
 
         @Override
