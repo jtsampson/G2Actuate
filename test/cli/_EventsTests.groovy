@@ -1,4 +1,6 @@
 import grails.test.AbstractCliTestCase
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 
 class _EventsTests extends AbstractCliTestCase {
     protected void setUp() {
@@ -14,13 +16,12 @@ class _EventsTests extends AbstractCliTestCase {
         assert waitForProcess() == 0
         verifyHeader()
 
-        //Properties props = new Properties()
-       // props.load(new ZipFile('target/bookstore-0.1.war').getInputStream(new ZipEntry('WEB-INF/classes/application.properties')))
+        Properties props = new Properties()
+        props.load(new ZipFile('target/g2actuate.war').getInputStream(new ZipEntry('WEB-INF/classes/application.properties')))
 
-        assert props['scm.version']
-        assert props['build.date']
-
-        assert props['who.was.here'] == 'hugo'
+        assert props['app.grails.version']
+        assert props['app.name']
+        assert props['scm']
 
     }
 }

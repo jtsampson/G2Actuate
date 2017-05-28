@@ -2,7 +2,7 @@ package filters
 
 import java.util.concurrent.atomic.AtomicLong
 import javax.annotation.PostConstruct
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeUnit
 
 // TODO ignore trace calls in trace response.
 class TraceFilters {

@@ -36,12 +36,12 @@ class MetricService {
 
 
     private def basic() {
-        Runtime runtime = Runtime.getRuntime();
+        Runtime runtime = Runtime.getRuntime()
         def basic = [:]
         ignoring(Throwable) {
             basic["mem"] = ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed()
         }
-        basic["mem.free"] = runtime.freeMemory();
+        basic["mem.free"] = runtime.freeMemory()
         basic["processors"] = runtime.availableProcessors()
         basic["instance.uptime"] = System.currentTimeMillis() - timestamp
         basic
@@ -60,7 +60,7 @@ class MetricService {
     private def heapMetrics() {
         def heap = [:]
         ignoring(NoClassDefFoundError) {
-            MemoryUsage memoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
+            MemoryUsage memoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage()
             heap["heap.committed"] = memoryUsage.getCommitted()
             heap["heap.init"] = memoryUsage.getInit()
             heap["heap.used"] = memoryUsage.getUsed()
@@ -72,7 +72,7 @@ class MetricService {
     private def nonHeapMetrics() {
         def nonHeap = [:]
         ignoring(NoClassDefFoundError) {
-            MemoryUsage memoryUsage = ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage();
+            MemoryUsage memoryUsage = ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage()
             nonHeap["nonheap.committed"] = memoryUsage.getCommitted()
             nonHeap["nonheap.init"] = memoryUsage.getInit()
             nonHeap["nonheap.used"] = memoryUsage.getUsed()
@@ -84,7 +84,7 @@ class MetricService {
     private def threadMetrics() {
         def thread = [:]
         ignoring(NoClassDefFoundError) {
-            ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
+            ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean()
             thread["threads.peak"] = threadMxBean.getPeakThreadCount()
             thread["threads.daemon"] = threadMxBean.getDaemonThreadCount()
             thread["threads.totalStarted"] = threadMxBean.getTotalStartedThreadCount()
@@ -96,7 +96,7 @@ class MetricService {
     private def classLoadingMetrics() {
         def classLoading = [:]
         ignoring(NoClassDefFoundError) {
-            ClassLoadingMXBean classLoadingMxBean = ManagementFactory.getClassLoadingMXBean();
+            ClassLoadingMXBean classLoadingMxBean = ManagementFactory.getClassLoadingMXBean()
             classLoading["classes"] = classLoadingMxBean.getLoadedClassCount()
             classLoading["classes.loaded"] = classLoadingMxBean.getTotalLoadedClassCount()
             classLoading["classes.unloaded"] = classLoadingMxBean.getUnloadedClassCount()
@@ -108,7 +108,7 @@ class MetricService {
         def garbage = [:]
         ignoring(NoClassDefFoundError) {
             List<GarbageCollectorMXBean> garbageCollectorMxBeans = ManagementFactory
-                    .getGarbageCollectorMXBeans();
+                    .getGarbageCollectorMXBeans()
             garbageCollectorMxBeans.each {
                 String name = it.name.replaceAll(" ", "_").toLowerCase()
                 garbage["gc." + name + ".count"] = it.getCollectionCount()
