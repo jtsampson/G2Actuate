@@ -14,7 +14,7 @@ class TraceService {
     def reverse
     def transactional = false
 
-    static Map<Long, Object> traces = synchronizedMap(new LinkedHashMap<Long, Object>() {
+     Map<Long, Object> traces = synchronizedMap(new LinkedHashMap<Long, Object>() {
         private static final long serialVersionUID = 12345L
 
         @Override

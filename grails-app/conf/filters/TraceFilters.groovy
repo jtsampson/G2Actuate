@@ -13,54 +13,66 @@ class TraceFilters {
     def grailsApplication
 
     // if true, the request property is collected. User provides a set of overrides.
-    // TODO cross this with user provided configuration.
-    def requestProperties = [pathInfo      : true,
-                             cookie        : true,
-                             pathTranslated: true,
-                             contextPath   : true,
-                             userPrincipal : true,
-                             parameters    : true,
-                             queryString   : true,
-                             authType      : true,
-                             remoteAddr    : true,
-                             sessionId     : true,
-                             remoteUser    : true]
-    
-    // TODO replace with 'trace config' instead of putting 'configuration logic'  here.
+    // TODO cross this with user provided configuration
+    static def allPropertyList = ['pathInfo',
+                                  'cookie',
+                                  'pathTranslated',
+                                  'contextPath',
+                                  'userPrincipal',
+                                  'parameters',
+                                  'queryString',
+                                  'authType',
+                                  'remoteAddr',
+                                  'sessionId',
+                                  'remoteUser']
+
+
     boolean enabled
     boolean collectCookies
     boolean collectProperties
     boolean collectRequestHeaders
     boolean collectResponseHeaders
 
+    def propertyList
     def includeRequestHeaders
     def includeResponseHeaders
     def excludeRequestHeaders
     def excludeResponseHeaders
 
+    // TODO Think about using a 'TraceConfig' object so we can put config validation there.
     @PostConstruct
     def init() {
         assert grailsApplication
         def endpoints = grailsApplication?.config?.g2actuate?.endpoints
         def conf =  endpoints?.trace
 
-        enabled                = conf?.enabled ?: true
-        collectCookies         = conf?.cookies?.collect ?: true
-        collectProperties      = conf?.properties?.collect ?: true
-        collectRequestHeaders  = conf?.request?.headers?.capture ?: true
-        collectResponseHeaders = conf?.response?.headers?.collect ?: true
+        enabled                = conf.enabled                   == false ? conf.enabled                   : true
+        collectCookies         = conf.cookies.collect           == false ? conf.cookies.collect           : true
+        collectProperties      = conf.props.collect             == false ? conf.props.collect             : true
+        collectRequestHeaders  = conf.request.headers.collect   == false ? conf.request.headers.collect   : true
+        collectResponseHeaders = conf.response.headers.capture  == false ? conf.response.headers.capture  : true
 
+        propertyList = conf.props.list
 
-        includeRequestHeaders  = conf?.request?.headers?.include ?: []
-        includeResponseHeaders = conf?.response?.headers?.include ?: []
+        if (propertyList) {
+            assert propertyList in List
+            propertyList.each {
+                assert it in String
+                assert allPropertyList.contains(it)
+            }
+        } else {
+            propertyList = allPropertyList
+        }
 
+        includeRequestHeaders  = conf.request.headers.include ?: []
+        includeResponseHeaders = conf.response.headers.include ?: []
 
-        excludeRequestHeaders  = conf?.request?.headers?.exclude ?: []
-        excludeResponseHeaders = conf?.response?.headers?.exclude ?: []
+        excludeRequestHeaders  = conf.request.headers.exclude ?: []
+        excludeResponseHeaders = conf.response.headers.exclude ?: []
 
         // TODO Add appropriate Error messages
-        assert (includeRequestHeaders.isEmpty() | excludeRequestHeaders.isEmpty()),  "includeRequestHeaders: One, The Other but not Both"
-        assert !(!includeResponseHeaders.isEmpty() && !excludeResponseHeaders.isEmpty()),  "excludeRequestHeaders: One, The Other but not Both"
+        assert (includeRequestHeaders.isEmpty() | excludeRequestHeaders.isEmpty()),  "include/exclude RequestHeaders: One, The Other but not Both"
+        assert (includeResponseHeaders.isEmpty() | excludeResponseHeaders.isEmpty()),  "include/exclude  ResponseHeaders: One, The Other but not Both"
     }
 
 
@@ -90,27 +102,38 @@ class TraceFilters {
                             headerNameList.removeAll(excludeRequestHeaders)
                         }
 
-                        def requestHeaderMap = new TreeMap()
+                        TreeMap requestHeaderMap = [:]
                         headerNameList.each { name -> requestHeaderMap.put(name, request.getHeader(name)) }
                         trace.headers.request = requestHeaderMap
                     }
 
                     if (collectProperties) {
-                        trace << request.properties.subMap(requestProperties.keySet()).findAll {
-                            requestProperties[it.key] && it.value && it.key != 'userPrincipal'
+
+                        TreeMap propertyMap = [:]
+                        def keys = propertyList.findAll {
+                             !['userPrincipal', 'parameters', 'sessionId'].contains(it)
+                        }.collect { it }
+
+                        propertyMap =  request.properties.subMap( keys)
+
+                        if (propertyList.any { it == 'userPrincipal'}) {
+                            propertyMap.userPrincipal = request?.userPrincipal?.name
                         }
 
-                        if (requestProperties.userPrincipal && request?.userPrincipal?.name) {
-                            trace.userPrincipal = request.userPrincipal.name
+                        if (propertyList.any { it == 'parameters'}) {
+                            if (request.parameterMap) {
+                                propertyMap.parameters = new LinkedHashMap<String, String[]>(request.getParameterMap())
+                            } else{
+                                propertyMap.parameters = null
+                            }
+
                         }
 
-                        if (requestProperties.parameters && request.parameterMap) {
-                            trace.parameters = new LinkedHashMap<String, String[]>(request.parameterMap)
+                        if (propertyList.any { it == 'sessionId'}) {
+                            propertyMap.sessionId = session.id
                         }
 
-                        if (requestProperties.sessionId && session?.id) {
-                            trace.sessionId = session.id
-                        }
+                        trace << propertyMap
 
                     }
 
@@ -139,7 +162,7 @@ class TraceFilters {
                     if (trace) {
 
                         if (collectResponseHeaders) {
-                            def headerNameList = request.headerNames.toList()
+                            def headerNameList = response.headerNames.toList()
 
                             if (includeResponseHeaders) {
                                 headerNameList = headerNameList.intersect(includeResponseHeaders)
@@ -153,7 +176,7 @@ class TraceFilters {
 
 
                             def responseHeaders = [:]
-                            headerNameList.each { name -> responseHeaders.put(name, request.getHeader(name)) }
+                            headerNameList.each { name -> responseHeaders.put(name, response.getHeader(name)) }
                             trace.headers.response = responseHeaders
                         }
 
