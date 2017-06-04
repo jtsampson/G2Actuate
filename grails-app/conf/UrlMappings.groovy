@@ -7,6 +7,7 @@ class UrlMappings {
         "/heapdump" (controller: "heapDump", action: "heapdump", method: 'GET')
         "/env"      (controller: "actuator", action: "env",      method: 'GET')
         "/info"     (controller: "actuator", action: "info",     method: 'GET')
+        "/loggers"  (controller: "actuator", action: "loggers",  method: 'GET')
         "/mappings" (controller: "actuator", action: "mappings", method: 'GET')
         "/metrics"  (controller: "actuator", action: "metrics",  method: 'GET')
         "/trace"    (controller: "trace",    action: "trace",    method: 'GET')

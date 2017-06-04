@@ -61,6 +61,7 @@ application and look at `/metrics` (and see `/mappings` for a list of other HTTP
 | **/env**           | Exposes properties from the servlet/jvm and os   (TODO applicaion)         | TODO              |
 | **/heapdump**      | Returns a GZip compressed hprof heap dump file.                            | TODO              |
 | **/info**          | Displays arbitrary application info.                                       | TODO              |
+| **/loggers**       | Displays logger information                                                | TODO              |
 | **/metrics**       | Shows 'metrics' information for the current application.                   | TODO              |
 | **/mappings**      | Displays a collated list of all URLMapiings paths.                         | TODO              |
 | **/trace**         | Displays trace information (by default the last 100 HTTP requests).        | TODO              |
