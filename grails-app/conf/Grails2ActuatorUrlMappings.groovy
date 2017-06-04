@@ -9,6 +9,6 @@ class Grails2ActuatorUrlMappings {
         "/info"     (controller: "actuator", action: "info",     method: 'GET')
         "/mappings" (controller: "actuator", action: "mappings", method: 'GET')
         "/metrics"  (controller: "actuator", action: "metrics",  method: 'GET')
-        "/trace"    (controller: "trace", action: "trace",  method: 'GET')
+        "/trace"    (controller: "trace",    action: "trace",    method: 'GET')
     }
 }

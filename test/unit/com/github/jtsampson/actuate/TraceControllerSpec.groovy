@@ -1,6 +1,7 @@
 package com.github.jtsampson.actuate
 
 import filters.TraceFilters
+import grails.artefact.Artefact
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.runtime.FreshRuntime
@@ -8,10 +9,10 @@ import org.codehaus.groovy.grails.web.servlet.HttpHeaders
 import org.springframework.beans.factory.BeanCreationException
 import spock.lang.FailsWith
 import spock.lang.Specification
-import spock.lang.Unroll
+
+import javax.servlet.http.Cookie
 
 @FreshRuntime
-// a clean application context and grails application instance is initialized for each test method call.
 @TestFor(TraceController)
 @Mock([TraceService, TraceFilters])
 class TraceControllerSpec extends Specification {
@@ -20,24 +21,39 @@ class TraceControllerSpec extends Specification {
         traceService(TraceService)
     }
 
-    def configiration
+    def anyController = new TraceControllerSpec.AnyController()
 
     def setup() {
-        configiration = grailsApplication.config.g2actuate.endpoints.trace
+
+        applicationContext.getBean('traceService')
         controller.traceService = applicationContext.getBean('traceService')
+
+        def cookie1 = new Cookie("APPNAME", "ABCD")
+        def cookie2 = new Cookie("ENVNAME", "EFGH")
+
+        def cookie3 = new Cookie("RESP-APPNAME", "ABCD")
+        def cookie4 = new Cookie("RESP-ENVNAME", "EFGH")
+
+        request.cookies = [cookie1,cookie2].toArray()
 
         request.addHeader('one', 'one')
         request.addHeader('two', 'two')
         request.addHeader('tre', 'tre')
 
-    }
+        response.addCookie(cookie3)
+        response.addCookie(cookie4)
 
+        response.addHeader('four', 'four')
+        response.addHeader('five', 'five')
+        response.addHeader('six', 'six')
+    }
 
     void "supports json"() {
 
         when:
         request.addHeader(HttpHeaders.ACCEPT, JSON_CONTENT_TYPE)
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        withFilters(controller: "any", action: "index") { anyController.index() }
+        controller.trace()
 
         then:
         response.getHeader(HttpHeaders.CONTENT_TYPE).startsWith(JSON_CONTENT_TYPE)
@@ -47,7 +63,8 @@ class TraceControllerSpec extends Specification {
 
         when:
         request.addHeader(HttpHeaders.ACCEPT, XML_CONTENT_TYPE)
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        withFilters(controller: "any", action: "index") { anyController.index() }
+        controller.trace()
 
         then:
         response.getHeader(HttpHeaders.CONTENT_TYPE).startsWith(XML_CONTENT_TYPE)
@@ -59,9 +76,8 @@ class TraceControllerSpec extends Specification {
         request.addHeader(HttpHeaders.ACCEPT, JSON_CONTENT_TYPE)
         request.forwardURI = '/G2Actuate/trace'
 
-        withFilters(controller: "trace", action: "trace") {
-            controller.trace()
-        }
+        withFilters(controller: "any", action: "index") { anyController.index() }
+        controller.trace()
 
         then:
         response.json[0].timestamp // exists
@@ -73,17 +89,20 @@ class TraceControllerSpec extends Specification {
     void "request.headers.collect default(true)"() {
 
         when:
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        withFilters(controller: "any", action: "index") { anyController.index() }
+        controller.trace()
 
         then:
         response.json[0].headers.request
     }
 
     void "request.headers.collect (false)"() {
+        setup:
+        config.g2actuate.endpoints.trace.request.headers.collect = false
+        withFilters(controller: "any", action: "index") { anyController.index() }
 
         when:
-        configiration.request.headers.collect = false
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        controller.trace()
 
         then:
         !response.json[0].headers.keySet().contains('reqest')
@@ -91,8 +110,11 @@ class TraceControllerSpec extends Specification {
 
     void "request.headers defaults"() {
 
+        setup:
+        withFilters(controller: "any", action: "index") { anyController.index()}
+
         when:
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        controller.trace()
 
         then:
         def rqh = response.json[0].headers.request
@@ -102,10 +124,12 @@ class TraceControllerSpec extends Specification {
     }
 
     void "request.headers.include"() {
+        setup:
+        config.g2actuate.endpoints.trace.request.headers.include = ["one"]
+        withFilters(controller: "any", action: "index") { anyController.index() }
 
         when:
-        configiration.request.headers.include = ["one"]
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        controller.trace()
 
         then:
         def rqh = response.json[0].headers.request
@@ -116,9 +140,12 @@ class TraceControllerSpec extends Specification {
 
     void "request.headers.exclude"() {
 
+        setup:
+        config.g2actuate.endpoints.trace.request.headers.exclude = ["one"]
+        withFilters(controller: "any", action: "index") { anyController.index() }
+
         when:
-        configiration.request.headers.exclude = ["one"]
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        controller.trace()
 
         then:
         def rqh = response.json[0].headers.request
@@ -129,9 +156,12 @@ class TraceControllerSpec extends Specification {
 
     void "props.collect (false)"() {
 
+        setup:
+        config.g2actuate.endpoints.trace.props.collect = false
+        withFilters(controller: "any", action: "index") { anyController.index() }
+
         when:
-        configiration.props.collect = false
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        controller.trace()
 
         then:
         TraceFilters.allPropertyList.each {
@@ -142,8 +172,11 @@ class TraceControllerSpec extends Specification {
 
     void "props.collect (true) - default"() {
 
+        setup:
+        withFilters(controller: "any", action: "index") { anyController.index() }
+
         when:
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        controller.trace()
 
         then:
         def json = response.json[0]
@@ -155,9 +188,12 @@ class TraceControllerSpec extends Specification {
 
     void "props.list (one property)"() {
 
+        setup:
+        config.g2actuate.endpoints.trace.props.list = ["pathInfo"]
+        withFilters(controller: "any", action: "index") { anyController.index() }
+
         when:
-        configiration.props.list = ["pathInfo"]
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        controller.trace()
 
         then:
         def json = response.json[0]
@@ -171,57 +207,122 @@ class TraceControllerSpec extends Specification {
 
     }
 
-    // TODO: Probably needs to be rethought.
     @FailsWith(BeanCreationException.class)
     void "props.list (non-existent-property) - assertion error"() {
 
         setup:
-        configiration.props.list = ["non-existent-property"]
+        config.g2actuate.endpoints.trace.props.list = ["non-existent-property"]
 
         expect:
-        withFilters(controller: "trace", action: "trace") { controller.trace() }
+        withFilters(controller: "any", action: "index") { anyController.index() }
+        controller.trace()
 
     }
 
-//    @Unroll
-//    void "response.headers.collect default(true)"() {
+    void "response.headers.collect (false)"() {
+
+        setup:
+        config.g2actuate.endpoints.trace.response.headers.capture = false
+        withFilters(controller: "any", action: "index") { anyController.index() }
+
+        when:
+        controller.trace()
+
+        then:
+        !response.json[0].headers.response
+        !response.json[0].headers.keySet().contains('response')
+    }
+
+    void "response.headers.include"() {
+
+        setup:
+        config.g2actuate.endpoints.trace.response.headers.include = ["four"]
+        withFilters(controller: "any", action: "index") { anyController.index() }
+
+        when:
+        controller.trace()
+
+        then:
+        def rqh = response.json[0].headers.response
+        rqh.containsKey('four')
+        !rqh.containsKey('five')
+        !rqh.containsKey('six')
+    }
+
+    void "response.headers.exclude"() {
+
+        setup:
+        config.g2actuate.endpoints.trace.response.headers.exclude = ["four"]
+        withFilters(controller: "any", action: "index") { anyController.index() }
+
+        when:
+        controller.trace()
+
+        then:
+        def rqh = response.json[0].headers.response
+        !rqh.containsKey('four')
+        rqh.containsKey('five')
+        rqh.containsKey('six')
+    }
+
+//        TODOD test response cookies, may requite injecting a response wrapper to collect response cookies.
+//        void "request.cookies.collect and response.cookies.collect (unset)"() {
+//        setup:
+//        withFilters(controller: "any", action: "index") { anyController.index() }
 //
 //        when:
-//        def firstResppnse
-//        def secondResponse
-//        withFilters(controller: "trace", action: "trace") {
-//            controller.trace()
-//            controller.trace()
-//        }
-//        withFilters(controller: "trace", action: "trace") {
-//            controller.trace()
-//            secondResponse = response.json[1]
-//        }
-//
+//        controller.trace()
 //
 //        then:
-//        response.json[1].headers.request
-//        response.json[1].headers.response
-//
+//        def cookies = response.json[0].cookies
+//        cookies.request.any{ it.name == 'APPNAME'}
+//        cookies.request.any{ it.name == 'ENVNAME'}
+//        cookies.response.any{ it.name == 'RESP-APPNAME'}
+//        cookies.response.any{ it.name == 'RESP-ENVNAME'}
 //    }
 //
-//    @Unroll
-//    void "response.headers.collect (false)"() {
+
+//        TODOD test response cookies, may requite injecting a response wrapper to collect response cookies.
+//        void "request.cookies.collect and response.cookies.collect (true)"() {
+//
+//        setup:
+//        config.g2actuate.endpoints.trace.request.cookies.collect = true
+//        config.g2actuate.endpoints.trace.response.cookies.collect = true
+//        withFilters(controller: "any", action: "index") { anyController.index() }
 //
 //        when:
-//        configiration.response.headers.capture = false
-//        withFilters(controller: "trace", action: "trace") {
-//            controller.trace()
-//            controller.trace()
-//            controller.trace()
-//        }
+//        controller.trace()
 //
 //        then:
-//        response.json[0].headers.request
-//        !response.json[0].headers.response
-//        response.json[1].headers.request
-//        !response.json[1].headers.response
-//
+//        response.json[0].headers.request.containsKey('cookies')
+//        response.json[0].headers.response.containsKey('cookies')
 //    }
 
+//    TODOD test response cookies, may requite injecting a response wrapper to collect response cookies.
+//    void "request.cookies.collect and response.cookies.collect (false)"() {
+//
+//        setup:
+//        config.g2actuate.endpoints.trace.request.cookies.collect = false
+//        config.g2actuate.endpoints.trace.response.cookies.collect = false
+//        withFilters(controller: "any", action: "index") { anyController.index() }
+//
+//        when:
+//        controller.trace()
+//
+//        then:
+//        response.json[0].headers.request.containsKey('cookies')
+//        response.json[0].headers.response.containsKey('cookies')
+//    }
+
+    /**
+     * Simple controller for tests.
+     */
+    @Artefact("Controller")
+    class AnyController {
+        static responseFormats = ['json', 'xml']
+
+        def index() {
+            ['nothing': 'special']
+        }
+    }
 }

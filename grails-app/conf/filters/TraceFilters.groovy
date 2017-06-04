@@ -15,7 +15,6 @@ class TraceFilters {
     // if true, the request property is collected. User provides a set of overrides.
     // TODO cross this with user provided configuration
     static def allPropertyList = ['pathInfo',
-                                  'cookie',
                                   'pathTranslated',
                                   'contextPath',
                                   'userPrincipal',
@@ -28,9 +27,10 @@ class TraceFilters {
 
 
     boolean enabled
-    boolean collectCookies
     boolean collectProperties
+    boolean collectRequestCookies
     boolean collectRequestHeaders
+    boolean collectResponseCookies
     boolean collectResponseHeaders
 
     def propertyList
@@ -44,13 +44,16 @@ class TraceFilters {
     def init() {
         assert grailsApplication
         def endpoints = grailsApplication?.config?.g2actuate?.endpoints
-        def conf =  endpoints?.trace
+        def conf = endpoints?.trace
 
-        enabled                = conf.enabled                   == false ? conf.enabled                   : true
-        collectCookies         = conf.cookies.collect           == false ? conf.cookies.collect           : true
-        collectProperties      = conf.props.collect             == false ? conf.props.collect             : true
-        collectRequestHeaders  = conf.request.headers.collect   == false ? conf.request.headers.collect   : true
-        collectResponseHeaders = conf.response.headers.capture  == false ? conf.response.headers.capture  : true
+        enabled = conf.enabled == false ? conf.enabled : true
+
+        collectProperties = conf.props.collect == false ? conf.props.collect : true
+        collectRequestCookies = conf.request.cookies.collect == false ? conf.request.cookies.collect : true
+        collectResponseCookies = conf.response.cookies.collect == false ? conf.response.cookies.collect : true
+        collectRequestHeaders = conf.request.headers.collect == false ? conf.request.headers.collect : true
+        collectResponseHeaders = conf.response.headers.capture == false ? conf.response.headers.capture : true
+
 
         propertyList = conf.props.list
 
@@ -64,21 +67,23 @@ class TraceFilters {
             propertyList = allPropertyList
         }
 
-        includeRequestHeaders  = conf.request.headers.include ?: []
+        includeRequestHeaders = conf.request.headers.include ?: []
         includeResponseHeaders = conf.response.headers.include ?: []
 
-        excludeRequestHeaders  = conf.request.headers.exclude ?: []
+        excludeRequestHeaders = conf.request.headers.exclude ?: []
         excludeResponseHeaders = conf.response.headers.exclude ?: []
 
         // TODO Add appropriate Error messages
-        assert (includeRequestHeaders.isEmpty() | excludeRequestHeaders.isEmpty()),  "include/exclude RequestHeaders: One, The Other but not Both"
-        assert (includeResponseHeaders.isEmpty() | excludeResponseHeaders.isEmpty()),  "include/exclude  ResponseHeaders: One, The Other but not Both"
+        assert (includeRequestHeaders.isEmpty() | excludeRequestHeaders.isEmpty()), "include/exclude RequestHeaders: One, The Other but not Both"
+        assert (includeResponseHeaders.isEmpty() | excludeResponseHeaders.isEmpty()), "include/exclude  ResponseHeaders: One, The Other but not Both"
     }
 
 
     def filters = {
-        all(controller: '*', action: '*') {
+        allButTrace(controller: 'trace', invert: true) {
+            //init()
             before = {
+
                 if (enabled) {
                     long start = System.nanoTime()
                     long currentRequestNumber = TRACE_COUNTER.incrementAndGet()
@@ -90,6 +95,7 @@ class TraceFilters {
                     trace.path = request.forwardURI // must use  forwardURI not requestURI
                     trace.method = request.method
                     trace.headers = [:]
+                    trace.cookies = [:]
 
                     if (collectRequestHeaders) {
 
@@ -102,34 +108,41 @@ class TraceFilters {
                             headerNameList.removeAll(excludeRequestHeaders)
                         }
 
+                        headerNameList.remove('cookies') // we'll handle cookies separately
+
                         TreeMap requestHeaderMap = [:]
                         headerNameList.each { name -> requestHeaderMap.put(name, request.getHeader(name)) }
                         trace.headers.request = requestHeaderMap
+                    }
+
+
+                    if (collectRequestCookies) {
+                        trace.cookies.request = request.cookies?.sort{it.name}
                     }
 
                     if (collectProperties) {
 
                         TreeMap propertyMap = [:]
                         def keys = propertyList.findAll {
-                             !['userPrincipal', 'parameters', 'sessionId'].contains(it)
+                            !['userPrincipal', 'parameters', 'sessionId'].contains(it)
                         }.collect { it }
 
-                        propertyMap =  request.properties.subMap( keys)
+                        propertyMap = request.properties.subMap(keys)
 
-                        if (propertyList.any { it == 'userPrincipal'}) {
+                        if (propertyList.any { it == 'userPrincipal' }) {
                             propertyMap.userPrincipal = request?.userPrincipal?.name
                         }
 
-                        if (propertyList.any { it == 'parameters'}) {
+                        if (propertyList.any { it == 'parameters' }) {
                             if (request.parameterMap) {
                                 propertyMap.parameters = new LinkedHashMap<String, String[]>(request.getParameterMap())
-                            } else{
+                            } else {
                                 propertyMap.parameters = null
                             }
 
                         }
 
-                        if (propertyList.any { it == 'sessionId'}) {
+                        if (propertyList.any { it == 'sessionId' }) {
                             propertyMap.sessionId = session.id
                         }
 
@@ -157,7 +170,7 @@ class TraceFilters {
 
                     // TODO: use auto intection of traceService if you can get the test working
                     def ts = applicationContext.getBean('traceService')
-                    def trace =ts.find(id)
+                    def trace = ts.find(id)
 
                     if (trace) {
 
@@ -170,14 +183,17 @@ class TraceFilters {
                                 headerNameList.removeAll(excludeResponseHeaders)
                             }
 
-                            if (!collectCookies) {
-                                headerNameList.removeAll { it.toLowerCase() == 'set-cookies' }
-                            }
-
+                            // maybe need to remove 'Set-Cookies' here.
 
                             def responseHeaders = [:]
                             headerNameList.each { name -> responseHeaders.put(name, response.getHeader(name)) }
                             trace.headers.response = responseHeaders
+
+                        }
+
+                        if (collectResponseCookies) {
+                            def cookieList = response.getHeaders('Set-Cookie')
+                                trace.cookies.response  = cookieList.sort{it.name}
                         }
 
                         trace.status = response.status
