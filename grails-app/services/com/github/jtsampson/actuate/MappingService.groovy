@@ -1,13 +1,10 @@
 package com.github.jtsampson.actuate
 
-import grails.transaction.Transactional
 import org.codehaus.groovy.grails.commons.UrlMappingsArtefactHandler
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingEvaluator
 import org.codehaus.groovy.grails.web.mapping.ResponseCodeMappingData
 import org.codehaus.groovy.grails.web.mapping.ResponseCodeUrlMapping
 import org.codehaus.groovy.grails.web.mapping.UrlMapping
-import org.springframework.util.Assert
-
 
 class MappingService {
 

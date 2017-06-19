@@ -37,6 +37,8 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
         // runtime 'mysql:mysql-connector-java:5.1.27'
+       // compile ':codenarc:0.27'
+
     }
 
     plugins {
@@ -47,5 +49,6 @@ grails.project.dependency.resolution = {
                 ":rest-client-builder:2.1.0") {
             export = false
         }
+        build ":codenarc:0.27.0"
     }
 }

@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock
  */
 @Transactional
 class HeapDumpService {
-    private HeapDumper heapDumper;
+    private final HeapDumper heapDumper = createHeapDumper();
     private final Lock lock = new ReentrantLock();
     private final long timeout = 2000 // milliseconds to try to acquire the lock, else fail.
 
@@ -32,9 +32,6 @@ class HeapDumpService {
         try {
             if (this.lock.tryLock(this.timeout, TimeUnit.MILLISECONDS)) {
                 try {
-                    if (this.heapDumper == null) {
-                        this.heapDumper = createHeapDumper();
-                    }
                     file = createTempFile(live);
                     this.heapDumper.dumpHeap(file, live);
                 }

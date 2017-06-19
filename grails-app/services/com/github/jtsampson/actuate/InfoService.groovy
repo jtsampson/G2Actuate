@@ -85,19 +85,4 @@ class InfoService {
         ['scm': scm]
     }
 
-    private def build() {
-        def build = [:]
-        build['version'] = 0
-        build['artifact'] = 0
-        build['name'] = 0
-        build['group']
-        build['time']
-        ['build': properties]
-    }
-
-
-    private plugins() {
-
-    }
-
 }

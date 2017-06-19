@@ -2,7 +2,6 @@ package com.github.jtsampson.actuate
 
 import grails.util.Holders
 import groovy.json.JsonSlurper
-import org.springframework.beans.BeansException
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.support.LiveBeansView
@@ -25,6 +24,7 @@ class BeanService {
     private final HierarchyAwareLiveBeansView liveBeansView = new HierarchyAwareLiveBeansView();
 
     @PostConstruct
+    @SuppressWarnings('UnusedPrivateMethod')
     private void init() {
         if (Holders.applicationContext.getEnvironment()
                 .getProperty(LiveBeansView.MBEAN_DOMAIN_PROPERTY_NAME) == null) {

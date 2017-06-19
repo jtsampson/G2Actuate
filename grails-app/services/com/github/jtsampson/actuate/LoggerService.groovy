@@ -7,7 +7,7 @@ import org.apache.log4j.Logger
 class LoggerService {
 
     // TODO accounts for minimal set of logging levels, but custom levels are a possiblitiy.
-    static def levelList = ['OFF', 'FATAL', 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE', 'ALL']
+    static final def levelList = ['OFF', 'FATAL', 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE', 'ALL']
 
     /**
      * Returns a resource consisting of a
