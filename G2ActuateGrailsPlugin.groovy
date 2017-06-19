@@ -9,17 +9,19 @@ class G2ActuateGrailsPlugin {
     ]
 
     // TODO Fill in these fields
-    def title = "Grails 2 Actuator Plugin" // Headline display name of the plugin
+    def title = "G2Actuate Plugin" // Headline display id of the plugin
     def author = "John Sampson"
     def authorEmail = "jtsampson2000+g2actuate@gmail.com"
     def description = '''\
 Provides a back port of some of Spring Boot Actuator capabilites for Grails 2 Applications.
 
 The following endpoints:
-* /dump Performs a thread dump
-* /env  Displays properties from the environment
+* /beans Displays a complete list of all the Spring beans in your application.
+* /heapdump Performs a thread dump.
+* /env  Displays properties from the environment.
 * /health (TODO)
-* /info Displays arbitrary application info
+* /info Displays arbitrary application info.
+* /loggers Shows and modifies the configuration of loggers in the application.
 * /metrics Shows ‘metrics’ information for the current application.
 * /mappings Displays a collated list of all url-mappings paths
 * /shutdown (TODO)

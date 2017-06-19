@@ -20,17 +20,14 @@ class ActuatorController {
                              env        : 'GET',
                              heapdump   : 'GET',
                              info       : 'GET',
-                             loggers    : 'GET',
                              mappings   : 'GET',
                              metrics    : 'GET',
-                             trace      : 'GET'
     ]
 
     def beanService
     def envService
     def heapDumpService
     def infoService
-    def loggerService
     def mappingService
     def metricService
 
@@ -59,10 +56,6 @@ class ActuatorController {
 
     def info() {
         respond infoService.collectInfo()
-    }
-
-    def loggers(){
-        respond loggerService.collectLoggers()
     }
 
     def mappings() {

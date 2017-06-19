@@ -1,67 +1,101 @@
 package com.github.jtsampson.actuate
 
-import grails.util.GrailsUtil
+import org.apache.log4j.Level
 import org.apache.log4j.LogManager
-import org.codehaus.groovy.grails.commons.GrailsClass
-
+import org.apache.log4j.Logger
 
 class LoggerService {
 
-    def grailsApplication
+    // TODO accounts for minimal set of logging levels, but custom levels are a possiblitiy.
+    static def levelList = ['OFF', 'FATAL', 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE', 'ALL']
 
-    def collectLoggers() {
+    /**
+     * Returns a resource consisting of a
+     *  levels : list of available logger levels
+     *  loggers : list of available logger configurations
+     * @return the loggersAsList
+     */
+    def collectLevelsAndLoggers() {
 
-        def result = [:]
+        def resource = [:]
+        resource << [levels: levelList]
+        resource << asLoggersMap(findAllLoggers())
+        resource
+    }
 
-        result << [levels: levels()]
-        result << [loggers: artifactLoggers() + nonArtifactLoggers()]
+    /**
+     * Returns the  asLogger if loggerName exits, else null.
+     * @param id (id of logger)
+     * @return the asLogger if loggerName exits, else null.
+     */
+    def collectLoggerConfig(String id) {
+        def result
+        if (Logger.exists(id)) {
+            result = asLoggerConfig(LogManager.getLogger(id))
+        } else {
+            result = null
+        }
         result
     }
 
-    def levels() {
+    /**
+     * Returns the updated config. Assumes logger with id exists, else creates a new one.
+     * @param id (id of logger)
+     * @return the updated config
+     */
+    def upsertLoggerConfig(String id, String configuredLevel) {
 
-        ['OFF', 'FATAL', 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE', 'ALL']
+        def logger = LogManager.getLogger(id)
+        logger.setLevel(Level.toLevel(configuredLevel));
+        asLoggerConfig(logger)
     }
 
-    def nonArtifactLoggers() {
+    def findAllLoggers() {
         LogManager.getCurrentLoggers().findAll {
             it.level != null
-        }.collect {
-            [(it.name): [configuredLevel: it?.level.toString() ?: 'OFF', effectiveLevel: it?.effectiveLevel.toString()]]
+        }.sort { it.name }
+    }
+
+    /**
+    * Builds the logger-map resource.
+    * @param loggers
+    * @return the logger-map resource.
+    */
+    def asLoggersMap(loggers) {
+        [loggers: asLoggersList(loggers)]
+    }
+
+    /**
+     * Builds the logger list resource.
+     * @param list of loggers
+     * @return the logger list resource.
+     */
+    def asLoggersList(loggers) {
+        loggers.collect {
+            asLogger(it)
         }
     }
 
-    // Adapted from https://github.com/tombdean/grails-runtime-logging/blob/master/grails-app/controllers/grails/plugin/runtimelogging/RuntimeLoggingController.groovy
-    def artifactLoggers() {
-        def logMapList = []
+    /**
+     * Builds  a logger resource.
+     * @param logger
+     * @return a logger resource.
+     */
+    def asLogger(logger) {
+        [(logger.name): asLoggerConfig(logger)
 
-        // TODO Cache this call?
-        // Get set of all registered artefact types.
-        def artefactTypeSet = grailsApplication.getAllArtefacts().collect {
-            grailsApplication.getArtefactType(it)?.type
-        } as Set
-
-        boolean grails1 = GrailsUtil.getGrailsVersion().startsWith('1')
-        for (artefactType in artefactTypeSet.sort()) {
-            for (GrailsClass gc in grailsApplication.getArtefacts(artefactType).sort { it.fullName }) {
-                try {
-                    def logger = grails1 ?
-                            "grails.app.${artefactType.toLowerCase()}.${calculateLoggerName(gc.logicalPropertyName, artefactType)}" :
-                            gc.clazz.log.name
-                    def l = LogManager.getLogger(logger)
-                    logMapList << [(logger.toString()): [configuredLevel: l.level?.toString() ?: 'OFF', effectiveLevel: l.getEffectiveLevel().toString()]]
-                }
-                catch (MissingPropertyException e) {
-                    // ignore it and go on
-                }
-            }
-        }
-        logMapList
+        ]
     }
 
-    private def calculateLoggerName(name, artefactType) {
-        // Domains just use the artefact name, controllers/services etc need "Controller"/"Service" etc appended
-        artefactType.toLowerCase() == "domain" ? "${classCase(name)}" : "${classCase(name)}${artefactType}"
+    /**
+     * Builds  a logger-config resource.
+     * @param logger
+     * @return a logger-config resource.
+     */
+    def asLoggerConfig(logger) {
+        [configuredLevel: logger?.level?.toString(),
+         effectiveLevel : logger?.effectiveLevel?.toString()]
     }
+
 
 }
