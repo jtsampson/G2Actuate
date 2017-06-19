@@ -50,7 +50,7 @@ dependencies {
  * **Endpoints** G2Actuate endpoints allow you to monitor and interact with your application. G2Actuate includes a number 
 of built-in endpoints. For example, the metrics endpoint provides basic application metrics information. Start up your 
 application and look at `/metrics` (and see `/mappings` for a list of other HTTP endpoints).
- * **Metrics** TODO...maybe
+ * **Metrics** (Partially complete)
  * **Audit** TODO...maybe
  * **Process Monitoring** TODO...maybe
  

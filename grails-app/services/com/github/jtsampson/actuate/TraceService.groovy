@@ -1,12 +1,6 @@
 package com.github.jtsampson.actuate
 
-
-import grails.transaction.Transactional
-
 import static java.util.Collections.synchronizedMap
-
-
-
 
 class TraceService {
 
@@ -24,16 +18,16 @@ class TraceService {
     })
 
     def collectTraces() {
-        traces.collect{it.value}.reverse()
+        traces.collect { it.value }.reverse()
     }
 
-    def synchronized save(Long id, Map value){
+    def synchronized save(Long id, Map value) {
         traces.put(id, value)
         assert traces.size() > 0
     }
 
 
-    def find(Long id){
+    def find(Long id) {
         traces.get(id)
     }
 
