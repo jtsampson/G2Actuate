@@ -29,7 +29,19 @@ log4j = {
 
 }
 
-g2actuate.infoContributor = { info ->
-    info['added-by-info-contrib'] = true
-    info
+g2actuate {
+    infoContributor = { info ->
+        info['added-by-info-contrib'] = true
+        info
+    }
+    endpoints {
+        beans {
+            enabled = true
+            sensitive = false
+            //mappingsClass = Grails2ActuateUrlMappings.BeansUrlMappings.class
+        }
+    }
 }
+
+
+
