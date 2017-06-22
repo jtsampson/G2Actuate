@@ -17,41 +17,51 @@
 
 
 g2actuate{
-    configMerged = true
+    reloadMarker = true
+    management.'context-path'="/actuate"
+
     endpoints {
         beans {
+            path = "/beans"
             enabled = true
             sensitive = true
             //mappingsClass = Grails2ActuateUrlMappings.BeansUrlMappings.class
         }
         heapdump {
+            path = "/heapdump"
             enabled = true
             sensitive = true
            // mappingsClass = Grails2ActuateUrlMappings.HeapdumpUrlMappings.class
         }
         env {
+            path = "/env"
             enabled = true
             sensitive = true
         }
         info {
+            path = "/info"
             enabled = true
             sensitive = true
         }
 
         loggers {
+            path = "/loggers"
             enabled = true
             sensitive = true
         }
 
         mappings {
+            path = "/mappings"
             enabled = true
             sensitive = true
         }
         metrics {
+            path = "/metrics"
             enabled = true
             sensitive = true
         }
         trace {
+            path = "/trace"
             enabled = true
             sensitive = true
             props.collect = true

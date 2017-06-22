@@ -60,9 +60,6 @@ Call back 'contributor' closures are provided to you can customise the data retu
     def scm = [url: "https://github.com/jtsampson/G2Actuate"]
     def application = Holders.getGrailsApplication() // is this necessary?
 
-    // watch for changes to scaffolding templates...
-    def watchedResources = ["file:./grails-app/conf/Config.groovy"]
-
     /**
      * Adds additions to web.xml (optional), this event occurs before (not sure what).
      */
@@ -112,7 +109,7 @@ Call back 'contributor' closures are provided to you can customise the data retu
          * 'second' event (indicating that the configs have been merged), will conain a 'reloadMarker'
          * and we know it is safe to reload the mappings.
          */
-        if (event.source?.g2actuate?.reloadMarker) {
+        if (event.source?.g2actuate?.reloadMarker == true) {
             this.reloadMappings()
         }
     }

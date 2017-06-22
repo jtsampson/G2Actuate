@@ -25,73 +25,97 @@ class DefaultActuateUrlMappings {
         println 'Reconfiguring Actuate Endpoints'
         println '-------------------------------'
 
-        def endpoint = Holders.config.g2actuate.endpoints
+        def conf = Holders.config.g2actuate
 
-        if (endpoint.beans.enabled) {
-            enabling("/beans")
-            "/beans"(controller: "actuator", action: "beans", method: 'GET')
+
+
+        def endpoints = Holders.config.g2actuate.endpoints
+
+        def beans = endpoints.beans
+        def env = endpoints.env
+        def heapdump = endpoints.heapdump
+        def info = endpoints.info
+        def loggers = endpoints.loggers
+        def mappings = endpoints.mappings
+        def metrics = endpoints.metrics
+        def trace = endpoints.trace
+
+        def cp = conf.management.'context-path'
+
+
+        // beans mappings
+        if (beans.enabled) {
+            enabling(cp, beans)
+            "${cp}${beans.path}"(controller: "actuator", action: "beans", method: 'GET')
         } else {
-            disabling("/beans")
+            disabling(cp, beans)
         }
 
-        if (endpoint.heapdump.enabled) {
-            enabling("/heapdump")
-            "/heapdump"(controller: "heapDump", action: "heapdump", method: 'GET')
+        // environment mappings
+        if (env.enabled) {
+            enabling(cp, env)
+            "${cp}${env.path}"(controller: "actuator", action: "env", method: 'GET')
         } else {
-            disabling("/heapdump")
+            disabling(cp, env)
         }
 
-        if (endpoint.env.enabled) {
-            enabling("/env")
-            "/env"(controller: "actuator", action: "env", method: 'GET')
+        // heapdump mappings
+        if (heapdump.enabled) {
+            enabling(cp, heapdump)
+            "${cp}${heapdump.path}"(controller: "heapDump", action: "heapdump", method: 'GET')
         } else {
-            disabling("/env")
+            disabling(cp, heapdump)
         }
 
-        if (endpoint.info.enabled) {
-            enabling("/info")
-            "/info"(controller: "actuator", action: "info", method: 'GET')
+        // info mappings
+        if (info.enabled) {
+            enabling(cp, info)
+            "${cp}${info.path}"(controller: "actuator", action: "info", method: 'GET')
         } else {
-            disabling("/info")
+            disabling(cp, info)
         }
 
-        if (endpoint.loggers.enabled) {
-            enabling("/loggers")
-            "/loggers"(controller: "logger", action: "index", method: 'GET')
-            "/loggers/$id"(controller: "logger", action: "show", method: 'GET')
-            "/loggers/$id"(controller: "logger", action: "update", method: 'PUT')
+        // loggers mappings
+        if (loggers.enabled) {
+            enabling(cp, loggers )
+            "${cp}${loggers.path}"(controller: "logger", action: "index", method: 'GET')
+            "${cp}${loggers.path}/$id"(controller: "logger", action: "show", method: 'GET')
+            "${cp}${loggers.path}/$id"(controller: "logger", action: "update", method: 'PUT')
         } else {
-            disabling("/loggers")
+            disabling(cp, loggers )
         }
 
-        if (endpoint.mappings.enabled) {
-            enabling("/mappings")
-            "/mappings"(controller: "actuator", action: "mappings", method: 'GET')
+        // mappings mappings
+        if ( mappings.enabled) {
+            enabling(cp, mappings)
+            "${cp}${mappings.path}"(controller: "actuator", action: "mappings", method: 'GET')
         } else {
-            disabling("/mappings")
+            disabling(cp,  mappings)
         }
 
-        if (endpoint.metrics.enabled) {
-            enabling("/metrics")
-            "/metrics"(controller: "actuator", action: "metrics", method: 'GET')
+        // metrics mappings
+        if (metrics.enabled) {
+            enabling(cp, metrics)
+            "${cp}${metrics.path}"(controller: "actuator", action: "metrics", method: 'GET')
         } else {
-            disabling("/metrics")
+            disabling(cp, metrics)
         }
 
-        if (endpoint.trace.enabled) {
-            enabling("/trace")
-            "/trace"(controller: "trace", action: "trace", method: 'GET')
+        // trace mappings
+        if (trace.enabled) {
+            enabling(cp, trace)
+            "${cp}${trace.path}"(controller: "trace", action: "trace", method: 'GET')
         } else {
-            disabling("/trace")
+            disabling(cp, trace)
         }
         println '-------------------------------'
     }
 
-    static enabling(endpoint) {
-        println "Enabling  Actuate endpoint $endpoint"
+    static enabling(cp, conf) {
+        println "Enabling  Actuate endpoint $cp${conf.path}"
     }
 
-    static disabling(endpoint) {
-        println "Disabling Actuate endpoint $endpoint"
+    static disabling(cp, conf) {
+        println "Disabling Actuate endpoint $cp${conf.path}"
     }
 }
