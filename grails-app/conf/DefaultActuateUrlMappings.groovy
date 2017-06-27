@@ -26,9 +26,6 @@ class DefaultActuateUrlMappings {
         println '-------------------------------'
 
         def conf = Holders.config.g2actuate
-
-
-
         def endpoints = Holders.config.g2actuate.endpoints
 
         def beans = endpoints.beans

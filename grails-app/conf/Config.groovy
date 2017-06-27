@@ -19,7 +19,7 @@
 grails.mime.use.accept.header = true
 grails.mime.types = [
         json: ['application/json', 'text/json'],
-        xml : ['text/xml', 'application/xml']
+        xml : ['application/xml', 'text/xml']
 ]
 grails.mime.disable.accept.header.userAgents = []
 log4j = {
