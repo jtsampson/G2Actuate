@@ -57,13 +57,14 @@ application and look at `/metrics` (and see `/mappings` for a list of other HTTP
 ## <a name="AvailableEndpoints">Available Endpoints</a>
 | ID                 | Description                                                                | Sensitive Default |
 | ------------------ | -------------------------------------------------------------------------- | ----------------- |
-| **/beans**         | Displays a complete list of all the Spring beans in your application.      | TODO              |
-| **/env**           | Exposes properties from the servlet/jvm and os   (TODO applicaion)         | TODO              |
-| **/heapdump**      | Returns a GZip compressed hprof heap dump file.                            | TODO              |
-| **/info**          | Displays arbitrary application info.                                       | TODO              |
-| **/loggers**       | Displays logger information                                                | TODO              |
-| **/metrics**       | Shows 'metrics' information for the current application.                   | TODO              |
-| **/mappings**      | Displays a collated list of all URLMapiings paths.                         | TODO              |
-| **/trace**         | Displays trace information (by default the last 100 HTTP requests).        | TODO              |
+| **/beans**         | Displays a complete list of all the Spring beans in your application.      | true              |
+| **/env**           | Exposes properties from the servlet/jvm and os   (TODO applicaion)         | true              |
+| **/health**        | Returns application health information.                                    | true              |
+| **/heapdump**      | Returns a GZip compressed hprof heap dump file.                            | true              |
+| **/info**          | Displays arbitrary application info.                                       | false             |
+| **/loggers**       | Displays logger information                                                | true              |
+| **/mappings**      | Displays a collated list of all URLMapiings paths.                         | true              |
+| **/metrics**       | Shows 'metrics' information for the current application.                   | true              |
+| **/trace**         | Displays trace information (by default the last 100 HTTP requests).        | true              |
 
 ## <a name="Customizing Endpoints">Customization</a>

@@ -28,8 +28,10 @@ class DefaultActuateUrlMappings {
         def conf = Holders.config.g2actuate
         def endpoints = Holders.config.g2actuate.endpoints
 
+        // endpoints
         def beans = endpoints.beans
         def env = endpoints.env
+        def health = endpoints.health
         def heapdump = endpoints.heapdump
         def info = endpoints.info
         def loggers = endpoints.loggers
@@ -54,6 +56,14 @@ class DefaultActuateUrlMappings {
             "${cp}${env.path}"(controller: "actuator", action: "env", method: 'GET')
         } else {
             disabling(cp, env)
+        }
+
+        // health mappings
+        if (health.enabled) {
+            enabling(cp, health)
+            "${cp}${health.path}"(controller: "health", action: "health", method: 'GET')
+        } else {
+            disabling(cp, health)
         }
 
         // heapdump mappings

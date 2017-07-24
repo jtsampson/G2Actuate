@@ -40,15 +40,15 @@ Provides a back port of some of Spring Boot Actuator capabilites for Grails 2 Ap
 
 The following endpoints:
 * /beans Displays a complete list of all the Spring beans in your application.
-* /heapdump Performs a thread dump.
 * /env  Displays properties from the environment.
-* /health (TODO)
+* /health Displays health information.
+* /heapdump Performs a thread dump.
 * /info Displays arbitrary application info.
 * /loggers Shows and modifies the configuration of loggers in the application.
+* /mappings Displays a collated list of all url-mappings paths.
 * /metrics Shows ‘metrics’ information for the current application.
-* /mappings Displays a collated list of all url-mappings paths
 * /shutdown (TODO)
-* /trace (TODO)  Displays trace information (by default the last 100 HTTP requests).
+* /trace Displays trace information (by default the last 100 HTTP requests).
 
 Call back 'contributor' closures are provided to you can customise the data returned by the endpoints
 '''
@@ -72,6 +72,10 @@ Call back 'contributor' closures are provided to you can customise the data retu
      */
     def doWithSpring = {
         mergeConfig(application)
+
+       // def agregator application.mainContext.getBean( HealthAggregator.class );
+
+
     }
 
     /**
@@ -102,7 +106,7 @@ Call back 'contributor' closures are provided to you can customise the data retu
      */
     def onConfigChange = { event ->
 
-        this.mergeConfig(application)
+        mergeConfig(application)
 
         /* When we merge configs, we start with the DefaultActuateConfig an overwrite that with the user's
          * customizations. The side effect of this is that we generate and extra onConfigChangeEvent. The

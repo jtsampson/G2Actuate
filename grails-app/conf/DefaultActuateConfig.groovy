@@ -19,7 +19,7 @@
 g2actuate{
     reloadMarker = true
 
-    management.'context-path'="/application"
+    management.'context-path'=""
     management.security.roles="ACTUATOR"
     management.security.enabled=true
 
@@ -39,6 +39,13 @@ g2actuate{
 //            // mappingsClass = Grails2ActuateUrlMappings.HeapdumpUrlMappings.class
 //        }
 
+        health {
+            path = "/health"
+            enabled = true
+            sensitive = true
+            // mappingsClass = Grails2ActuateUrlMappings.HeapdumpUrlMappings.class
+        }
+
         heapdump {
             path = "/heapdump"
             enabled = true
@@ -50,18 +57,10 @@ g2actuate{
             enabled = true
             sensitive = true
         }
-
-//        TODO add health
-//        health {
-//            path = "/health"
-//            enabled = true
-//            sensitive = true
-//        }
-
         info {
             path = "/info"
             enabled = true
-            sensitive = true
+            sensitive = false
         }
 
 //        TODO add logfile
