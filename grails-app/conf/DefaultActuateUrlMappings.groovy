@@ -119,10 +119,10 @@ class DefaultActuateUrlMappings {
     }
 
     static enabling(cp, conf) {
-        println "Enabling  Actuate endpoint $cp${conf.path}"
+        println "Enabling Actuate endpoint $cp${conf.path} \t\t[sensitive : ${conf.sensitive}]"
     }
 
     static disabling(cp, conf) {
-        println "Disabling Actuate endpoint $cp${conf.path}"
+        println "Disabling Actuate endpoint $cp${conf.path} \t\t[sensitive : ${conf.sensitive}]"
     }
 }

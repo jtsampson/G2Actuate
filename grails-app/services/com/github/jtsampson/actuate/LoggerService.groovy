@@ -63,7 +63,7 @@ class LoggerService {
     def upsertLoggerConfig(String id, String configuredLevel) {
 
         def logger = LogManager.getLogger(id)
-        logger.setLevel(Level.toLevel(configuredLevel));
+        logger.setLevel(Level.toLevel(configuredLevel))
         asLoggerConfig(logger)
     }
 

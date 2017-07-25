@@ -38,7 +38,7 @@ class TraceService {
         traces.collect { it.value }.reverse()
     }
 
-    def synchronized save(Long id, Map value) {
+    def static synchronized save(Long id, Map value) {
         traces.put(id, value)
         assert traces.size() > 0
     }

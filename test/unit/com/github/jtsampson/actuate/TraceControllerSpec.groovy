@@ -38,7 +38,7 @@ class TraceControllerSpec extends Specification {
         traceService(TraceService)
     }
 
-    def anyController = new TraceControllerSpec.AnyController()
+    def anyController = new AnyController()
 
     def setup() {
 

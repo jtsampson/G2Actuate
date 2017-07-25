@@ -28,6 +28,7 @@ class TraceFilters {
     private static final String TRACE_ID_ATTRIBUTE_NAME = 'Controller__TRACE_NUMBER__'
 
     def grailsApplication
+    def dependsOn = [SensitiveFilters]
 
     // if true, the request property is collected. User provides a set of overrides.
     // TODO cross this with user provided configuration
@@ -214,7 +215,7 @@ class TraceFilters {
                         }
 
                         trace.status = response.status
-                        trace.timeTaken = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - trace.timestamp);
+                        trace.timeTaken = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - trace.timestamp)
                         ts.save(id, trace)
                     }
                 }

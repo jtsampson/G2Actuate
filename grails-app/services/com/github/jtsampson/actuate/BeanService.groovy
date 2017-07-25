@@ -38,19 +38,19 @@ import javax.annotation.PostConstruct
  */
 class BeanService {
 
-    private final HierarchyAwareLiveBeansView liveBeansView = new HierarchyAwareLiveBeansView();
+    private final HierarchyAwareLiveBeansView liveBeansView = new HierarchyAwareLiveBeansView()
 
     @PostConstruct
     @SuppressWarnings('UnusedPrivateMethod')
     private void init() {
         if (Holders.applicationContext.getEnvironment()
                 .getProperty(LiveBeansView.MBEAN_DOMAIN_PROPERTY_NAME) == null) {
-            this.liveBeansView.leafContext = Holders.applicationContext;
+            this.liveBeansView.leafContext = Holders.applicationContext
         }
     }
 
     def collectBeans() {
-        def snapshot = liveBeansView.getSnapshotAsJson();
+        def snapshot = liveBeansView.getSnapshotAsJson()
         def slurper = new JsonSlurper()
 
         // Returning a map so controller can do content negotiation with a map.
@@ -59,33 +59,33 @@ class BeanService {
 
     private static class HierarchyAwareLiveBeansView extends LiveBeansView {
 
-        private ConfigurableApplicationContext leafContext;
+        private ConfigurableApplicationContext leafContext
 
         private void setLeafContext(ApplicationContext leafContext) {
-            this.leafContext = asConfigurableContext(leafContext);
+            this.leafContext = asConfigurableContext(leafContext)
         }
 
         @Override
-        public String getSnapshotAsJson() {
-            return generateJson(getContextHierarchy());
+        String getSnapshotAsJson() {
+            return generateJson(getContextHierarchy())
         }
 
         private ConfigurableApplicationContext asConfigurableContext(
                 ApplicationContext applicationContext) {
             Assert.isTrue(applicationContext instanceof ConfigurableApplicationContext,
                     "'" + applicationContext
-                            + "' does not implement ConfigurableApplicationContext");
-            return (ConfigurableApplicationContext) applicationContext;
+                            + "' does not implement ConfigurableApplicationContext")
+            return (ConfigurableApplicationContext) applicationContext
         }
 
         private Set<ConfigurableApplicationContext> getContextHierarchy() {
-            Set<ConfigurableApplicationContext> contexts = new LinkedHashSet<ConfigurableApplicationContext>();
-            ApplicationContext context = this.leafContext;
+            Set<ConfigurableApplicationContext> contexts = new LinkedHashSet<ConfigurableApplicationContext>()
+            ApplicationContext context = this.leafContext
             while (context != null) {
-                contexts.add(asConfigurableContext(context));
-                context = context.getParent();
+                contexts.add(asConfigurableContext(context))
+                context = context.getParent()
             }
-            return contexts;
+            return contexts
         }
 
     }

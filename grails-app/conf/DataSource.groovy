@@ -1,3 +1,5 @@
+import java.sql.Connection
+
 /*
  *  Copyright 2016-2017 John Sampson
  *
@@ -78,7 +80,7 @@ environments {
                 testWhileIdle = true
                 testOnReturn = false
                 jdbcInterceptors = "ConnectionState"
-                defaultTransactionIsolation = java.sql.Connection.TRANSACTION_READ_COMMITTED
+                defaultTransactionIsolation = Connection.TRANSACTION_READ_COMMITTED
             }
         }
     }

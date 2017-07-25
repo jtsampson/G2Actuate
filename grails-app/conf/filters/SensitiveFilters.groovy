@@ -2,6 +2,7 @@ package filters
 
 import grails.util.Holders
 
+import javax.servlet.http.HttpServletResponse
 import java.util.regex.Pattern
 
 class SensitiveFilters {
@@ -19,6 +20,8 @@ class SensitiveFilters {
     def metrics = endpoints.metrics
     def trace = endpoints.trace
 
+    def actuateSecurity
+
     def filters = {
 
 
@@ -27,7 +30,7 @@ class SensitiveFilters {
         def sensitivePaths  = []
         //builder.append "("
         endpoints.each{
-            if (it.value.enabled){
+            if (it.value.sensitive ){
                 sensitivePaths.add("$cp${it.value.path}")
             }
         }
@@ -37,10 +40,17 @@ class SensitiveFilters {
 
         sensitive(regex:true,  find: pattern ) {
             before = {
-                println 'before'
+                println 'before sensitive filter '
+                println !request.isSecure()
+                println !actuateSecurity.isUserAuthorized(request)
+                // if HTTP AND sensitive, we need to check if user is authorized
+                if (!request.isSecure() && !actuateSecurity.isUserAuthorized(request)) {
+                    response.status = HttpServletResponse.SC_UNAUTHORIZED
+                    respond
+                }
             }
             after = { Map model ->
-                println 'after'
+                println 'after  sensitive filter '
             }
             afterView = { Exception e ->
 

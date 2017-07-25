@@ -39,8 +39,8 @@ import java.util.concurrent.locks.ReentrantLock
  */
 @Transactional
 class HeapDumpService {
-    private final HeapDumper heapDumper = createHeapDumper();
-    private final Lock lock = new ReentrantLock();
+    private final HeapDumper heapDumper = createHeapDumper()
+    private final Lock lock = new ReentrantLock()
     private final long timeout = 2000 // milliseconds to try to acquire the lock, else fail.
 
     File dumpIt(boolean live)
@@ -49,11 +49,11 @@ class HeapDumpService {
         try {
             if (this.lock.tryLock(this.timeout, TimeUnit.MILLISECONDS)) {
                 try {
-                    file = createTempFile(live);
-                    this.heapDumper.dumpHeap(file, live);
+                    file = createTempFile(live)
+                    this.heapDumper.dumpHeap(file, live)
                 }
                 finally {
-                    this.lock.unlock();
+                    this.lock.unlock()
                 }
             } else {
                 throw new TooManyRequestsException()
@@ -61,18 +61,18 @@ class HeapDumpService {
         }
         catch (InterruptedException ex) {
             //TODO log?
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt()
         }
 
         file
     }
 
     private File createTempFile(boolean live) throws IOException {
-        String date = new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
+        String date = new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
         File file = File.createTempFile("heapdump" + date + (live ? "-live" : ""),
-                ".hprof");
-        file.delete();
-        return file;
+                ".hprof")
+        file.delete()
+        return file
     }
 
     /**
@@ -81,7 +81,7 @@ class HeapDumpService {
      * @throws HeapDumperUnavailableException if the heap dumper cannot be created
      */
     protected HeapDumper createHeapDumper() throws HeapDumperUnavailableException {
-        return new HotSpotDiagnosticMXBeanHeapDumper();
+        return new HotSpotDiagnosticMXBeanHeapDumper()
     }
 
     protected interface HeapDumper {
@@ -94,7 +94,7 @@ class HeapDumpService {
          * @throws IOException on IO error
          * @throws InterruptedException on thread interruption
          */
-        void dumpHeap(File file, boolean live) throws IOException, InterruptedException;
+        void dumpHeap(File file, boolean live) throws IOException, InterruptedException
 
     }
 
@@ -105,31 +105,31 @@ class HeapDumpService {
  */
     protected static class HotSpotDiagnosticMXBeanHeapDumper implements HeapDumper {
 
-        private Object diagnosticMXBean;
+        private Object diagnosticMXBean
 
-        private Method dumpHeapMethod;
+        private Method dumpHeapMethod
 
         @SuppressWarnings("unchecked")
         protected HotSpotDiagnosticMXBeanHeapDumper() {
             try {
                 Class<?> diagnosticMXBeanClass = ClassUtils.resolveClassName(
-                        "com.sun.management.HotSpotDiagnosticMXBean", null);
+                        "com.sun.management.HotSpotDiagnosticMXBean", null)
                 this.diagnosticMXBean = ManagementFactory.getPlatformMXBean(
-                        (Class<PlatformManagedObject>) diagnosticMXBeanClass);
+                        (Class<PlatformManagedObject>) diagnosticMXBeanClass)
                 this.dumpHeapMethod = ReflectionUtils.findMethod(diagnosticMXBeanClass,
-                        "dumpHeap", String.class, Boolean.TYPE);
+                        "dumpHeap", String.class, Boolean.TYPE)
             }
             catch (Throwable ex) {
                 throw new HeapDumperUnavailableException(
-                        "Unable to locate HotSpotDiagnosticMXBean", ex);
+                        "Unable to locate HotSpotDiagnosticMXBean", ex)
             }
         }
 
 
         @Override
-        public void dumpHeap(File file, boolean live) {
+        void dumpHeap(File file, boolean live) {
             ReflectionUtils.invokeMethod(this.dumpHeapMethod, this.diagnosticMXBean,
-                    file.getAbsolutePath(), live);
+                    file.getAbsolutePath(), live)
         }
     }
 
@@ -138,8 +138,8 @@ class HeapDumpService {
      */
     protected static class HeapDumperUnavailableException extends RuntimeException {
 
-        public HeapDumperUnavailableException(String message, Throwable cause) {
-            super(message, cause);
+        HeapDumperUnavailableException(String message, Throwable cause) {
+            super(message, cause)
         }
 
     }

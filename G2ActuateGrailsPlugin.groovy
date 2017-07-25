@@ -71,9 +71,21 @@ Call back 'contributor' closures are provided to you can customise the data retu
      * Performs runtime Spring Configuration.
      */
     def doWithSpring = {
-        mergeConfig(application)
 
-       // def agregator application.mainContext.getBean( HealthAggregator.class );
+        // If the application is not using spring security core or shiro, then by default we will try to
+        // desensitize the endpoints (as there may be no authentication anyway); as long as
+        // autoDesensitize=true
+        if (application.config.g2actuate.autoDesensitize) {
+            if (!Holders.pluginManager.hasGrailsPlugin('spring-security-core') ||
+                    !Holders.pluginManager.hasGrailsPlugin('shiro')) {
+                application.config.g2actuate.endpoints.each { endpoint ->
+                    endpoint.value.sensitive = false
+                }
+            }
+        }
+
+        mergeConfig(application)
+        // def agregator application.mainContext.getBean( HealthAggregator.class );
 
 
     }

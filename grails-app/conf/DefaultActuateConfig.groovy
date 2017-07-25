@@ -18,6 +18,7 @@
 
 g2actuate{
     reloadMarker = true
+    autoDesensitize = true
 
     management.'context-path'=""
     management.security.roles="ACTUATOR"

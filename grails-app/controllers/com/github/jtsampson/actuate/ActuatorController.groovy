@@ -75,6 +75,10 @@ class ActuatorController {
         respond infoService.collectInfo()
     }
 
+    def notAuthorized(){
+        render (status:401)
+    }
+
     def mappings() {
         respond mappingService.collectMappings()
     }

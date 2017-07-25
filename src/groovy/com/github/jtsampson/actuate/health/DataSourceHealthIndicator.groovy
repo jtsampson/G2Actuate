@@ -18,6 +18,7 @@
 package com.github.jtsampson.actuate.health
 
 import groovy.sql.Sql
+import groovy.transform.InheritConstructors
 import org.apache.commons.logging.LogFactory
 
 import javax.sql.DataSource
@@ -26,7 +27,7 @@ import javax.sql.DataSource
  * @author jsampson
  * @since 6/27/2017.
  */
-@groovy.transform.InheritConstructors // TODO remember why I did this?
+@InheritConstructors // TODO remember why I did this?
 class DataSourceHealthIndicator implements HealthIndicator {
 
     private static final log = LogFactory.getLog(this)

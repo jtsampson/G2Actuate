@@ -42,7 +42,7 @@ class LoggerController {
             return
         }
 
-        def body = request.getJSON();
+        def body = request.getJSON()
         assert(loggerService.levelList.contains(body.configuredLevel) )
         respond loggerService.upsertLoggerConfig(params.id, body.configuredLevel)
     }

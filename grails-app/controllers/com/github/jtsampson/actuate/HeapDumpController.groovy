@@ -42,7 +42,7 @@ class HeapDumpController {
 
         boolean live = params.live ?: true // live objects only if true
         File file = heapDumpService.dumpIt(live)
-        streamFile(file);
+        streamFile(file)
     }
 
     /**
@@ -51,18 +51,18 @@ class HeapDumpController {
      * @param heapDumpFile the generated dump file
      */
     private void streamFile(File heapDumpFile) {
-        response.setContentType("application/octet-stream");
+        response.setContentType("application/octet-stream")
         response.setHeader("Content-Disposition",
-                "attachment; filename=\"" + (heapDumpFile.getName() + ".gz") + "\"");
-        def is = new FileInputStream(heapDumpFile);
+                "attachment; filename=\"" + (heapDumpFile.getName() + ".gz") + "\"")
+        def is = new FileInputStream(heapDumpFile)
 
         try {
-            GZIPOutputStream out = new GZIPOutputStream(response.getOutputStream());
-            StreamUtils.copy(is, out);
-            out.finish();
+            GZIPOutputStream out = new GZIPOutputStream(response.getOutputStream())
+            StreamUtils.copy(is, out)
+            out.finish()
         }
         finally {
-            is.close();
+            is.close()
             heapDumpFile.delete()
         }
 

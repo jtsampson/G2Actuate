@@ -25,6 +25,7 @@ package com.github.jtsampson.actuate.security
 class ActuateSecurity {
 
     boolean isUserAuthorized(request){
+
         request.isUserInRole('ACTUATOR')
     }
 }
