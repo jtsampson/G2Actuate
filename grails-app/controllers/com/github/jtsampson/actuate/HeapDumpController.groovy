@@ -28,13 +28,13 @@ import java.util.zip.GZIPOutputStream
 
 
 class HeapDumpController {
-
+    static responseFormats = ['octet-stream', 'xml']
     // TODO work this into config on per endpoint basis.
     boolean isEnabled = true  // you could disable in certain environments by setting false
     def heapDumpService
 
 
-    def dump() {
+    def heapdump() {
 
         if (!isEnabled) {
             render status: NOT_FOUND

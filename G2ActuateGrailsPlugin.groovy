@@ -15,7 +15,12 @@
  *
  */
 
+
 import DefaultActuateUrlMappings
+import com.github.jtsampson.actuate.health.HealthAggregator
+import com.github.jtsampson.actuate.security.ActuateSecurity
+import com.github.jtsampson.actuate.shutdown.ShutdownEmbededServletContainer
+import com.github.jtsampson.actuate.shutdown.ShutdownSystemExit
 import grails.util.Environment
 import grails.util.Holders
 import org.codehaus.groovy.grails.commons.GrailsApplication
@@ -63,7 +68,7 @@ Call back 'contributor' closures are provided to you can customise the data retu
     /**
      * Adds additions to web.xml (optional), this event occurs before (not sure what).
      */
-    def doWithWebDescriptor = { xml ->
+    def doWithWebDescriptor = { webXml ->
         // TODO Implement additions to web.xml (optional), this event occurs before
     }
 
@@ -71,6 +76,16 @@ Call back 'contributor' closures are provided to you can customise the data retu
      * Performs runtime Spring Configuration.
      */
     def doWithSpring = {
+
+        // Define the appropriate shutterDowner
+        if (Boolean.getBoolean("TomcatKillSwitch.active")) {
+            // See
+            println 'Configuring the Shutdown for Tomcat (may be overridden later)'
+            shutterDowner(ShutdownEmbededServletContainer)
+        } else {
+            println 'Configuring the Shutdown for System Exit (may be overridden later)'
+            shutterDowner(ShutdownSystemExit)
+        }
 
         // If the application is not using spring security core or shiro, then by default we will try to
         // desensitize the endpoints (as there may be no authentication anyway); as long as
@@ -83,6 +98,10 @@ Call back 'contributor' closures are provided to you can customise the data retu
                 }
             }
         }
+
+        // define other beans
+        healthAggregator(HealthAggregator)
+        actuateSecurity(ActuateSecurity)
 
         mergeConfig(application)
         // def agregator application.mainContext.getBean( HealthAggregator.class );

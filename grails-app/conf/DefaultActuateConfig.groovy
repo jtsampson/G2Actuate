@@ -87,10 +87,12 @@ g2actuate{
             enabled = true
             sensitive = true
         }
-//        shutdown {
-//            path = "/shutdown"
-//            enabled = false
-//        }
+        shutdown {
+            path = "/shutdown"
+            enabled = true
+            sensitive = true
+            delay = 30
+        }
         trace {
             path = "/trace"
             enabled = true

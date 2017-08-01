@@ -37,6 +37,7 @@ class DefaultActuateUrlMappings {
         def loggers = endpoints.loggers
         def mappings = endpoints.mappings
         def metrics = endpoints.metrics
+        def shutdown = endpoints.shutdown
         def trace = endpoints.trace
 
         def cp = conf.management.'context-path'
@@ -108,6 +109,14 @@ class DefaultActuateUrlMappings {
             disabling(cp, metrics)
         }
 
+        // shutdown mappings
+        if (shutdown.enabled) {
+            enabling(cp, shutdown)
+            "${cp}${shutdown.path}"(controller: "shutdown", action: "shutdown", method: 'GET')
+        } else {
+            disabling(cp, shutdown)
+        }
+
         // trace mappings
         if (trace.enabled) {
             enabling(cp, trace)
@@ -119,7 +128,7 @@ class DefaultActuateUrlMappings {
     }
 
     static enabling(cp, conf) {
-        println "Enabling Actuate endpoint $cp${conf.path} \t\t[sensitive : ${conf.sensitive}]"
+        println "Enabling  Actuate endpoint $cp${conf.path} \t\t[sensitive : ${conf.sensitive}]"
     }
 
     static disabling(cp, conf) {

@@ -18,28 +18,17 @@
 package com.github.jtsampson.actuate
 
 /**
- * Shows application health information (a simple ‘status’ when accessed over an unauthenticated connection or full
- * message details when authenticated). It is not sensitive by default.
+ * Created by jsampson on 7/25/2017.
  */
-class HealthController {
+class ShutdownController {
 
     static responseFormats = ['json', 'xml']
+    static allowedMethods = [shutdown: 'GET']
 
-    def healthService
-    def actuateSecurity
+    def shutdownService
 
-    def health() {
-
-        def health = healthService.collectHealth()
-
-        if (request.isSecure()) {
-            if (actuateSecurity.isUserAuthorized(request)) {
-                respond health
-            } else {
-                render (status:401) // unauthorized
-            }
-        } else {
-            respond health.subMap(['status'])
-        }
+    def shutdown(){
+        respond shutdownService.shutdown()
     }
+
 }

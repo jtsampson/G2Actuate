@@ -41,13 +41,13 @@ class SensitiveFilters {
         sensitive(regex:true,  find: pattern ) {
             before = {
                 println 'before sensitive filter '
-                println !request.isSecure()
-                println !actuateSecurity.isUserAuthorized(request)
+                println  'secure:     ' + request.isSecure()
+                println  'authorized: ' + actuateSecurity.isUserAuthorized(request)
                 // if HTTP AND sensitive, we need to check if user is authorized
-                if (!request.isSecure() && !actuateSecurity.isUserAuthorized(request)) {
-                    response.status = HttpServletResponse.SC_UNAUTHORIZED
-                    respond
-                }
+//                if (!request.isSecure() && !actuateSecurity.isUserAuthorized(request)) {
+//                    response.status = HttpServletResponse.SC_UNAUTHORIZED
+//
+//                }
             }
             after = { Map model ->
                 println 'after  sensitive filter '

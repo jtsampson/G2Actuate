@@ -18,12 +18,13 @@
 package com.github.jtsampson.actuate
 
 import grails.converters.JSON
+import grails.converters.XML
 
 class ActuatorController {
 
     ActuatorController() {
         JSON.createNamedConfig('PASS-THROUGH-JSON') {
-            it.registerObjectMarshaller(String) {  ->
+            it.registerObjectMarshaller(String) { ->
                 it.toString()
             }
         }
@@ -43,11 +44,9 @@ class ActuatorController {
 
     def beanService
     def envService
-    def heapDumpService
     def infoService
     def mappingService
     def metricService
-
 
     // TODO enabling/disabling should be handled in plugin set up.
 
@@ -55,35 +54,75 @@ class ActuatorController {
         //TODO
     }
 
-    def beans(){
-        respond beanService.collectBeans()
+    def beans() {
+        def result = beanService.collectBeans()
+
+        request.withFormat {
+            json {
+                render result as JSON
+            }
+            xml {
+                render result as XML
+            }
+        }
     }
 
-    def configprops(){
+    def configprops() {
         //TODO
     }
 
     def env() {
-        respond envService.collectEnvironment()
-    }
+        def result = envService.collectEnvironment()
 
-    def heapdump() {
-        respond heapDumpService.dumpIt(params?.live ?: true)
+        request.withFormat {
+            json {
+                render result as JSON
+            }
+            xml {
+                render result as XML
+            }
+        }
     }
 
     def info() {
-        respond infoService.collectInfo()
+        def result = infoService.collectInfo()
+
+        request.withFormat {
+            json {
+                render result as JSON
+            }
+            xml {
+                render result as XML
+            }
+        }
     }
 
-    def notAuthorized(){
-        render (status:401)
+    def notAuthorized() {
+        render(status: 401)
     }
 
     def mappings() {
-        respond mappingService.collectMappings()
+        def result = mappingService.collectMappings()
+
+        request.withFormat {
+            json {
+                render result as JSON
+            }
+            xml {
+                render result as XML
+            }
+        }
     }
 
     def metrics() {
-        respond metricService.collectMetrics()
+        def result = metricService.collectMetrics()
+        request.withFormat {
+            json {
+                render result as JSON
+            }
+            xml {
+                render result as XML
+            }
+        }
     }
 }

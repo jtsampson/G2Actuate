@@ -32,39 +32,42 @@ class MappingService {
 
         def mappings = [:]
 
-        def urlMappings = getAllMappings()
-
-
         for (urlMapping in getAllMappings()) {
             String path = urlMapping.urlData.urlPattern
 
+            def controllerName = urlMapping.controllerName
+            println controllerName
 
-            def details = [:]
-            details['bean'] = urlMapping.controllerName
-            details['allows'] = urlMapping.httpMethod
+            // TODO ignoring controllers w/o names for now.
+            if (controllerName) {
+                def details = [:]
 
-            def artefact = grailsApplication.getArtefactByLogicalPropertyName("Controller", urlMapping.controllerName)
-            def bean = grailsApplication.mainContext.getBean(artefact.clazz.name)
-            def methods = bean.getClass().methods
-            for (def m in methods) {
-                if (m.name == urlMapping.actionName) {
-                    details['method'] = "public ${bean.getClass()}.${urlMapping.actionName}()"
+                details['bean'] = controllerName
+                details['allows'] = urlMapping.httpMethod
+
+                def artefact = grailsApplication.getArtefactByLogicalPropertyName("Controller", controllerName)
+                def bean = grailsApplication.mainContext.getBean(artefact.clazz.name)
+                def methods = bean.getClass().methods
+                for (def m in methods) {
+                    if (m.name == urlMapping.actionName) {
+                        details['method'] = "public ${bean.getClass()}.${urlMapping.actionName}()"
+                    }
                 }
-            }
 
-            // RestControllers use 'responseFormats', lets add them to the results if they exist
-            def fields = bean.getClass().declaredFields
-            for (def field in fields) {
-                if (field.name == 'responseFormats') {
-                    field.setAccessible(true) // Avoid IllegalAccessException if not public
-                    details['produces'] = field.get(bean)
+                // RestControllers use 'responseFormats', lets add them to the results if they exist
+                def fields = bean.getClass().declaredFields
+                for (def field in fields) {
+                    if (field.name == 'responseFormats') {
+                        field.setAccessible(true) // Avoid IllegalAccessException if not public
+                        details['produces'] = field.get(bean)
+                    }
                 }
-            }
 
-            mappings."${path}" = details
+                mappings."${path}" = details
+            }
         }
 
-        mappings
+        mappings.sort() // sort by path
 
     }
 
@@ -93,7 +96,7 @@ class MappingService {
 
     protected String establishUrlPattern(UrlMapping urlMapping) {
         if (urlMapping instanceof ResponseCodeUrlMapping) {
-            def errorCode = "ERROR: "+ ((ResponseCodeMappingData)urlMapping.urlData).responseCode
+            def errorCode = "ERROR: " + ((ResponseCodeMappingData) urlMapping.urlData).responseCode
 
             return errorCode
         }
@@ -105,26 +108,24 @@ class MappingService {
             boolean hasTokens = token.contains(UrlMapping.CAPTURED_WILDCARD) || token.contains(UrlMapping.CAPTURED_DOUBLE_WILDCARD)
             if (hasTokens) {
                 String finalToken = token
-                while(hasTokens) {
+                while (hasTokens) {
                     if (finalToken.contains(UrlMapping.CAPTURED_WILDCARD)) {
                         def constraint = constraints[constraintIndex++]
                         def prop = '\\${' + constraint.propertyName + '}'
                         finalToken = finalToken.replaceFirst(/\(\*\)/, prop)
-                    }
-                    else if (finalToken.contains(UrlMapping.CAPTURED_DOUBLE_WILDCARD)) {
+                    } else if (finalToken.contains(UrlMapping.CAPTURED_DOUBLE_WILDCARD)) {
                         def constraint = constraints[constraintIndex++]
                         def prop = '\\\${' + constraint.propertyName + '}**'
-                        finalToken =  finalToken.replaceFirst(/\(\*\*\)/, prop)
+                        finalToken = finalToken.replaceFirst(/\(\*\*\)/, prop)
                     }
                     hasTokens = finalToken.contains(UrlMapping.CAPTURED_WILDCARD) || finalToken.contains(UrlMapping.CAPTURED_DOUBLE_WILDCARD)
                 }
                 urlPattern << finalToken
-            }
-            else {
+            } else {
                 urlPattern << token
             }
 
-            if (i < (tokens.length-1)) {
+            if (i < (tokens.length - 1)) {
                 urlPattern << UrlMapping.SLASH
             }
         }
@@ -136,8 +137,6 @@ class MappingService {
 
         return urlPattern.toString()
     }
-
-
 
 
 }
