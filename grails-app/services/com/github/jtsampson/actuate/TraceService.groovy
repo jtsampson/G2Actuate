@@ -35,20 +35,21 @@ class TraceService {
     })
 
     def collectTraces() {
-        println '*** service:collectTraces'
         traces.collect { it.value }.reverse()
     }
 
     def static synchronized save(Long id, Map value) {
-        println '*** service:save'
         traces.put(id, value)
-        assert traces.size() > 0
     }
 
 
     def find(Long id) {
-        println '*** service:find'
         traces.get(id)
+    }
+
+    // for testing ?
+    def clear() {
+        traces.clear()
     }
 
 }

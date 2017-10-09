@@ -19,6 +19,9 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
+def gebVersion = "0.13.1"
+def webdriverVersion = "2.53.1"
+
 grails.project.fork = [
         // configure settings for compilation JVM, note that if you alter the Groovy version forked compilation is required
         //  compile: [maxMemory: 256, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
@@ -54,11 +57,21 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-        // runtime 'mysql:mysql-connector-java:5.1.27'
-       // compile ':codenarc:0.27'
-
-       // test  'com.ibm:db2jcc:9'
         compile 'org.apache.derby:derby:10.12.1.1'
+
+        test "org.gebish:geb-junit3:${gebVersion}"
+        test "org.gebish:geb-junit4:${gebVersion}"
+        test "org.gebish:geb-spock:${gebVersion}"
+
+        test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
+
+        test "org.seleniumhq.selenium:selenium-support:${webdriverVersion}"
+        test "org.seleniumhq.selenium:selenium-chrome-driver:${webdriverVersion}"
+        test "org.seleniumhq.selenium:selenium-firefox-driver:${webdriverVersion}"
+        test "org.seleniumhq.selenium:selenium-ie-driver:${webdriverVersion}"
+
+        // For downloading browser-specific drivers that browsers like Chrome and IE require
+        test "io.github.bonigarcia:webdrivermanager:1.3.1"
 
     }
 
@@ -70,6 +83,7 @@ grails.project.dependency.resolution = {
                 ":rest-client-builder:2.1.0") {
             export = false
         }
-        build ":codenarc:0.27.0"
+        test ":geb:${gebVersion}"
+        test ":rest-client-builder:2.1.0"
     }
 }

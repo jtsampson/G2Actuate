@@ -19,9 +19,9 @@ package filters
 
 import grails.util.Holders
 
-import java.util.concurrent.atomic.AtomicLong
 import javax.annotation.PostConstruct
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicLong
 
 // TODO ignore trace calls in trace response.
 class TraceFilters {
@@ -30,7 +30,7 @@ class TraceFilters {
     private static final String TRACE_ID_ATTRIBUTE_NAME = 'Controller__TRACE_NUMBER__'
 
     def traceService
-    def dependsOn = [SensitiveFilters]
+    //def dependsOn = [SensitiveFilters] // depending on other filters may vause issues with mocking in test.
 
     // if true, the request property is collected. User provides a set of overrides.
     // TODO cross this with user provided configuration
@@ -101,6 +101,7 @@ class TraceFilters {
 
     def filters = {
         allButTrace(controller: 'trace', invert: true) {
+            //recordTrace(controller:'*', action:'*') { // TODO...do you want to trace traces?
             //init()
             before = {
 
@@ -137,7 +138,7 @@ class TraceFilters {
 
 
                     if (collectRequestCookies) {
-                        trace.cookies.request = request.cookies?.sort{it.name}
+                        trace.cookies.request = request.cookies?.sort { it.name }
                     }
 
                     if (collectProperties) {
@@ -177,9 +178,9 @@ class TraceFilters {
 
                     request[TRACE_ID_ATTRIBUTE_NAME] = currentRequestNumber
 
-                    // TODO: use auto intection of traceService if you can get the test working
-                    //def ts = applicationContext.getBean('traceService')
-                    def ts = traceService
+                    // TODO: use auto injection of traceService if you can get the test working
+                    def ts = applicationContext.getBean('traceService')
+                    //def ts = traceService
                     ts.save(currentRequestNumber, trace)
                 }
             }
@@ -190,8 +191,8 @@ class TraceFilters {
                     Long id = request[TRACE_ID_ATTRIBUTE_NAME]
 
                     // TODO: use auto intection of traceService if you can get the test working
-                    //def ts = applicationContext.getBean('traceService')
-                    def ts = traceService
+                    def ts = applicationContext.getBean('traceService')
+                    //def ts = traceService
                     def trace = ts.find(id)
 
                     if (trace) {
@@ -215,7 +216,7 @@ class TraceFilters {
 
                         if (collectResponseCookies) {
                             def cookieList = response.getHeaders('Set-Cookie')
-                                trace.cookies.response  = cookieList.sort{it.name}
+                            trace.cookies.response = cookieList.sort { it.name }
                         }
 
                         trace.status = response.status

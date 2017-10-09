@@ -17,15 +17,13 @@
 
 package com.github.jtsampson.actuate
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
-import static org.springframework.http.HttpStatus.NOT_FOUND
-import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS
-
 import org.springframework.util.StreamUtils
 
 import java.util.zip.GZIPOutputStream
 
-
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import static org.springframework.http.HttpStatus.NOT_FOUND
+import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS
 
 class HeapDumpController {
     static responseFormats = ['octet-stream', 'xml']

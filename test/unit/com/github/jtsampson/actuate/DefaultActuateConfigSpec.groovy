@@ -41,7 +41,7 @@ class DefaultActuateConfigSpec extends Specification{
         conf.g2actuate.endpoints.beans.sensitive == true
         conf.g2actuate.endpoints.heapdump.sensitive == true
         conf.g2actuate.endpoints.env.sensitive == true
-        conf.g2actuate.endpoints.info.sensitive == true
+        conf.g2actuate.endpoints.info.sensitive == false
         conf.g2actuate.endpoints.loggers.sensitive == true
         conf.g2actuate.endpoints.mappings.sensitive == true
         conf.g2actuate.endpoints.trace.sensitive == true
