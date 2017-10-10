@@ -16,7 +16,9 @@
  */
 package com.github.jtsampson.actuate
 
+import com.github.jtsampson.actuate.security.ActuateSecurity
 import grails.test.mixin.TestFor
+import org.codehaus.groovy.grails.web.servlet.HttpHeaders
 import spock.lang.Specification
 
 /**
@@ -25,12 +27,45 @@ import spock.lang.Specification
 @TestFor(HealthController)
 class HealthControllerSpec extends Specification {
 
+    def mockHealthService
+    def mockActuateSecurity
+    def collectHealthResponse
+
+
     def setup() {
+
+        mockHealthService = mockFor(HealthService)
+        mockActuateSecurity = mockFor(ActuateSecurity)
+        collectHealthResponse = [status                        : 'UP',
+                                 h2DataSourceHealthIndicator   : [status    : 'UP',
+                                                                  database  : 'H2',
+                                                                  version   : '1.3.176 (2014-04-05)',
+                                                                  driver    : 'org.h2.jdbc.JdbcConnection',
+                                                                  validation: 'select 1', validationResult: 1],
+                                 derbyDataSourceHealthIndicator: [status    : 'UP',
+                                                                  database  : 'Apache Derby',
+                                                                  version   : '10.12.1.1 -(1704137)',
+                                                                  driver    : 'org.apache.derby.impl.jdbc.EmbedConnection',
+                                                                  validation: 'SELECT 1 FROM SYSIBM.SYSDUMMY1', validationResult: 1]
+        ]
     }
 
-    def cleanup() {
-    }
+    void "test insecure request does not invoke security"() {
+        given:
+        mockHealthService.demand.collectHealth() { -> return collectHealthResponse }
 
-    void "test something"() {
+        request.secure = false
+        request.addHeader(HttpHeaders.ACCEPT, JSON_CONTENT_TYPE)
+        controller.healthService = mockHealthService.createMock()
+        controller.actuateSecurity = mockActuateSecurity.createMock()
+
+        when:
+        controller.health()
+
+        then:
+        response.status == 200
+        response.json.status == 'UP'
+        !response.json.derbyDataSourceHealthIndicator // excluded from results since request not secure
+        !response.json.h2DataSourceHealthIndicator // excluded from results since request not secure
     }
 }
