@@ -30,7 +30,7 @@ class SensitiveFilters {
         //builder.append "("
         endpoints.each{
             if (it.value.sensitive ){
-                sensitivePaths.add("$cp${it.value.path}")
+                sensitivePaths.add("$cp/${it.value.id}")
             }
         }
 

@@ -48,10 +48,14 @@ class HeapDumpController {
      * response as a GZip stream.
      * @param heapDumpFile the generated dump file
      */
-    private void streamFile(File heapDumpFile) {
-        response.setContentType("application/octet-stream")
-        response.setHeader("Content-Disposition",
-                "attachment; filename=\"" + (heapDumpFile.getName() + ".gz") + "\"")
+    private void streamFile(final File heapDumpFile) {
+        // Note: Postman's 'Send and Download' has a bug and ignores Content-Disposition, you must
+        // manually save it adding the .gz extention. Downloading from a browser works though.
+        // See https://github.com/postmanlabs/postman-app-support/issues/2082
+        response.addHeader('Content-Type', "application/octet-stream")
+        println response.class
+        response.addHeader("Content-Disposition",
+                "attachment; filename=\"" + (heapDumpFile.name + ".gz") + "\"")
         def is = new FileInputStream(heapDumpFile)
 
         try {

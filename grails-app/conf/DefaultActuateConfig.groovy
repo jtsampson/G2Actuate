@@ -26,6 +26,7 @@ g2actuate{
 
     endpoints {
         beans {
+            id = "beans"
             path = "/beans"
             enabled = true
             sensitive = true
@@ -41,6 +42,7 @@ g2actuate{
 //        }
 
         health {
+            id = "health"
             path = "/health"
             enabled = true
             sensitive = true
@@ -48,17 +50,20 @@ g2actuate{
         }
 
         heapdump {
+            id = "heapdump"
             path = "/heapdump"
             enabled = true
             sensitive = true
            // mappingsClass = Grails2ActuateUrlMappings.HeapdumpUrlMappings.class
         }
         env {
+            id = "env"
             path = "/env"
             enabled = true
             sensitive = true
         }
         info {
+            id = "info"
             path = "/info"
             enabled = true
             sensitive = false
@@ -66,34 +71,40 @@ g2actuate{
 
 //        TODO add logfile
 //        logfile {
-//            path = "/loggers"
+//            id = "logfile"
+//            path = "/logfile"
 //            enabled = true
 //            sensitive = true
 //        }
 
         loggers {
+            id = "loggers"
             path = "/loggers"
             enabled = true
             sensitive = true
         }
 
         mappings {
+            id = "mappings"
             path = "/mappings"
             enabled = true
             sensitive = true
         }
         metrics {
+            id = "metrics"
             path = "/metrics"
             enabled = true
             sensitive = true
         }
         shutdown {
+            id = "shutdown"
             path = "/shutdown"
-            enabled = true
+            enabled = false
             sensitive = true
             delay = 30
         }
         trace {
+            id = "trace"
             path = "/trace"
             enabled = true
             sensitive = true

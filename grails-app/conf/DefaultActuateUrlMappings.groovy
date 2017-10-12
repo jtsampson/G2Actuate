@@ -46,7 +46,7 @@ class DefaultActuateUrlMappings {
         // beans mappings
         if (beans.enabled) {
             enabling(cp, beans)
-            "${cp}${beans.path}"(controller: "actuator", action: "beans", method: 'GET')
+            "${cp}/${beans.id}"(controller: "actuator", action: "beans", method: 'GET')
         } else {
             disabling(cp, beans)
         }
@@ -54,7 +54,7 @@ class DefaultActuateUrlMappings {
         // environment mappings
         if (env.enabled) {
             enabling(cp, env)
-            "${cp}${env.path}"(controller: "actuator", action: "env", method: 'GET')
+            "${cp}/${env.id}"(controller: "actuator", action: "env", method: 'GET')
         } else {
             disabling(cp, env)
         }
@@ -62,7 +62,7 @@ class DefaultActuateUrlMappings {
         // health mappings
         if (health.enabled) {
             enabling(cp, health)
-            "${cp}${health.path}"(controller: "health", action: "health", method: 'GET')
+            "${cp}/${health.id}"(controller: "health", action: "health", method: 'GET')
         } else {
             disabling(cp, health)
         }
@@ -70,7 +70,7 @@ class DefaultActuateUrlMappings {
         // heapdump mappings
         if (heapdump.enabled) {
             enabling(cp, heapdump)
-            "${cp}${heapdump.path}"(controller: "heapDump", action: "heapdump", method: 'GET')
+            "${cp}/${heapdump.id}"(controller: "heapDump", action: "heapdump", method: 'GET')
         } else {
             disabling(cp, heapdump)
         }
@@ -78,7 +78,7 @@ class DefaultActuateUrlMappings {
         // info mappings
         if (info.enabled) {
             enabling(cp, info)
-            "${cp}${info.path}"(controller: "actuator", action: "info", method: 'GET')
+            "${cp}/${info.id}"(controller: "actuator", action: "info", method: 'GET')
         } else {
             disabling(cp, info)
         }
@@ -86,9 +86,9 @@ class DefaultActuateUrlMappings {
         // loggers mappings
         if (loggers.enabled) {
             enabling(cp, loggers )
-            "${cp}${loggers.path}"(controller: "logger", action: "index", method: 'GET')
-            "${cp}${loggers.path}/$id"(controller: "logger", action: "show", method: 'GET')
-            "${cp}${loggers.path}/$id"(controller: "logger", action: "update", method: 'PUT')
+            "${cp}/${loggers.id}"(controller: "logger", action: "index", method: 'GET')
+            "${cp}/${loggers.id}/$id"(controller: "logger", action: "show", method: 'GET')
+            "${cp}/${loggers.id}/$id"(controller: "logger", action: "update", method: 'PUT')
         } else {
             disabling(cp, loggers )
         }
@@ -96,7 +96,7 @@ class DefaultActuateUrlMappings {
         // mappings mappings
         if ( mappings.enabled) {
             enabling(cp, mappings)
-            "${cp}${mappings.path}"(controller: "actuator", action: "mappings", method: 'GET')
+            "${cp}/${mappings.id}"(controller: "actuator", action: "mappings", method: 'GET')
         } else {
             disabling(cp,  mappings)
         }
@@ -104,7 +104,7 @@ class DefaultActuateUrlMappings {
         // metrics mappings
         if (metrics.enabled) {
             enabling(cp, metrics)
-            "${cp}${metrics.path}"(controller: "actuator", action: "metrics", method: 'GET')
+            "${cp}/${metrics.id}"(controller: "actuator", action: "metrics", method: 'GET')
         } else {
             disabling(cp, metrics)
         }
@@ -112,7 +112,7 @@ class DefaultActuateUrlMappings {
         // shutdown mappings
         if (shutdown.enabled) {
             enabling(cp, shutdown)
-            "${cp}${shutdown.path}"(controller: "shutdown", action: "shutdown", method: 'GET')
+            "${cp}/${shutdown.id}"(controller: "shutdown", action: "shutdown", method: 'GET')
         } else {
             disabling(cp, shutdown)
         }
@@ -120,7 +120,7 @@ class DefaultActuateUrlMappings {
         // trace mappings
         if (trace.enabled) {
             enabling(cp, trace)
-            "${cp}${trace.path}"(controller: "trace", action: "trace", method: 'GET')
+            "${cp}/${trace.id}"(controller: "trace", action: "trace", method: 'GET')
         } else {
             disabling(cp, trace)
         }
@@ -128,10 +128,10 @@ class DefaultActuateUrlMappings {
     }
 
     static enabling(cp, conf) {
-        println "Enabling  Actuate endpoint $cp${conf.path} \t\t[sensitive : ${conf.sensitive}]"
+        println "Enabling  Actuate endpoint $cp/${conf.id} \t\t[sensitive : ${conf.sensitive}]"
     }
 
     static disabling(cp, conf) {
-        println "Disabling Actuate endpoint $cp${conf.path} \t\t[sensitive : ${conf.sensitive}]"
+        println "Disabling Actuate endpoint $cp/${conf.id} \t\t[sensitive : ${conf.sensitive}]"
     }
 }

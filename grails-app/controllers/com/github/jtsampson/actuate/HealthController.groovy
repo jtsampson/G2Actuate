@@ -24,9 +24,10 @@ package com.github.jtsampson.actuate
 class HealthController {
 
     static responseFormats = ['json', 'xml']
-
+    static allowedMethods = [health   : 'GET']
     def healthService
     def actuateSecurity
+
 
     def health() {
 
