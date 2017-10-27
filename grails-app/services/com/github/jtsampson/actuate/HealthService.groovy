@@ -21,17 +21,10 @@ import grails.transaction.Transactional
 import grails.util.Holders
 import org.springframework.beans.factory.BeanFactoryUtils
 
-//                {
-//                    "status": "UP",
-//                       "diskSpace": {
-//                          "status": "UP",
-//                          "free": 97169154048,
-//                          "threshold": 10485760
-//                      }
-//                   }
-//               }
 /**
+ * A Service to expose the service's health.
  *
+ * @author jsampson
  */
 @Transactional
 class HealthService {

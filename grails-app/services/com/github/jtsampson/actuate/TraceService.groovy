@@ -19,10 +19,15 @@ package com.github.jtsampson.actuate
 
 import static java.util.Collections.synchronizedMap
 
+/**
+ * A service providing operations on the trace store.
+ *
+ * @author jsampson
+ */
 class TraceService {
 
-    def capacity
-    def reverse
+    int  capacity
+    boolean reverse = false
     def transactional = false
 
     static Map<Long, Object> traces = synchronizedMap(new LinkedHashMap<Long, Object>() {
@@ -34,20 +39,32 @@ class TraceService {
         }
     })
 
+    /**
+     * Returns trace history from newest to oldest, or the reverse if  the 'reverse' property is true
+     */
     def collectTraces() {
         traces.collect { it.value }.reverse()
     }
 
+    /**
+     * Saves a trace by id.
+     * @return
+     */
     def static synchronized save(Long id, Map value) {
         traces.put(id, value)
     }
 
-
+    /**
+     * Find a trace by id.
+     * @return the trace or null if it does not exist.
+     */
     def find(Long id) {
         traces.get(id)
     }
 
-    // for testing ?
+    /**
+     * Clears the trace history.
+     */
     def clear() {
         traces.clear()
     }

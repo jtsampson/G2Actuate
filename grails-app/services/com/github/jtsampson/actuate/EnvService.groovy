@@ -20,20 +20,37 @@ package com.github.jtsampson.actuate
 import grails.transaction.Transactional
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
+/**
+ * A service to expose the environment properties.
+ * Currently:
+ * <li> servlet properties
+ * <li> jvm properties
+ * <li> os properties
+ *
+ * @author jsampson
+ */
 @Transactional
 class EnvService {
 
     def grailsApplication
 
+    /**
+     * Returns a collection of environment property maps.
+     * @return a collection of environment property maps.
+     */
     def collectEnvironment() {
         TreeMap env = [:]
         env << servlet()
-        env << jvmProperties()
-        env << osProperties()
+        env << systemProperties()
+        env << systemEnvironment()
         //  env << applicationConfig() // TODO Figure out if we need application config.
         //env << refresh()
     }
 
+    /**
+     * Returns the 'servlet' map (the init parameters from the servlet context)
+     * @return the 'servlet' map
+     */
     def servlet() {
         TreeMap params = [:]
         def context = ServletContextHolder.getServletContext()
@@ -43,7 +60,11 @@ class EnvService {
         ['servlet': params]
     }
 
-    def jvmProperties() {
+    /**
+     * Returns the 'systemProperties' map (Java System properties).
+     * @return the 'systemProperties' map
+     */
+    def systemProperties() {
         TreeMap properties = [:]
         System.properties.each { k, v ->
             properties[k] = v
@@ -51,7 +72,11 @@ class EnvService {
         ['systemProperties': properties]
     }
 
-    def osProperties() {
+    /**
+     * Returns the 'systemEnvironment' map (Java System environment properties).
+     * @return the 'systemEnvironment' map
+     */
+    def systemEnvironment() {
         TreeMap properties = [:]
         System.env.each { k, v ->
             properties[k] = v
@@ -59,6 +84,10 @@ class EnvService {
         ['systemEnvironment': properties]
     }
 
+    /**
+     * Returns the 'applicationConfig' map (Flattened map of grails properties).
+     * @return the 'applicationConfig' map
+     */
     def applicationConfig() {
         ['applicationConfig': grailsApplication.config.flatten()]
     }
@@ -67,6 +96,10 @@ class EnvService {
         // TODO access cache information
     }
 
+    /**
+     * Returns the 'applicationConfig' map (Flattened map of grails properties).
+     * @return the 'applicationConfig' map
+     */
     def classPathResources() {
         printClassPath(this.class.classLoader)
     }

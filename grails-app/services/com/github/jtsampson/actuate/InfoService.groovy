@@ -25,11 +25,13 @@ import groovy.json.JsonSlurper
 import javax.annotation.PostConstruct
 
 /**
- * A service to expose informational data
+ * A service to expose informational data.
  * currently:
  *  - application
  *  - grails (plugins)
  *  - scm (build info)
+ *
+ * @author jsampson
  */
 class InfoService {
 

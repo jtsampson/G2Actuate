@@ -23,13 +23,20 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 
+/**
+ * A service to allow programmatic shut down.
+ */
 @Transactional
 class ShutdownService {
-    //def translactional = false
+
     def shutterDowner
     def scheduler;
 
-
+    /**
+     * A service to execute the configured shutterDowner after a 5 second delay.
+     *
+     * @author jsampson
+     */
     def shutdown() {
 
         ScheduledExecutorService localExecutor = Executors.newSingleThreadScheduledExecutor();

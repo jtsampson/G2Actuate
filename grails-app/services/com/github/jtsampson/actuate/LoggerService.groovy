@@ -21,6 +21,10 @@ import org.apache.log4j.Level
 import org.apache.log4j.LogManager
 import org.apache.log4j.Logger
 
+/**
+ * A service to expose and mutate the application's logger levels.
+ * @author jsampson
+ */
 class LoggerService {
 
     // TODO accounts for minimal set of logging levels, but custom levels are a possiblitiy.

@@ -23,6 +23,11 @@ import org.codehaus.groovy.grails.web.mapping.ResponseCodeMappingData
 import org.codehaus.groovy.grails.web.mapping.ResponseCodeUrlMapping
 import org.codehaus.groovy.grails.web.mapping.UrlMapping
 
+/**
+ * A service to expose the application's URL mappings.
+ *
+ * @author jsampson
+ */
 class MappingService {
 
     def grailsApplication
