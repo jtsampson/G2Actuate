@@ -1,17 +1,17 @@
 <p align="center">
-  <a href="https://github.com/jtsampson/g2actuate">
-    <img src="G2ActuateSmall.png" width=144 height=144>
-  </a>
-  <h3 style="color:#990000" align="center">G2Actuate</h3>
-  <p align="center">
-    Providing production ready capabilities to Grails 2 Projects.
-  </p>
-</p>
+      <a href="https://github.com/jtsampson/g2actuate">
+        <img src="G2ActuateSmall.png" width=144 height=144>
+      </a>
+      <h1 style="color:#990000" align="center">G2Actuate</h1>
+      <p align="center">
+        Providing production ready capabilities to Grails 2 Projects.
+      </p>
+    </p>    
 
 ### Contents
  - [Grails Version](#GrailsVersion)
- - [Build](#Build)
- - [Install](#Install)
+ - [Run](#Run)
+ - [Use](#Use)
  - [Credit](#Credit)
  - [Features](#Features)
  - [Available Endpoints](#AvailableEndpoints)
@@ -25,26 +25,35 @@
 
 Built and tested with Grails 2.4.4 applications. May Port to 2.5.6 when I feel it is sufficiently complete.
 
-## <a name="Build">Build</a>
+## <a name="Run">Run</a>
 
  1. Clone the repository
- 1. Build and install the plugin using the grails wrapper
+ 1. Run the plugin using the grails wrapper
  
  Windows:
  ```
-grailsw.bat MavenInstall
+grailsw.bat run-app
 ```
 Unix: 
  ```
-./grailsw MavenInstall
+./grailsw run-app
 ```
 
-## <a name="Install">Install</a>
+## <a name="Use">Use</a>
+The plugin is currently hosted on BinTray.
+ 
 Update BuildConfig.groovy:
 ```groovy
 
-dependencies {
-    compile 'org.grails.plugins:G2Actuate:1.0.0'
+repositories {
+    inherits true 
+    // ...
+    mavenRepo  "https://bintray.com/jtsampson/grails-plugins"
+}
+
+
+plugins {
+    compile 'org.grails.plugins:g2-actuate:1.0.1'
 }
 
 ```

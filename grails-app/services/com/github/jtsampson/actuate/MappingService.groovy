@@ -41,7 +41,6 @@ class MappingService {
             String path = urlMapping.urlData.urlPattern
 
             def controllerName = urlMapping.controllerName
-            println controllerName
 
             // TODO ignoring controllers w/o names for now.
             if (controllerName) {

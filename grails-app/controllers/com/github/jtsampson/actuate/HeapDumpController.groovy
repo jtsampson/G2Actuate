@@ -53,7 +53,6 @@ class HeapDumpController {
         // manually save it adding the .gz extention. Downloading from a browser works though.
         // See https://github.com/postmanlabs/postman-app-support/issues/2082
         response.addHeader('Content-Type', "application/octet-stream")
-        println response.class
         response.addHeader("Content-Disposition",
                 "attachment; filename=\"" + (heapDumpFile.name + ".gz") + "\"")
         def is = new FileInputStream(heapDumpFile)

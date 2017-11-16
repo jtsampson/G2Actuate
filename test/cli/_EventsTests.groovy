@@ -17,7 +17,7 @@ class _EventsTests extends AbstractCliTestCase {
         verifyHeader()
 
         Properties props = new Properties()
-        props.load(new ZipFile('target/G2Actuate-1.0.0.war').getInputStream(new ZipEntry('WEB-INF/classes/application.properties')))
+        props.load(new ZipFile('target/G2Actuate-1.0.1.war').getInputStream(new ZipEntry('WEB-INF/classes/application.properties')))
 
         assert props['app.grails.version']
         assert props['app.name']

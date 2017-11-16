@@ -177,18 +177,18 @@ class MetricService {
         contrib
     }
 
-    @MetricContrib(key = 'book.controller')
-    def bob() {
-        println this.dump()
-       // return [dump: this.dump(), name: 'bob']
-        return [name: 'bob']
-
-    }
-
-    @MetricContrib(key = 'book.controller')
-    def jane() {
-        return [type: 'jane']
-    }
+//    @MetricContrib(key = 'book.controller')
+//    def bob() {
+//        println this.dump()
+//       // return [dump: this.dump(), name: 'bob']
+//        return [name: 'bob']
+//
+//    }
+//
+//    @MetricContrib(key = 'book.controller')
+//    def jane() {
+//        return [type: 'jane']
+//    }
 
     // here's the closure that can ignore things
     def ignoring = { Class<? extends Throwable> catchMe, Closure callMe ->
