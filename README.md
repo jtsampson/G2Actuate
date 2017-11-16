@@ -4,7 +4,7 @@
   </a>
   <h3 style="color:#990000" align="center">G2Actuate</h3>
   <p align="center">
-    Providing the production ready capabilities of the Spring Boot Actuator to Grails 2 Projects.
+    Providing production ready capabilities to Grails 2 Projects.
   </p>
 </p>
 
@@ -12,9 +12,14 @@
  - [Grails Version](#GrailsVersion)
  - [Build](#Build)
  - [Install](#Install)
+ - [Credit](#Credit)
  - [Features](#Features)
  - [Available Endpoints](#AvailableEndpoints)
- - [Customizing endpoints](#Customization)
+ - [Customizing Existing Endpoints](#Customization)
+ - [Adding Custom Endpoints](#CustomEndpoints)
+ - [Contributing to Endpoints](#Contributing)
+ - [Health information](#HealthInformation)
+ - [Security with HealthIndicators](#SecurityWithHealthIndicators)
 
 ## <a name="GrailsVersion">Grails Version</a>
 
@@ -39,21 +44,23 @@ Update BuildConfig.groovy:
 ```groovy
 
 dependencies {
-    compile 'org.grails.plugins:g2actuate:0.2-SNAPSHOT'
+    compile 'org.grails.plugins:G2Actuate:1.0.0'
 }
 
 ```
 
+## <a name="Credit">Credit</a>
+
+Since this plugin is designed to mimic Spring Boot Actuator functionality (but for Grails 2),  the documentation is
+patterned after chapter 47 of the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html) 
+and should seem familiar to developers who are aquainted with the Spring Boot Actuator.
 
 ## <a name="Features">Features</a>
 
  * **Endpoints** G2Actuate endpoints allow you to monitor and interact with your application. G2Actuate includes a number 
 of built-in endpoints. For example, the metrics endpoint provides basic application metrics information. Start up your 
 application and look at `/metrics` (and see `/mappings` for a list of other HTTP endpoints).
- * **Metrics** (Partially complete)
- * **Audit** TODO...maybe
- * **Process Monitoring** TODO...maybe
- 
+
 ## <a name="AvailableEndpoints">Available Endpoints</a>
  ID            | Description                                                                       | Sensitive Default | Enabled |
  ------------- | --------------------------------------------------------------------------------- | ----------------- | ------- |
@@ -76,7 +83,7 @@ hint. For example, sensitive endpoints will require a username/password when the
  
 ## <a name="Customizing Endpoints">Customization</a>
 
-Endpoints can be customized using ''Config.groovy''', or by using a stand alone configuration file named 
+Endpoints can be customized using ``Config.groovy``, or by using a stand alone configuration file named 
 ``ActuateConfig.groovy``. You can change if an endpoint is ``enabled``, if it is considered ``sensitive`` 
 and even its ``id``.
 
@@ -118,5 +125,74 @@ g2actuate.endpoints.enabled=false
 g2actuate.endpoints.info.enabled=true
 ```
 
-Likewise, you can also choose to globally set the “sensitive” flag of all endpoints. By default, the sensitive flag 
+Likewise, you can also choose to globally set the ``sensitive`` flag of all endpoints. By default, the sensitive flag 
 depends on the type of endpoint (see the table above). For example, to mark all endpoints as sensitive except info:
+
+```groovy
+g2actuate.endpoints.sensitive=true
+g2actuate.endpoints.info.sensitive=false
+```
+
+## <a name="CustomEndpoints">Adding Custom Endpoints</a>
+
+TODO
+
+## <a name="Contributing">Contributing to Endpoints</a>
+
+Additional data can be exposed to the Metrics and Info Endpoints by annotating Grails artefacts with the 
+``MetricContrib`` or ``InfoContrib`` annotations.  For example, to expose 
+simple 'gauge' and 'counter' 
+
+```
+class BookController {
+
+    final Meter requests = metrics.meter("requests");
+    
+    def list() {
+        requests.mark()
+        // etc
+    }
+    
+    @InfoContrib(key='book.controller')
+    def contribute(){
+            return [ author : 'bob']
+    }
+    
+    @MetricContrib(key='book.controller')
+    def contribute(){
+        return [ 'hits'      : requests.count,
+                 'rate.mean' : requests.meanRate,
+                 'rate.one'  : requests.oneMinuteRate]
+    }
+}
+```
+> ![Tip](G2ActuateTiny.png ) Note: Annnotated methods must return a Map. Annnotated methods be contained in Grails artefacts.
+ 
+## <a name="HealthInformation">Health information</a>
+
+Health information can be used to check the status of your running application. It is often used by monitoring software 
+to alert someone if a production system goes down. The default information exposed by the ``health`` endpoint depends on
+how  it is accessed. For an unauthenticated connection in a secure application a simple ‘status’ message is returned, and 
+for an authenticated connection additional details are also displayed.
+
+Health information is collected from all ``HealthIndicator`` beans defined in your ``ApplicationContext``. 
+G2Actuate includes a ``DataSourceHealthIndicator`` and you can also write your own. By default, the final system state 
+is derived by the ``HealthAggregator`` which returns ``Health.Status.UP`` if all ``HealthStatus`` are up. Otherwise it 
+returns ``Health.Status.DOWN``. 
+
+> ![Tip](G2ActuateTiny.png ) Note:  The ``HealthAggregator``  in Spring Boot derives the  final system state in a 
+different manner by first sorting the statuses from each ``HealthIndicator`` based on an ordered list of statuses. 
+The first status in the sorted list is used as the overall health status. If no ``HealthIndicator`` returns a status 
+that is known to the ``HealthAggregator``, an ``UNKNOWN`` status is used.
+
+## <a name="SecurityWithHealthIndicators">Security with HealthIndicators</a>
+
+Information returned by HealthIndicators is often somewhat sensitive in nature. For example, you probably don’t want to 
+publish details of your database server to the world. For this reason, by default, only the health status is exposed 
+over an unauthenticated HTTP connection. If you are happy for complete health information to always be exposed you can 
+set ``endpoints.health.sensitive`` to false.
+
+WIP:
+
+Health responses are also cached to prevent “denial of service” attacks. Use the ``endpoints.health.time-to-live`` property 
+if you want to change the default cache period of 1000 milliseconds.

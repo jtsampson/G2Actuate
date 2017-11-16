@@ -17,6 +17,7 @@
 
 package com.github.jtsampson.actuate
 
+import com.github.jtsampson.actuate.annotations.InfoContrib
 import grails.util.Environment
 import grails.util.Holders
 import grails.util.Metadata
@@ -90,8 +91,47 @@ class InfoService {
         ['grails': grails]
     }
 
+    /**
+     * Returns a merged map of contributors, else an empty map.
+     * @return the contributor's metric map
+     */
+    // TODO: consider moving, duplicates code in InfoService
+    private def contributors() {
+        // TODO: consider refactoring to ContribService
+        final def contrib = [:]
+
+        // TODO, consider finding/storing  methods at start up then iterating them at runtime.
+        grailsApplication.getAllArtefacts().each { artefact ->
+
+            def methods = artefact.methods.findAll {
+                it.annotations.find {
+                    it.annotationType() == InfoContrib.class
+                }
+            }
+
+            methods.each { method ->
+                InfoContrib annotation = method.annotations.find() {
+                    it.annotationType() == InfoContrib.class
+                } as InfoContrib
+                grailsApplication.mainContext.getBeansOfType(artefact).each { final name, final instance ->
+
+                    final def map = method.invoke(instance)
+
+                    if (map in Map) {
+                        contrib = merge(contrib, ["${annotation.key()}": map])
+                    } else {
+                        // todo alert user.
+                    }
+                }
+            }
+
+        }
+
+        contrib
+    }
+
     private def scm() {
-        //TODO read from file scm provider places this is application.properties, but should have probably been added to config.properties or injected
+        //TODO read from file scm provider places this in application.properties, but should have probably been added to config.properties or injected
         Properties properties = new Properties()
         File propertiesFile = new File('application.properties')
         propertiesFile.withInputStream {
@@ -102,6 +142,27 @@ class InfoService {
         def scm = new JsonSlurper().parseText(properties?.scm ?: "{\"message\":\"Nothing found: did you implement g2actuate.scmInfo in buildConfig.groovy?\"}")
 
         ['scm': scm]
+    }
+
+    //.. straight from https://stackoverflow.com/questions/27475111/merge-maps-with-recursive-nested-maps-in-groovy
+    // TODO: consider moving, duplicates code in MetricService
+    static Map merge(Map... maps) {
+        Map result
+
+        if (maps.length == 0) {
+            result = [:]
+        } else if (maps.length == 1) {
+            result = maps[0]
+        } else {
+            result = [:]
+            maps.each { map ->
+                map.each { k, v ->
+                    result[k] = result[k] instanceof Map ? merge(result[k], v) : v
+                }
+            }
+        }
+
+        result
     }
 
 }

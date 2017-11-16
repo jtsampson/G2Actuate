@@ -16,6 +16,12 @@
  */
 
 grails.project.class.dir = "target/classes"
+
+// To deploy to bintray.....
+// grails maven-deploy  -Drepository=bintray-jtsampson-grails-plugins  --dryRun --noScm --verbose --allowOverwrite
+grails.project.repos.default = "bintray-jtsampson-grails-plugins"
+grails.project.repos."bintray-jtsampson-grails-plugins".url = "https://api.bintray.com/maven/jtsampson/grails-plugins/G2ActuatePlugin/;publish=1"
+
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
@@ -58,6 +64,7 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
         compile 'org.apache.derby:derby:10.12.1.1'
+        compile 'com.google.guava:guava:18.0'
 
         test "org.gebish:geb-junit3:${gebVersion}"
         test "org.gebish:geb-junit4:${gebVersion}"
@@ -79,7 +86,7 @@ grails.project.dependency.resolution = {
         build(":tomcat:7.0.55") {
             export = false
         }
-        build(":release:3.1.0",
+        build(":release:3.1.2",
                 ":rest-client-builder:2.1.0") {
             export = false
         }

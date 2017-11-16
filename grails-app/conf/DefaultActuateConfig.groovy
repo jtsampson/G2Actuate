@@ -46,6 +46,7 @@ g2actuate{
             path = "/health"
             enabled = true
             sensitive = true
+            ttl = true
             // mappingsClass = Grails2ActuateUrlMappings.HeapdumpUrlMappings.class
         }
 
