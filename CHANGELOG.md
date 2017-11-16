@@ -6,10 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added 
+ - Added documentation on Writing custom HealthIndicators
 ### Changed
+ - The /health endpoint now reports custom health indicators using thier bean names less the 'HealthIndicator' suffix (if it exists)
 ### Deprecated 
 ### Removed
 ### Fixed
+ - ISSUE-1 HealthIndicator names in /health
 ### Security
 
 ## [1.0.1] - 2017-11-16 (Initial release)

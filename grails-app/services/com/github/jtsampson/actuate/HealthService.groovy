@@ -29,7 +29,9 @@ import org.springframework.beans.factory.BeanFactoryUtils
 @Transactional
 class HealthService {
 
+    static transactional = false
     def healthAggregator
+
 
     def collectHealth() {
 
@@ -40,7 +42,7 @@ class HealthService {
         healths.each{ k, v ->
             // perform the health check/get the results
             def h = v.health()
-            h.name = k // todo temporary fix for name, must be unique (example: two data sources, use bean name?)
+            h.name = k - "HealthIndicator"
             checkResults.add(h)
         }
 

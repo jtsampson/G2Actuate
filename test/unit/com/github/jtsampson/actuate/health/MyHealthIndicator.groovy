@@ -14,18 +14,24 @@
  *  limitations under the License.
  *
  */
+package com.github.jtsampson.actuate.health
 
-package com.github.jtsampson.actuate.security
+class MyHealthIndicator implements HealthIndicator {
 
-/**
- * Simple security for the actuator that delegates to HTTPServletRequest.isUserInRole
- * @author jsampson
- * @since 7/24/2017.
- */
-class ActuateSecurity {
+    @Override
+    Health health() {
+        Health health = new Health([name: 'myIndicator'])
+        int errorCode = check() // perform some specific health check
+        if (errorCode != 0) {
+            health.status = Health.Status.UP
+        } else {
+            health.status = Health.Status.DOWN
+        }
 
-    boolean isUserAuthorized(request){
-        true
-        request.isUserInRole('ACTUATOR')
+        health
+    }
+
+    int check() {
+        return 123
     }
 }
