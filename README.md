@@ -202,7 +202,10 @@ The following ``HealthIndicators`` are auto-configured by the G2Actuate plugin w
 
  Name                               | Description                                                         |
  ---------------------------------- | ------------------------------------------------------------------- |
-| ``DataSeourceHealthIndicator``    | Checks that a connection to ``DataSource`` can be obtained.         | 
+| ``DataSeourceHealthIndicator``    | Checks that a connection to ``DataSource`` can be obtained.         |
+
+ > ![Tip](G2ActuateTiny.png ) It is possible to disable them all using the ``management.health.defaults.enabled`` property.
+ In which case ``/health`` endpoint will return: ``{ "status": "UP", "application": { "status": "UP" } }``
 
 ### <a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>
 To provide custom health information you can register Spring beans that implement the ``HealthIndicator`` interface. 

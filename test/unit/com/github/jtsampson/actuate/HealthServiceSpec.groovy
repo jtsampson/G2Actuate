@@ -43,4 +43,19 @@ class HealthServiceSpec extends Specification {
         result.containsKey('bob')
         !result.containsKey('myHealthIndicator')
     }
+
+
+
+    void "ISSUE-2 defaultsEnabled = false"() {
+        given:
+
+        when:
+        service.defaultsEnabled = false
+        def result = service.collectHealth()
+
+        then:
+        result.containsKey('application')
+        !result.containsKey('bob')
+        !result.containsKey('myHealthIndicator')
+    }
 }
