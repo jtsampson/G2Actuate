@@ -5,13 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added 
+### Changed
+### Deprecated 
+### Removed
+### Fixed
+### Security
 
 ## [1.0.1] - 2017-11-16 (Initial release)
 ### Added
 - CHANGELOG.md
 - Caching for /health using health.timeToLive
 
-[Unreleased]: 
+
+## [Release Candidate]: 2017-11-15
 ### Added
 - Added initial Santizer implementation (not used yet)
 - Added configuration to publishing plugin to BinTray
