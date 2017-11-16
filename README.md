@@ -201,7 +201,5 @@ publish details of your database server to the world. For this reason, by defaul
 over an unauthenticated HTTP connection. If you are happy for complete health information to always be exposed you can 
 set ``endpoints.health.sensitive`` to false.
 
-WIP:
-
-Health responses are also cached to prevent “denial of service” attacks. Use the ``endpoints.health.time-to-live`` property 
+Health responses are also cached to prevent “denial of service” attacks. Use the ``endpoints.health.timeToLive`` property 
 if you want to change the default cache period of 1000 milliseconds.
