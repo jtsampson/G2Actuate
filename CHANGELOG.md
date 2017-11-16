@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Deprecated 
 ### Removed
 ### Fixed
- - ISSUE-1 HealthIndicator names in /health
+ - Fixed ISSUE-1: HealthIndicator names in /health
 ### Security
 
 ## [1.0.1] - 2017-11-16 (Initial release)
