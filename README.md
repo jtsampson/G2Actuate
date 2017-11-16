@@ -20,6 +20,8 @@
  - [Contributing to Endpoints](#Contributing)
  - [Health information](#HealthInformation)
  - [Security with HealthIndicators](#SecurityWithHealthIndicators)
+   - [Auto-configured HealthIndicators](#Auto-configuredHealthIndicators)
+   - [Writing custom HealthIndicators](#WritingCustomHealthIndicators)
 
 ## <a name="GrailsVersion">Grails Version</a>
 
@@ -149,29 +151,20 @@ TODO
 ## <a name="Contributing">Contributing to Endpoints</a>
 
 Additional data can be exposed to the Metrics and Info Endpoints by annotating Grails artefacts with the 
-``MetricContrib`` or ``InfoContrib`` annotations.  For example, to expose 
-simple 'gauge' and 'counter' 
+``MetricContrib`` or ``InfoContrib`` annotations.  For example, to expose  extra metrics and info from a 
+``Controller``:
 
-```
-class BookController {
-
-    final Meter requests = metrics.meter("requests");
+```groovy
+class MyController {
     
-    def list() {
-        requests.mark()
-        // etc
+    @InfoContrib(key='my.controller')
+    def extraInfo(){
+        [ author : 'bob']
     }
     
-    @InfoContrib(key='book.controller')
-    def contribute(){
-            return [ author : 'bob']
-    }
-    
-    @MetricContrib(key='book.controller')
-    def contribute(){
-        return [ 'hits'      : requests.count,
-                 'rate.mean' : requests.meanRate,
-                 'rate.one'  : requests.oneMinuteRate]
+    @MetricContrib(key='my.controller')
+    def extraMetrics(){
+        [ 'hits' : metric()] // gather some specific metric   
     }
 }
 ```
@@ -203,3 +196,50 @@ set ``endpoints.health.sensitive`` to false.
 
 Health responses are also cached to prevent “denial of service” attacks. Use the ``endpoints.health.timeToLive`` property 
 if you want to change the default cache period of 1000 milliseconds.
+
+### <a name="Auto-configuredHealthIndicators">Auto-configured HealthIndicators</a>
+The following ``HealthIndicators`` are auto-configured by the G2Actuate plugin when appropriate:
+
+ Name                               | Description                                                         |
+ ---------------------------------- | ------------------------------------------------------------------- |
+| ``DataSeourceHealthIndicator``    | Checks that a connection to ``DataSource`` can be obtained.         | 
+
+### <a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>
+To provide custom health information you can register Spring beans that implement the ``HealthIndicator`` interface. 
+You need to provide an implementation of the ``health()`` method and return a Health response. The Health response should 
+include a status and can optionally include additional details to be displayed.
+
+```groovy
+import com.github.jtsampson.actuate.health.Health
+import com.github.jtsampson.actuate.health.HealthIndicator
+
+class MyHealthIndicator implements HealthIndicator {
+
+    @Override
+    Health health() {
+        Health health = new Health([name: 'myIndicator'])
+        int errorCode = check(); // perform some specific health check
+        if (errorCode != 0) {
+            health.status = Health.Status.UP
+        }else{
+            health.status = Health.Status.DOWN
+        }
+
+        health
+    }
+}
+```
+
+Then you can wire this indicator in ``resources.groovy`` using Spring Bean DSL:
+
+```groovy
+import my.company.MyHealthIndicator
+
+beans = {
+    myHealthIndicator(MyHealthIndicator)
+}
+```
+
+> ![Tip](G2ActuateTiny.png )  >> Note:  The identifier for a given ''HealthIndicator''' is the name of the bean without the
+ ''HealthIndicator''' suffix if it exists. In the example above, the health information will be available in an entry 
+ named ''my'''.

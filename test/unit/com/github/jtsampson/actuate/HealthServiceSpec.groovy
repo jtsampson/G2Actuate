@@ -16,21 +16,31 @@
  */
 package com.github.jtsampson.actuate
 
+import com.github.jtsampson.actuate.health.HealthAggregator
+import com.github.jtsampson.actuate.health.MyHealthIndicator
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
-/**
- * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
- */
 @TestFor(HealthService)
 class HealthServiceSpec extends Specification {
 
-    def setup() {
+    static doWithSpring = {
+        healthAggregator(HealthAggregator) // used by the servive
+        myHealthIndicator(MyHealthIndicator)
+        bob(MyHealthIndicator)
     }
 
     def cleanup() {
     }
 
-    void "test something"() {
+    void "ISSUE-1 HealthIndicator names in /health"() {
+
+        when:
+        def result = service.collectHealth()
+
+        then:
+        result.containsKey('my')
+        result.containsKey('bob')
+        !result.containsKey('myHealthIndicator')
     }
 }
