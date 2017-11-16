@@ -151,29 +151,20 @@ TODO
 ## <a name="Contributing">Contributing to Endpoints</a>
 
 Additional data can be exposed to the Metrics and Info Endpoints by annotating Grails artefacts with the 
-``MetricContrib`` or ``InfoContrib`` annotations.  For example, to expose 
-simple 'gauge' and 'counter' 
+``MetricContrib`` or ``InfoContrib`` annotations.  For example, to expose  extra metrics and info from a 
+``Controller``:
 
-```
-class BookController {
-
-    final Meter requests = metrics.meter("requests");
+```groovy
+class MyController {
     
-    def list() {
-        requests.mark()
-        // etc
+    @InfoContrib(key='my.controller')
+    def extraInfo(){
+        [ author : 'bob']
     }
     
-    @InfoContrib(key='book.controller')
-    def contribute(){
-            return [ author : 'bob']
-    }
-    
-    @MetricContrib(key='book.controller')
-    def contribute(){
-        return [ 'hits'      : requests.count,
-                 'rate.mean' : requests.meanRate,
-                 'rate.one'  : requests.oneMinuteRate]
+    @MetricContrib(key='my.controller')
+    def extraMetrics(){
+        [ 'hits' : metric()] // gather some specific metric   
     }
 }
 ```
@@ -215,7 +206,7 @@ The following ``HealthIndicators`` are auto-configured by the G2Actuate plugin w
 
 ### <a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>
 To provide custom health information you can register Spring beans that implement the ``HealthIndicator`` interface. 
-You need to provide an implementation of the health() method and return a Health response. The Health response should 
+You need to provide an implementation of the ``health()`` method and return a Health response. The Health response should 
 include a status and can optionally include additional details to be displayed.
 
 ```groovy
