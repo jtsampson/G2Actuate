@@ -21,8 +21,17 @@ g2actuate{
     autoDesensitize = true
 
     management.'context-path'=""
-    management.security.roles="ACTUATOR"
-    management.security.enabled=true
+    management {
+        security {
+            roles="ACTUATOR"
+            enabled=true
+        }
+        health {
+            defaults {
+                enabled = false
+            }
+        }
+    }
 
     endpoints {
         beans {
@@ -46,7 +55,7 @@ g2actuate{
             path = "/health"
             enabled = true
             sensitive = false
-            ttl = true
+            timeToLive = 1000
             // mappingsClass = Grails2ActuateUrlMappings.HeapdumpUrlMappings.class
         }
 
