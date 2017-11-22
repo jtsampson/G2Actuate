@@ -11,7 +11,9 @@ branches:
 
 before_script:
   - chmod +x grailsw
-  - .grailsw clean
+  - ./grailsw clean
+  - GRAILS_VERSION=`grep '^\s*grailsVersion' ./application.properties | sed -e 's/^app.grails.version=//g' | tr -d "\r"`
+  - echo "GRAILS_VERSION:$GRAILS_VERSION"
   - chmod +x /home/travis/.grails/wrapper/2.4.4/grails-2.4.4/bin/grails
 
 script:  yes | ./grailsw refresh-dependencies && ./grailsw 'test-app unit:'
