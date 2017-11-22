@@ -1,3 +1,4 @@
+
  [ ![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
 
 <p align="center">
@@ -8,26 +9,36 @@
       <p align="center">
         Providing production ready capabilities to Grails 2 Projects.
       </p>
-    </p>    
+</p>
 
-### Contents
- - [Grails Version](#GrailsVersion)
- - [Run](#Run)
- - [Use](#Use)
- - [Credit](#Credit)
- - [Features](#Features)
- - [Available Endpoints](#AvailableEndpoints)
- - [Customizing Existing Endpoints](#Customization)
- - [Adding Custom Endpoints](#CustomEndpoints)
- - [Contributing to Endpoints](#Contributing)
- - [Health information](#HealthInformation)
- - [Security with HealthIndicators](#SecurityWithHealthIndicators)
-   - [Auto-configured HealthIndicators](#Auto-configuredHealthIndicators)
-   - [Writing custom HealthIndicators](#WritingCustomHealthIndicators)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [G2Actuate](#g2actuate)
+  - [<a name="GrailsVersion">Grails Version</a>](#a-namegrailsversiongrails-versiona)
+  - [<a name="Run">Run</a>](#a-namerunruna)
+  - [<a name="Use">Use</a>](#a-nameuseusea)
+  - [<a name="Credit">Credit</a>](#a-namecreditcredita)
+  - [<a name="Endpoints">Endpoints</a>](#a-nameendpointsendpointsa)
+    - [<a name="Customizing Endpoints">Customization</a>](#a-namecustomizing-endpointscustomizationa)
+    - [<a name="Hypermedia for actuator endpoints">Hypermedia for actuator endpoints</a>](#a-namehypermedia-for-actuator-endpointshypermedia-for-actuator-endpointsa)
+    - [<a name="CORS support">CORS support</a>](#a-namecors-supportcors-supporta)
+    - [<a name="CustomEndpoints">Adding Custom Endpoints</a>](#a-namecustomendpointsadding-custom-endpointsa)
+    - [<a name="Contributing">Contributing to Endpoints</a>](#a-namecontributingcontributing-to-endpointsa)
+    - [<a name="HealthInformation">Health information</a>](#a-namehealthinformationhealth-informationa)
+    - [<a name="SecurityWithHealthIndicators">Security with HealthIndicators</a>](#a-namesecuritywithhealthindicatorssecurity-with-healthindicatorsa)
+      - [<a name="Pre-configuredHealthIndicators">Pre-configured HealthIndicators</a>](#a-namepre-configuredhealthindicatorspre-configured-healthindicatorsa)
+      - [<a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>](#a-namewritingcustomhealthindicatorswriting-custom-healthindicatorsa)
+    - [<a name="ApplicationInformation">ApplicationInformation</a>](#a-nameapplicationinformationapplicationinformationa)
+      - [<a name="Pre-configuredInfoContributors">Pre-configured InfoContributors</a>](#a-namepre-configuredinfocontributorspre-configured-infocontributorsa)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ## <a name="GrailsVersion">Grails Version</a>
 
-Built and tested with Grails 2.4.4 applications. May Port to 2.5.6 when I feel it is sufficiently complete.
+Built and tested with Grails 2.4.4+ applications.
 
 ## <a name="Run">Run</a>
 
@@ -46,7 +57,7 @@ Unix:
 ## <a name="Use">Use</a>
 The plugin is currently hosted on BinTray.
  
-Update BuildConfig.groovy:
+Update your project's ``BuildConfig.groovy``:
 ```groovy
 
 repositories {
@@ -68,13 +79,18 @@ Since this plugin is designed to mimic Spring Boot Actuator functionality (but f
 patterned after chapter 47 of the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html) 
 and should seem familiar to developers who are aquainted with the Spring Boot Actuator.
 
-## <a name="Features">Features</a>
+## <a name="Endpoints">Endpoints</a>
 
- * **Endpoints** G2Actuate endpoints allow you to monitor and interact with your application. G2Actuate includes a number 
-of built-in endpoints. For example, the metrics endpoint provides basic application metrics information. Start up your 
-application and look at `/metrics` (and see `/mappings` for a list of other HTTP endpoints).
+G2Actuate endpoints allow you to monitor and interact with your application.
+G2Actuate includes a numberof built-in endpoints. For example, the ``health``
+endpoint provides basic application health information information.
 
-## <a name="AvailableEndpoints">Available Endpoints</a>
+The endpoints are mainly exposed with HTTP where the ID of the endpoint
+is mapped to a URL. For example, by default, the ``health`` endpoint
+will be mappedto ``/health``.
+
+The following technology are available:
+
  ID            | Description                                                                       | Sensitive Default | Enabled |
  ------------- | --------------------------------------------------------------------------------- | ----------------- | ------- |
 | ``beans``    | Displays a complete list of all the Spring beans in your application.             | true              | true    |
@@ -94,7 +110,7 @@ hint. For example, sensitive endpoints will require a username/password when the
  (or simply disabled if Spring Security is not enabled).
 
  
-## <a name="Customizing Endpoints">Customization</a>
+### <a name="Customizing Endpoints">Customization</a>
 
 Endpoints can be customized using ``Config.groovy``, or by using a stand alone configuration file named 
 ``ActuateConfig.groovy``. You can change if an endpoint is ``enabled``, if it is considered ``sensitive`` 
@@ -146,11 +162,20 @@ g2actuate.endpoints.sensitive=true
 g2actuate.endpoints.info.sensitive=false
 ```
 
-## <a name="CustomEndpoints">Adding Custom Endpoints</a>
 
-TODO
+### <a name="Hypermedia for actuator endpoints">Hypermedia for actuator endpoints</a>
 
-## <a name="Contributing">Contributing to Endpoints</a>
+Would you find this useful? Please add an enhancement request or contribute.
+
+### <a name="CORS support">CORS support</a>
+
+Would you find this useful? Please add an enhancement request or contribute.
+
+### <a name="CustomEndpoints">Adding Custom Endpoints</a>
+
+Would you find this useful? Please add an enhancement request or contribute.
+
+### <a name="Contributing">Contributing to Endpoints</a>
 
 Additional data can be exposed to the Metrics and Info Endpoints by annotating Grails artefacts with the 
 ``MetricContrib`` or ``InfoContrib`` annotations.  For example, to expose  extra metrics and info from a 
@@ -172,7 +197,7 @@ class MyController {
 ```
 > ![Tip](G2ActuateTiny.png ) Note: Annnotated methods must return a Map. Annnotated methods be contained in Grails artefacts.
  
-## <a name="HealthInformation">Health information</a>
+### <a name="HealthInformation">Health information</a>
 
 Health information can be used to check the status of your running application. It is often used by monitoring software 
 to alert someone if a production system goes down. The default information exposed by the ``health`` endpoint depends on
@@ -189,7 +214,7 @@ different manner by first sorting the statuses from each ``HealthIndicator`` bas
 The first status in the sorted list is used as the overall health status. If no ``HealthIndicator`` returns a status 
 that is known to the ``HealthAggregator``, an ``UNKNOWN`` status is used.
 
-## <a name="SecurityWithHealthIndicators">Security with HealthIndicators</a>
+### <a name="SecurityWithHealthIndicators">Security with HealthIndicators</a>
 
 Information returned by HealthIndicators is often somewhat sensitive in nature. For example, you probably don’t want to 
 publish details of your database server to the world. For this reason, by default, only the health status is exposed 
@@ -199,7 +224,7 @@ set ``endpoints.health.sensitive`` to false.
 Health responses are also cached to prevent “denial of service” attacks. Use the ``endpoints.health.timeToLive`` property 
 if you want to change the default cache period of 1000 milliseconds.
 
-### <a name="Auto-configuredHealthIndicators">Auto-configured HealthIndicators</a>
+#### <a name="Pre-configuredHealthIndicators">Pre-configured HealthIndicators</a>
 The following ``HealthIndicators`` are auto-configured by the G2Actuate plugin when appropriate:
 
  Name                               | Description                                                         |
@@ -208,7 +233,7 @@ The following ``HealthIndicators`` are auto-configured by the G2Actuate plugin w
 
  > ![Tip](G2ActuateTiny.png ) It is possible to disable them all using the ``management.health.defaults.enabled`` property.
 
-### <a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>
+#### <a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>
 To provide custom health information you can register Spring beans that implement the ``HealthIndicator`` interface. 
 You need to provide an implementation of the ``health()`` method and return a Health response. The Health response should 
 include a status and can optionally include additional details to be displayed.
@@ -247,3 +272,12 @@ beans = {
 > ![Tip](G2ActuateTiny.png ) The identifier for a given ''HealthIndicator''' is the name of the bean without the
  ''HealthIndicator''' suffix if it exists. In the example above, the health information will be available in an entry 
  named ''my'''.
+
+ ### <a name="ApplicationInformation">ApplicationInformation</a>
+ Application information exposes various information collected from all ``InfoContributor`` beans defined in your
+ ApplicationContext. G2Actuate includes a number of auto-configured ``InfoContributors`` and you can also write your own.
+
+ #### <a name="Pre-configuredInfoContributors">Pre-configured InfoContributors</a>
+ | Name                               | Description                                     |
+  ---------------------------------- | ------------------------------------------------ |
+ | ``TDB``    | Add an enhancement request if you would like this functionality         |
