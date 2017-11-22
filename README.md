@@ -1,5 +1,4 @@
-
- [ ![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
+[ ![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
 
 <p align="center">
       <a href="https://github.com/jtsampson/g2actuate">
