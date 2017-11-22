@@ -10,35 +10,38 @@
       </p>
 </p>
 
+#  <a name="ONE">ONE</a>
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [<a name="GrailsVersion">Grails Version</a>](#a-namegrailsversiongrails-versiona)
-- [<a name="Run">Run</a>](#a-namerunruna)
-- [<a name="Use">Use</a>](#a-nameuseusea)
-- [<a name="Credit">Credit</a>](#a-namecreditcredita)
-- [<a name="Endpoints">Endpoints</a>](#a-nameendpointsendpointsa)
-  - [<a name="Customizing Endpoints">Customization</a>](#a-namecustomizing-endpointscustomizationa)
-  - [<a name="Hypermedia for actuator endpoints">Hypermedia for actuator endpoints</a>](#a-namehypermedia-for-actuator-endpointshypermedia-for-actuator-endpointsa)
-  - [<a name="CORS support">CORS support</a>](#a-namecors-supportcors-supporta)
-  - [<a name="CustomEndpoints">Adding Custom Endpoints</a>](#a-namecustomendpointsadding-custom-endpointsa)
-  - [<a name="Contributing">Contributing to Endpoints</a>](#a-namecontributingcontributing-to-endpointsa)
-  - [<a name="HealthInformation">Health information</a>](#a-namehealthinformationhealth-informationa)
-  - [<a name="SecurityWithHealthIndicators">Security with HealthIndicators</a>](#a-namesecuritywithhealthindicatorssecurity-with-healthindicatorsa)
-    - [<a name="Pre-configuredHealthIndicators">Pre-configured HealthIndicators</a>](#a-namepre-configuredhealthindicatorspre-configured-healthindicatorsa)
-    - [<a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>](#a-namewritingcustomhealthindicatorswriting-custom-healthindicatorsa)
-  - [<a name="Application Information">Application Information</a>](#a-nameapplication-informationapplication-informationa)
-    - [<a name="Pre-configuredInfoContributors">Pre-configured InfoContributors</a>](#a-namepre-configuredinfocontributorspre-configured-infocontributorsa)
+- [<a name="TWO">TWO</a>](#a-nametwotwoa)
+  - [<a name="GrailsVersion">Grails Version</a>](#a-namegrailsversiongrails-versiona)
+  - [<a name="Run">Run</a>](#a-namerunruna)
+  - [<a name="Use">Use</a>](#a-nameuseusea)
+  - [<a name="Credit">Credit</a>](#a-namecreditcredita)
+  - [<a name="Endpoints">Endpoints</a>](#a-nameendpointsendpointsa)
+    - [<a name="Customizing Endpoints">Customization</a>](#a-namecustomizing-endpointscustomizationa)
+    - [<a name="Hypermedia for actuator endpoints">Hypermedia for actuator endpoints</a>](#a-namehypermedia-for-actuator-endpointshypermedia-for-actuator-endpointsa)
+    - [<a name="CORS support">CORS support</a>](#a-namecors-supportcors-supporta)
+    - [<a name="CustomEndpoints">Adding Custom Endpoints</a>](#a-namecustomendpointsadding-custom-endpointsa)
+    - [<a name="Contributing">Contributing to Endpoints</a>](#a-namecontributingcontributing-to-endpointsa)
+    - [<a name="HealthInformation">Health information</a>](#a-namehealthinformationhealth-informationa)
+    - [<a name="SecurityWithHealthIndicators">Security with HealthIndicators</a>](#a-namesecuritywithhealthindicatorssecurity-with-healthindicatorsa)
+      - [<a name="Pre-configuredHealthIndicators">Pre-configured HealthIndicators</a>](#a-namepre-configuredhealthindicatorspre-configured-healthindicatorsa)
+      - [<a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>](#a-namewritingcustomhealthindicatorswriting-custom-healthindicatorsa)
+    - [<a name="Application Information">Application Information</a>](#a-nameapplication-informationapplication-informationa)
+      - [<a name="Pre-configuredInfoContributors">Pre-configured InfoContributors</a>](#a-namepre-configuredinfocontributorspre-configured-infocontributorsa)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
+#  <a name="TWO">TWO</a>
 ## <a name="GrailsVersion">Grails Version</a>
 
 Built and tested with Grails 2.4.4 applications.
 
-## <a name="Run">Run</a>
+##  <a name="Run">Run</a>
 
  1. Clone the repository
  1. Run the plugin using the grails wrapper
