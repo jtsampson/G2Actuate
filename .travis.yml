@@ -16,4 +16,4 @@ before_script:
   - echo "GRAILS_VERSION:$GRAILS_VERSION"
   - chmod +x /home/travis/.grails/wrapper/2.4.4/grails-2.4.4/bin/grails
 
-script:  yes | ./grailsw refresh-dependencies && ./grailsw 'test-app unit:'
+script:  yes | ./grailsw refresh-dependencies && ./grailsw 'test-app :cli -echoOut'
