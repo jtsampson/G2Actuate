@@ -10,7 +10,6 @@ branches:
     - travis
 
 before_script:
-   - chmod +x grailsw
-   - chmod +x /home/travis/.grails/wrapper/2.4.4/grails-2.4.4/bin/grails
+  - chmod +x grailsw
 
 script: ./grailsw clean && yes | ./grailsw refresh-dependencies && ./grailsw test-app unit:
