@@ -1,3 +1,5 @@
+[ ![Download](https://img.shields.io/bintray/v/asciidoctor/maven/asciidoctorj.svg) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/_latestVersion)
+
 <p align="center">
       <a href="https://github.com/jtsampson/g2actuate">
         <img src="G2ActuateSmall.png" width=144 height=144>
