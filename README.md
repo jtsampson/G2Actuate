@@ -1,10 +1,13 @@
 [ ![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
 
 <p align="center">
+      <h1 style="color:#990000" align="center">G2Actuate</h1>
+      <p align="center">
       <a href="https://github.com/jtsampson/g2actuate">
         <img src="G2ActuateSmall.png" width=144 height=144>
       </a>
-       <h1 style="color:#990000" align="center">G2Actuate</h1>
+      </p>
+      <hr>
       <p align="center">
         Providing production ready capabilities to Grails 2 Projects.
       </p>
