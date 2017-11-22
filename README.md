@@ -15,30 +15,29 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [G2Actuate](#g2actuate)
-  - [<a name="GrailsVersion">Grails Version</a>](#a-namegrailsversiongrails-versiona)
-  - [<a name="Run">Run</a>](#a-namerunruna)
-  - [<a name="Use">Use</a>](#a-nameuseusea)
-  - [<a name="Credit">Credit</a>](#a-namecreditcredita)
-  - [<a name="Endpoints">Endpoints</a>](#a-nameendpointsendpointsa)
-    - [<a name="Customizing Endpoints">Customization</a>](#a-namecustomizing-endpointscustomizationa)
-    - [<a name="Hypermedia for actuator endpoints">Hypermedia for actuator endpoints</a>](#a-namehypermedia-for-actuator-endpointshypermedia-for-actuator-endpointsa)
-    - [<a name="CORS support">CORS support</a>](#a-namecors-supportcors-supporta)
-    - [<a name="CustomEndpoints">Adding Custom Endpoints</a>](#a-namecustomendpointsadding-custom-endpointsa)
-    - [<a name="Contributing">Contributing to Endpoints</a>](#a-namecontributingcontributing-to-endpointsa)
-    - [<a name="HealthInformation">Health information</a>](#a-namehealthinformationhealth-informationa)
-    - [<a name="SecurityWithHealthIndicators">Security with HealthIndicators</a>](#a-namesecuritywithhealthindicatorssecurity-with-healthindicatorsa)
-      - [<a name="Pre-configuredHealthIndicators">Pre-configured HealthIndicators</a>](#a-namepre-configuredhealthindicatorspre-configured-healthindicatorsa)
-      - [<a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>](#a-namewritingcustomhealthindicatorswriting-custom-healthindicatorsa)
-    - [<a name="ApplicationInformation">ApplicationInformation</a>](#a-nameapplicationinformationapplicationinformationa)
-      - [<a name="Pre-configuredInfoContributors">Pre-configured InfoContributors</a>](#a-namepre-configuredinfocontributorspre-configured-infocontributorsa)
+- [<a name="GrailsVersion">Grails Version</a>](#a-namegrailsversiongrails-versiona)
+- [<a name="Run">Run</a>](#a-namerunruna)
+- [<a name="Use">Use</a>](#a-nameuseusea)
+- [<a name="Credit">Credit</a>](#a-namecreditcredita)
+- [<a name="Endpoints">Endpoints</a>](#a-nameendpointsendpointsa)
+  - [<a name="Customizing Endpoints">Customization</a>](#a-namecustomizing-endpointscustomizationa)
+  - [<a name="Hypermedia for actuator endpoints">Hypermedia for actuator endpoints</a>](#a-namehypermedia-for-actuator-endpointshypermedia-for-actuator-endpointsa)
+  - [<a name="CORS support">CORS support</a>](#a-namecors-supportcors-supporta)
+  - [<a name="CustomEndpoints">Adding Custom Endpoints</a>](#a-namecustomendpointsadding-custom-endpointsa)
+  - [<a name="Contributing">Contributing to Endpoints</a>](#a-namecontributingcontributing-to-endpointsa)
+  - [<a name="HealthInformation">Health information</a>](#a-namehealthinformationhealth-informationa)
+  - [<a name="SecurityWithHealthIndicators">Security with HealthIndicators</a>](#a-namesecuritywithhealthindicatorssecurity-with-healthindicatorsa)
+    - [<a name="Pre-configuredHealthIndicators">Pre-configured HealthIndicators</a>](#a-namepre-configuredhealthindicatorspre-configured-healthindicatorsa)
+    - [<a name="WritingCustomHealthIndicators">Writing custom HealthIndicators</a>](#a-namewritingcustomhealthindicatorswriting-custom-healthindicatorsa)
+  - [<a name="Application Information">Application Information</a>](#a-nameapplication-informationapplication-informationa)
+    - [<a name="Pre-configuredInfoContributors">Pre-configured InfoContributors</a>](#a-namepre-configuredinfocontributorspre-configured-infocontributorsa)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 ## <a name="GrailsVersion">Grails Version</a>
 
-Built and tested with Grails 2.4.4+ applications.
+Built and tested with Grails 2.4.4 applications.
 
 ## <a name="Run">Run</a>
 
@@ -46,11 +45,11 @@ Built and tested with Grails 2.4.4+ applications.
  1. Run the plugin using the grails wrapper
  
  Windows:
- ```
+```
 grailsw.bat run-app
 ```
 Unix: 
- ```
+```
 ./grailsw run-app
 ```
 
@@ -273,7 +272,7 @@ beans = {
  ''HealthIndicator''' suffix if it exists. In the example above, the health information will be available in an entry 
  named ''my'''.
 
- ### <a name="ApplicationInformation">ApplicationInformation</a>
+ ### <a name="Application Information">Application Information</a>
  Application information exposes various information collected from all ``InfoContributor`` beans defined in your
  ApplicationContext. G2Actuate includes a number of auto-configured ``InfoContributors`` and you can also write your own.
 
