@@ -4,8 +4,8 @@
       <h1 style="color:#990000" align="center">G2Actuate</h1>
       <p align="center">
       Providing production ready capabilities to Grails 2 Projects.
-      </p>
-      <a href="https://github.com/jtsampson/g2actuate">
+
+      <a style="margin:auto; text-align:center; display:block;" href="https://github.com/jtsampson/g2actuate">
         <img src="G2ActuateSmall.png" width=144 height=144>
       </a>
 
