@@ -9,4 +9,7 @@ branches:
   only:
     - travis
 
-script: ./grailsw clean  && ./grailsw test-app
+before_script:
+   - chmod +x grailsw
+
+script: ./grailsw clean && yes | ./grailsw refresh-dependencies && ./grailsw test-app
