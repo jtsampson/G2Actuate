@@ -5,9 +5,11 @@
       <p align="center">
               Providing production ready capabilities to Grails 2 Projects.
       </p>
+      <p align="center">
       <a href="https://github.com/jtsampson/g2actuate">
         <img src="G2ActuateSmall.png" width=144 height=144>
       </a>
+      </p>
 </p>
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
