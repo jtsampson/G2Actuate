@@ -9,4 +9,4 @@ branches:
   only:
     - travis
 
-script: ./grailsw clean && yes | ./grailsw refresh-dependencies && ./grailsw test-app
+script: ./grailsw clean  && ./grailsw test-app
