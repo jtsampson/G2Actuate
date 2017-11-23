@@ -16,7 +16,7 @@ script:
   - yes | ./grailsw refresh-dependencies
   - ./grailsw "test-app :cli :unit :integration -echoOut -coverage -xml  --non-interactive"
 
-after_success: ./grailsw coveralls
+after_success: ./grailsw coveralls --stacktrace
 
 cache:
   directories:
