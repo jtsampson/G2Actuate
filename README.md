@@ -1,5 +1,6 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/jtsampson/G2Actuate.svg?branch=master)](https://travis-ci.org/jtsampson/G2Actuate)
+[![Coverage Status](https://coveralls.io/repos/github/jtsampson/G2Actuate/badge.svg?branch=master)](https://coveralls.io/github/jtsampson/G2Actuate?branch=master)
 [![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
 
 <p align="center">
@@ -75,12 +76,6 @@ plugins {
 }
 
 ```
-
-## Credit
-
-Since this plugin is designed to mimic Spring Boot Actuator functionality (but for Grails 2),  the documentation is
-patterned after chapter 47 of the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html) 
-and should seem familiar to developers who are aquainted with the Spring Boot Actuator.
 
 ## Endpoints
 
@@ -284,3 +279,20 @@ beans = {
  | Name                               | Description                                     |
   ---------------------------------- | ------------------------------------------------ |
  | ``TDB``    | Add an enhancement request if you would like this functionality         |
+
+## Bugs or Enhancements
+To report any bug, please use the project [Issues](https://github.com/jtsampson/G2Actuate/issues) section on GitHub.
+
+## Credits
+
+Since this plugin is designed to mimic Spring Boot Actuator functionality (but for Grails 2),  the documentation is
+patterned after chapter 47 of the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html)
+and should seem familiar to developers who are aquainted with the Spring Boot Actuator.
+
+This project uses:
+  * [Grails 2.4.4] (http://docs.grails.org/2.4.4/)
+  * [Travis CI](https://travis-ci.org/)
+  * [Coveralls](https://coveralls.io/)
+  * [Test Code Coverage Plugin](https://grails.org/plugin/code-coverage)
+  * [Coveralls.io Grails Plugin](https://grails.org/plugin/coveralls)
+  * [Doctoc](https://github.com/thlorenz/doctoc) for TOC generation
