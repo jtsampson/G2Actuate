@@ -29,8 +29,6 @@ def gebVersion = "0.13.1"
 def webdriverVersion = "2.53.1"
 
 grails.project.fork = [
-        // configure settings for compilation JVM, note that if you alter the Groovy version forked compilation is required
-        //  compile: [maxMemory: 256, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
 
         // configure settings for the test-app JVM, uses the daemon by default
         test   : [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, daemon: true],
@@ -47,7 +45,7 @@ grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
         // uncomment to disable ehcache
-        // excludes 'ehcache'
+        excludes 'ehcache'
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
@@ -55,13 +53,13 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
         mavenRepo "https://mvnrepository.com"
-        // uncomment the below to enable remote dependency resolution
-        // from public Maven repositories
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
+        // Latest httpcore and httpmime for Coveralls plugin
+        build 'org.apache.httpcomponents:httpcore:4.3.2'
+        build 'org.apache.httpcomponents:httpclient:4.3.2'
+        build 'org.apache.httpcomponents:httpmime:4.3.3'
+
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
         compile 'org.apache.derby:derby:10.12.1.1'
         compile 'com.google.guava:guava:18.0'
@@ -79,7 +77,6 @@ grails.project.dependency.resolution = {
 
         // For downloading browser-specific drivers that browsers like Chrome and IE require
         test "io.github.bonigarcia:webdrivermanager:1.3.1"
-
     }
 
     plugins {
@@ -90,7 +87,16 @@ grails.project.dependency.resolution = {
                 ":rest-client-builder:2.1.0") {
             export = false
         }
+        // Coveralls plugin
+        build(':coveralls:0.1.4', ':rest-client-builder:1.0.3') {
+            export = false
+        }
+
         test ":geb:${gebVersion}"
         test ":rest-client-builder:2.1.0"
+        test ":code-coverage:2.0.3-3" {
+            export = false
+        }
+
     }
 }
