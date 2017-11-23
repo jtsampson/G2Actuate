@@ -12,7 +12,9 @@ before_script:
   - echo "GRAILS_VERSION:$GRAILS_VERSION"
   - chmod +x "/home/travis/.grails/wrapper/$GRAILS_VERSION/grails-$GRAILS_VERSION/bin/grails"
 
-script:  yes | ./grailsw refresh-dependencies && ./grailsw "test-app -echoOut -echoErr -coverage -xml"
+script:
+  - yes | ./grailsw refresh-dependencies
+  - ./grailsw "test-app :cli :unit :integration    -echoOut -coverage -xml  --non-interactive"
 
 after_success: ./grailsw coveralls
 
