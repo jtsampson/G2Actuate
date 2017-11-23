@@ -87,3 +87,16 @@ grails.project.dependency.resolution = {
         test (":code-coverage:2.0.3-3" ){ export = false }
     }
 }
+
+grails {
+    plugin {
+        coveralls {
+            // Cobertura XML coverage report path
+            //report = 'path/to/cobertura.xml' // if not defined, default to 'target/test-reports/cobertura/coverage.xml'
+            // Coveralls repo token, not required for Travis CI public repo (required for Travis Pro with private repo or other CI).
+            //token = '...'
+            // CI Service name (not required for Travis, automatically detected for 'travis-ci' and 'travis-pro')
+            service = 'travis-ci'
+        }
+    }
+}

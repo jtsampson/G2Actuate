@@ -14,7 +14,7 @@ before_script:
 
 script:
   - yes | ./grailsw refresh-dependencies
-  - ./grailsw "test-app :cli :unit :integration    -echoOut -coverage -xml  --non-interactive"
+  - ./grailsw "test-app :cli :unit :integration -echoOut -coverage -xml  --non-interactive"
 
 after_success: ./grailsw coveralls
 
