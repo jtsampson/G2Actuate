@@ -1,3 +1,4 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/jtsampson/G2Actuate.svg?branch=master)](https://travis-ci.org/jtsampson/G2Actuate)
 [![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
 

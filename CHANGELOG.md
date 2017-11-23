@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added ``management.health.defaults.enabled`` to allow disabling all ``HealthIndicators``
  - Added (ISSUE-6) Bintray Badge with latest download link
  - Added TOC to readme with [doctoc](https://github.com/thlorenz/doctoc)
+ - Added TravisCI to readme and badge
+ - Added Liscence to readme
 ### Changed
  - Changed the /health endpoint, it now reports custom health indicators using bean names less the 'HealthIndicator' suffix (if it exists)
 ### Deprecated 
