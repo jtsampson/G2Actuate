@@ -83,20 +83,11 @@ grails.project.dependency.resolution = {
         build(":tomcat:7.0.55") {
             export = false
         }
-        build(":release:3.1.2",
-                ":rest-client-builder:2.1.0") {
-            export = false
-        }
-        // Coveralls plugin
-        build(':coveralls:0.1.4', ':rest-client-builder:1.0.3') {
-            export = false
-        }
+        build(":release:3.1.2", ":rest-client-builder:2.1.0")   { export = false }
+        build(':coveralls:0.1.4', ':rest-client-builder:1.0.3') { export = false }
 
         test ":geb:${gebVersion}"
         test ":rest-client-builder:2.1.0"
-        test ":code-coverage:2.0.3-3" {
-            export = false
-        }
-
+        test (":code-coverage:2.0.3-3" ){ export = false }
     }
 }
