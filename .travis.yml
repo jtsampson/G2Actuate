@@ -1,0 +1,19 @@
+sudo: false
+
+language: groovy
+
+jdk:
+  - openjdk7
+
+branches:
+  only:
+    - master
+
+before_script:
+  - chmod +x grailsw
+  - ./grailsw clean
+  - GRAILS_VERSION=`grep '^\s*app.grails.version' ./application.properties | sed -e 's/^app.grails.version=//g' | tr -d "\r"`
+  - echo "GRAILS_VERSION:$GRAILS_VERSION"
+  - chmod +x "/home/travis/.grails/wrapper/$GRAILS_VERSION/grails-$GRAILS_VERSION/bin/grails"
+
+script:  yes | ./grailsw refresh-dependencies && ./grailsw test-app

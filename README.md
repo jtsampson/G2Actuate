@@ -1,4 +1,5 @@
-[ ![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
+[![Build Status](https://travis-ci.org/jtsampson/G2Actuate.svg?branch=master)](https://travis-ci.org/jtsampson/G2Actuate)
+[![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
 
 <p align="center">
       <h1 style="color:#990000" align="center">G2Actuate</h1>
