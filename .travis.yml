@@ -11,6 +11,7 @@ before_script:
   - GRAILS_VERSION=`grep '^\s*app.grails.version' ./application.properties | sed -e 's/^app.grails.version=//g' | tr -d "\r"`
   - echo "GRAILS_VERSION:$GRAILS_VERSION"
   - chmod +x "/home/travis/.grails/wrapper/$GRAILS_VERSION/grails-$GRAILS_VERSION/bin/grails"
+  - sudo sed -i 's/security.provider.9/#security.provider.9/g' $JAVA_HOME/jre/lib/security/java.security
 
 script:
   - yes | ./grailsw refresh-dependencies
