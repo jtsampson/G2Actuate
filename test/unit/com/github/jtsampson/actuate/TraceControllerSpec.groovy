@@ -83,9 +83,11 @@ class TraceControllerSpec extends Specification {
 
         withFilters(controller: "any", action: "index") {
             anyController.index()
+
         }
 
         response.reset()
+        //response.setHeader(HttpHeaders.CONTENT_TYPE, contentType)
     }
 
 
@@ -93,6 +95,7 @@ class TraceControllerSpec extends Specification {
 
         when:
         afterAnyControllerRequest(JSON_CONTENT_TYPE)
+        controller.response.format = 'json'
         controller.trace()
 
         then:
@@ -104,6 +107,10 @@ class TraceControllerSpec extends Specification {
 
         when:
         afterAnyControllerRequest(XML_CONTENT_TYPE)
+
+        controller.response.reset()
+        request.addHeader(HttpHeaders.ACCEPT, XML_CONTENT_TYPE)
+        controller.response.format = 'xml'
         controller.trace()
 
         then:

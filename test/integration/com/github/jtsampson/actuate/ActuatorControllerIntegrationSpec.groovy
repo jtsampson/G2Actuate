@@ -18,13 +18,12 @@
 package com.github.jtsampson.actuate
 
 import grails.test.spock.IntegrationSpec
-import org.codehaus.groovy.grails.web.servlet.HttpHeaders
 import org.springframework.http.MediaType
 import spock.lang.Unroll
 
 import java.nio.charset.Charset
 
-class LoggerControllerIntegrationSpec extends IntegrationSpec {
+class ActuatorControllerIntegrationSpec extends IntegrationSpec {
 
     static String APPLICATION_JSON = MediaType.APPLICATION_JSON.toString()
     static String APPLICATION_XML = MediaType.APPLICATION_XML.toString()
@@ -32,51 +31,35 @@ class LoggerControllerIntegrationSpec extends IntegrationSpec {
     static String APPLICATION_XML_UTF8 = new MediaType("application", "xml", Charset.forName("UTF-8")).toString()
 
     @Unroll
-    void "/loggers serves #type"() {
+    void "/#endpoint supports #type"() {
         given:
-        def controller = new LoggerController()
+        def controller = new ActuatorController()
         controller.request.setContentType(type)
-        controller.response.format = format
+
+        // mapping specific set up.
+        def mappingService = new MappingService()
+        mappingService.servletContext = applicationContext.servletContext
+        mappingService.grailsApplication = applicationContext.grailsApplication
+        controller.mappingService = mappingService
 
         when:
-        controller.index()
+        controller."$endpoint"()
 
         then:
         controller.response.status == 200
         controller.response.contentType == mime
 
         where:
-        format | type             | mime
-        'json' | APPLICATION_JSON | APPLICATION_JSON_UTF8
-        'xml'  | APPLICATION_XML  | APPLICATION_XML_UTF8
-    }
-
-
-    void "Assert message contains proper keys"() {
-        given:
-        def controller = new LoggerController()
-
-        when:
-        controller.index()
-
-        then:
-        200 == controller.response.status
-
-        def resource = controller.response.json
-        // Assert message contains proper keys
-        resource.levels
-        LoggerService.levelList.containsAll(resource.levels)
-        resource.loggers
-        resource.loggers.each { logger ->
-            logger.each { loggerName, loggerConfig ->
-                assert (loggerName)
-                loggerConfig.each {
-                    config, configLevel ->
-                        ['configuredLevel', 'effectiveLevel'].contains(config)
-                        LoggerService.levelList.contains(configLevel)
-                }
-            }
-        }
-
+        endpoint   | type             | mime
+        "beans"    | APPLICATION_JSON | APPLICATION_JSON_UTF8
+        "beans"    | APPLICATION_XML  | APPLICATION_XML_UTF8
+        "env"      | APPLICATION_JSON | APPLICATION_JSON_UTF8
+        "env"      | APPLICATION_XML  | APPLICATION_XML_UTF8
+        "info"     | APPLICATION_JSON | APPLICATION_JSON_UTF8
+        "info"     | APPLICATION_XML  | APPLICATION_XML_UTF8
+        "mappings" | APPLICATION_JSON | APPLICATION_JSON_UTF8
+        "mappings" | APPLICATION_XML  | APPLICATION_XML_UTF8
+        "metrics"  | APPLICATION_JSON | APPLICATION_JSON_UTF8
+        "metrics"  | APPLICATION_XML  | APPLICATION_XML_UTF8
     }
 }

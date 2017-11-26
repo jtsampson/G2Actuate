@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added TOC to readme with [doctoc](https://github.com/thlorenz/doctoc)
  - Added [Travis CI](https://travis-ci.org/) integration to perform builds; added badge to README.md
  - Added licence badge to README.md
- - Added code coverage plugins plus  [coveralls.io](https://coveralls.io/) integration; badge to README.md
+ - Added code coverage plugins plus [coveralls.io](https://coveralls.io/) integration w/travis; badge to README.md
 ### Changed
  - Changed the /health endpoint, it now reports custom health indicators using bean names less the 'HealthIndicator' suffix (if it exists)
 ### Deprecated 
