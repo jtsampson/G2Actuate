@@ -16,9 +16,6 @@
  */
 
 package com.github.jtsampson.actuate.shutdown
-
-import javax.annotation.PostConstruct
-
 /**
  * Created by jsampson on 7/25/2017.
  */

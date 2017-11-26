@@ -22,16 +22,7 @@ import grails.converters.XML
 
 class ActuatorController {
 
-    ActuatorController() {
-        JSON.createNamedConfig('PASS-THROUGH-JSON') {
-            it.registerObjectMarshaller(String) { ->
-                it.toString()
-            }
-        }
-    }
-
     static responseFormats = ['json', 'xml']
-
     static allowedMethods = [actuator   : 'GET',
                              beans      : 'GET',
                              configprops: 'GET',
@@ -50,9 +41,9 @@ class ActuatorController {
 
     // TODO enabling/disabling should be handled in plugin set up.
 
-    def actuator() {
-        //TODO
-    }
+//    def actuator() {
+//        //TODO
+//    }
 
     def beans() {
         def result = beanService.collectBeans()
@@ -67,9 +58,9 @@ class ActuatorController {
         }
     }
 
-    def configprops() {
-        //TODO
-    }
+//    def configprops() {
+//        //TODO
+//    }
 
     def env() {
         def result = envService.collectEnvironment()
@@ -95,10 +86,6 @@ class ActuatorController {
                 render result as XML
             }
         }
-    }
-
-    def notAuthorized() {
-        render(status: 401)
     }
 
     def mappings() {

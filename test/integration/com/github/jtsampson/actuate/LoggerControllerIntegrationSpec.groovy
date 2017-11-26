@@ -18,7 +18,6 @@
 package com.github.jtsampson.actuate
 
 import grails.test.spock.IntegrationSpec
-import org.codehaus.groovy.grails.web.servlet.HttpHeaders
 import org.springframework.http.MediaType
 import spock.lang.Unroll
 

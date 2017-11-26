@@ -19,8 +19,6 @@ package com.github.jtsampson.actuate
 
 import org.codehaus.groovy.grails.commons.UrlMappingsArtefactHandler
 import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingEvaluator
-import org.codehaus.groovy.grails.web.mapping.ResponseCodeMappingData
-import org.codehaus.groovy.grails.web.mapping.ResponseCodeUrlMapping
 import org.codehaus.groovy.grails.web.mapping.UrlMapping
 
 /**

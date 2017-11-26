@@ -19,7 +19,6 @@ package com.github.jtsampson.actuate
 
 import grails.test.spock.IntegrationSpec
 import org.springframework.http.MediaType
-import spock.lang.Unroll
 
 import java.nio.charset.Charset
 

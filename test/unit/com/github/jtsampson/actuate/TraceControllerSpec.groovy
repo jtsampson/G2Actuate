@@ -18,11 +18,8 @@
 package com.github.jtsampson.actuate
 
 import filters.TraceFilters
-import grails.artefact.Artefact
-import grails.rest.RestfulController
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import grails.test.mixin.web.ControllerUnitTestMixin
 import grails.test.runtime.FreshRuntime
 import org.codehaus.groovy.grails.web.servlet.HttpHeaders
 import org.springframework.beans.factory.BeanCreationException

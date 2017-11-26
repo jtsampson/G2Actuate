@@ -28,7 +28,7 @@ class Health {
     }
 
 
-    String name = 'Unamed'
+    String name = 'Unnamed'
     Status status = Status.UNKNOWN
     Map details = [:]
 
