@@ -17,8 +17,9 @@
 
 package com.github.jtsampson.actuate
 
-import org.grails.databinding.bindingsource.InvalidRequestBodyException
-import org.springframework.http.HttpStatus
+import grails.validation.Validateable
+import org.codehaus.groovy.grails.validation.ConstrainedProperty
+import org.springframework.validation.MapBindingResult
 
 class LoggerController {
 
@@ -37,17 +38,38 @@ class LoggerController {
 
     def update() {
 
-        if (params.id == null) {
-            render status: HttpStatus.NOT_FOUND
-            return
-        }
 
-        def body = request.getJSON()
-        assert(loggerService.levelList.contains(body.configuredLevel) )
-        respond loggerService.upsertLoggerConfig(params.id, body.configuredLevel)
+        if (params.id == null) {
+            respond null, [status: 404]
+        } else {
+
+            ConfiguredLevel level = new ConfiguredLevel(request.getJSON())
+            level.check()
+
+            if (level.hasErrors()) {
+                respond level.errors, [status: 422]
+            } else {
+                respond loggerService.upsertLoggerConfig(params.id, level.wrapper.configuredLevel)
+            }
+        }
     }
 
-    def handleRuntimeException(InvalidRequestBodyException e) {
-        respond 422
+
+    @Validateable
+    class ConfiguredLevel {
+        Map wrapper = [:]
+
+        def ConfiguredLevel(body) {
+            wrapper.putAll(body)
+        }
+
+        def check() {
+            setErrors(new MapBindingResult(wrapper, ConfiguredLevel.class.getName()))
+            ConstrainedProperty constrainedProperty = new ConstrainedProperty(ConfiguredLevel, "configuredLevel", String)
+            constrainedProperty.applyConstraint("inList", LoggerService.levelList)
+            constrainedProperty.validate(this, wrapper.configuredLevel, errors)
+
+            return errors
+        }
     }
 }

@@ -39,7 +39,7 @@ class Health {
         values << [status: this.status.name()]
         values << this.details
 
-        [(this.name): values]
+       return  [(this.name): values]
 
     }
 }
