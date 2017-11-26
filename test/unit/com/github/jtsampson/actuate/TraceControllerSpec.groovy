@@ -363,20 +363,4 @@ class TraceControllerSpec extends Specification {
 //        response.json[0].headers.request.containsKey('cookies')
 //        response.json[0].headers.response.containsKey('cookies')
 //    }
-
-    /**
-     * Simple controller for tests.
-     */
-    @Artefact("Controller")
-    static class AnyController extends RestfulController {
-        static responseFormats = ['json', 'xml']
-
-        public AnyController() {
-            // nop
-        }
-
-        def index() {
-            render "Magic Number:"
-        }
-    }
 }

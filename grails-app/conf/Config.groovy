@@ -46,6 +46,11 @@ log4j = {
 
 }
 
+coverage {
+    appendCoverageResults = true
+    sourceInclusions = ['src/groovy', "src/java", "scripts"]
+}
+
 g2actuate {
     infoContributor = { info ->
         info['added-by-info-contrib'] = true
