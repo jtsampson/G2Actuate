@@ -26,7 +26,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS
 
 class HeapDumpController {
-    static responseFormats = ['octet-stream', 'xml']
+    static responseFormats = ['octet-stream']
     // TODO work this into config on per endpoint basis.
     boolean isEnabled = true  // you could disable in certain environments by setting false
     def heapDumpService

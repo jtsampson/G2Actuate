@@ -34,6 +34,7 @@ class TraceControllerIntegrationSpec extends IntegrationSpec {
         given:
         def controller = new TraceController()
         controller.request.setContentType(APPLICATION_JSON )
+        controller.response.format = 'json'
 
         when:
         controller.trace()
@@ -47,14 +48,15 @@ class TraceControllerIntegrationSpec extends IntegrationSpec {
     void "/trace responds with xml"() {
         given:
         def controller = new TraceController()
-        controller.request.setContentType(APPLICATION_JSON )
+        controller.request.setContentType(APPLICATION_XML )
+        controller.response.format = 'xml'
 
         when:
         controller.trace()
 
         then:
         controller.response.status == 200
-        controller.response.contentType == APPLICATION_JSON_UTF8
+        controller.response.contentType == APPLICATION_XML_UTF8
 
     }
 }
