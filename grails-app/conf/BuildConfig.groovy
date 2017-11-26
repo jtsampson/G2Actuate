@@ -15,6 +15,13 @@
  *
  */
 
+coverage {
+
+    exclusions = ['*'] //('*') The Single asterik excludes top-level groovy classes/scripts, such as BootStrap, changelog (Database Migration), ApplicationResources, etc
+    appendCoverageResults = true
+    sourceInclusions = ['src/groovy', "src/java", "scripts"]
+}
+
 grails.project.class.dir = "target/classes"
 
 // To deploy to bintray.....
@@ -86,4 +93,9 @@ grails.project.dependency.resolution = {
         test ":rest-client-builder:2.1.0"
         test (":code-coverage:2.0.3-3" ){ export = false }
     }
+
+    // Remove the jar before the war is bundled
+    //grails.war.resources = { stagingDir ->
+    //    delete(file:"${stagingDir}/WEB-INF/lib/DisableOptimizationsTransformation-0.1-SNAPSHOT.jar")
+    //}
 }
