@@ -17,13 +17,23 @@
 
 package com.github.jtsampson.actuate
 
+import grails.spring.BeanBuilder
 import grails.test.spock.IntegrationSpec
+import org.codehaus.groovy.grails.commons.ControllerArtefactHandler
+import org.codehaus.groovy.grails.commons.GrailsClass
+import org.springframework.beans.factory.support.AbstractBeanDefinition
 import org.springframework.http.MediaType
 import spock.lang.Unroll
 
 import java.nio.charset.Charset
 
+/**
+ * ActuatorController integration tests.
+ * @author jsampson
+ * @since 1.0.2
+ */
 class ActuatorControllerIntegrationSpec extends IntegrationSpec {
+
 
     static String APPLICATION_JSON = MediaType.APPLICATION_JSON.toString()
     static String APPLICATION_XML = MediaType.APPLICATION_XML.toString()
@@ -62,4 +72,58 @@ class ActuatorControllerIntegrationSpec extends IntegrationSpec {
         "metrics"  | APPLICATION_JSON | APPLICATION_JSON_UTF8
         "metrics"  | APPLICATION_XML  | APPLICATION_XML_UTF8
     }
+
+//    void "/info contribs"() {
+//
+//        given:
+//        //applicationContext.classLoader.loadClass(DummyContribController)
+//        GrailsClass controllerClass = applicationContext.grailsApplication.addArtefact(ControllerArtefactHandler.TYPE, DummyContribController.class)
+////        def bb = new BeanBuilder()
+////        bb.beans = {
+////            "${controllerClass.fullName}"(controllerClass.clazz) { bean ->
+////                def beanScope = controllerClass.getPropertyValue("scope") ?: 'singleton'
+////                bean.scope = beanScope
+////                bean.autowire = "byName"
+////                if (beanScope == 'prototype') {
+////                    bean.beanDefinition.dependencyCheck = AbstractBeanDefinition.DEPENDENCY_CHECK_NONE
+////                }
+////            }
+////        }
+////        bb.registerBeans(applicationContext)
+//
+//        defineBeans({
+//            "${controllerClass.fullName}"(controllerClass.clazz) { bean ->
+//                def beanScope = controllerClass.getPropertyValue("scope") ?: 'singleton'
+//                bean.scope = beanScope
+//                bean.autowire = "byName"
+//                if (beanScope == 'prototype') {
+//                    bean.beanDefinition.dependencyCheck = AbstractBeanDefinition.DEPENDENCY_CHECK_NONE
+//                }
+//            }
+//        })
+//
+//
+//
+//
+//        def controller = new ActuatorController()
+//        def infoService = new InfoService()
+//
+//        applicationContext.grailsApplication.rebuild()
+//        infoService.grailsApplication = applicationContext.grailsApplication
+//        controller.infoService = infoService
+//
+//        def list = applicationContext.grailsApplication.getArtefacts("Controller")
+//        //assert applicationContext.grailsApplication.getArtefact("Controller" )
+//        when:
+//        controller.info()
+//        //assert actuatorControlller
+//
+//        then:
+//        controller.response.status == 200
+//        controller.response.json.size() == 4
+//    }
+//
+//    void defineBeans(boolean immediateDelivery = true, Closure<?> closure) {
+//        applicationContext.grailsApplication.publishEvent("defineBeans", [closure: closure], [immediateDelivery: immediateDelivery])
+//    }
 }

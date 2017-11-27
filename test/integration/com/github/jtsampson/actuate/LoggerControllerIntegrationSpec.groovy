@@ -23,6 +23,11 @@ import spock.lang.Unroll
 
 import java.nio.charset.Charset
 
+/**
+ * LoggerController integration tests.
+ * @author jsampson
+ * @since 1.0.2
+ */
 class LoggerControllerIntegrationSpec extends IntegrationSpec {
 
     static String APP_JSON = MediaType.APPLICATION_JSON.toString()

@@ -22,6 +22,11 @@ import org.springframework.http.MediaType
 
 import java.nio.charset.Charset
 
+/**
+ * TraceController integration tests.
+ * @author jsampson
+ * @since 1.0.2
+ */
 class TraceControllerIntegrationSpec extends IntegrationSpec {
 
     static String APPLICATION_JSON = MediaType.APPLICATION_JSON.toString()

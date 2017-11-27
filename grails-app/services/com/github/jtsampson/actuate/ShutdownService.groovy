@@ -30,7 +30,7 @@ import java.util.concurrent.ScheduledExecutorService
 class ShutdownService {
 
     def shutterDowner
-    def scheduler;
+    def scheduler
 
     /**
      * A service to execute the configured shutterDowner after a 5 second delay.
@@ -39,8 +39,8 @@ class ShutdownService {
      */
     def shutdown() {
 
-        ScheduledExecutorService localExecutor = Executors.newSingleThreadScheduledExecutor();
-        scheduler = new ConcurrentTaskScheduler(localExecutor);
+        ScheduledExecutorService localExecutor = Executors.newSingleThreadScheduledExecutor()
+        scheduler = new ConcurrentTaskScheduler(localExecutor)
 
         Date now = new Date()
         Date lag = new Date(now.getTime() + 5000)

@@ -20,6 +20,11 @@ package com.github.jtsampson.actuate
 import grails.test.spock.IntegrationSpec
 import org.springframework.http.MediaType
 
+/**
+ * HeapDumpController integration tests.
+ * @author jsampson
+ * @since 1.0.2
+ */
 class HeapDumpControllerIntegrationSpec extends IntegrationSpec {
 
     void "/heapdump serves octest-stream"() {

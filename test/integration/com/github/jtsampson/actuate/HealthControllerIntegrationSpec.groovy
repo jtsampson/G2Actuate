@@ -23,7 +23,12 @@ import spock.lang.Unroll
 
 import java.nio.charset.Charset
 
-class HealthControllerIntegrationSpec  extends IntegrationSpec {
+/**
+ * HealthController integration tests.
+ * @author jsampson
+ * @since 1.0.2
+ */
+class HealthControllerIntegrationSpec extends IntegrationSpec {
 
     static String APPLICATION_JSON = MediaType.APPLICATION_JSON.toString()
     static String APPLICATION_XML = MediaType.APPLICATION_XML.toString()

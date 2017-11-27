@@ -50,6 +50,7 @@ class InfoService {
         info << app()
         info << grails()
         info << scm()
+        info << infoAnnotations()
 
         // Allow owning applications to add information.
         if (infoContributor instanceof Closure) {
@@ -96,7 +97,7 @@ class InfoService {
      * @return the contributor's metric map
      */
     // TODO: consider moving, duplicates code in InfoService
-    private def contributors() {
+    private def infoAnnotations() {
         // TODO: consider refactoring to ContribService
         final def contrib = [:]
 

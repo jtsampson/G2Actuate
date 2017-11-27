@@ -59,7 +59,7 @@ class LoggerController {
     class ConfiguredLevel {
         Map wrapper = [:]
 
-        def ConfiguredLevel(body) {
+        ConfiguredLevel(body) {
             wrapper.putAll(body)
         }
 

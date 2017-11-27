@@ -25,7 +25,7 @@ import grails.rest.RestfulController
 class AnyController extends RestfulController {
     static responseFormats = ['json', 'xml']
 
-    public AnyController() {
+    AnyController() {
         // nop
     }
 
