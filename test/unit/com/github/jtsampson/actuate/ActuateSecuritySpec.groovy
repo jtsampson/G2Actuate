@@ -17,19 +17,28 @@
 
 package com.github.jtsampson.actuate
 
-import grails.rest.RestfulController
+import com.github.jtsampson.actuate.security.ActuateSecurity
+import org.codehaus.groovy.grails.plugins.testing.GrailsMockHttpServletRequest
+import spock.lang.Specification
+import spock.lang.Unroll
 
-/**
- * This is a test controller for specs.
- */
-class AnyController extends RestfulController {
-    static responseFormats = ['json', 'xml']
+class ActuateSecuritySpec extends Specification {
 
-    AnyController() {
-        // nop
-    }
+    @Unroll
+    void "security allows role #role"() {
 
-    def index() {
-        render "Magic Number:"
+        given:
+        def security = new ActuateSecurity()
+        def request = new GrailsMockHttpServletRequest()
+        request.addUserRole(role)
+
+        expect:
+        security.isUserAuthorized(request) == isAuthed
+
+        where:
+        role       | isAuthed
+        'ACTUATOR' | true
+        'BOB'      | false
+
     }
 }

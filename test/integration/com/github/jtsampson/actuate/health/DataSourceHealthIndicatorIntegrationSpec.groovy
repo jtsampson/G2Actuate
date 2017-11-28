@@ -17,7 +17,6 @@
 
 package com.github.jtsampson.actuate.health
 
-import aj.org.objectweb.asm.ClassReader
 import grails.test.spock.IntegrationSpec
 
 /**

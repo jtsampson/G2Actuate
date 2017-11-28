@@ -21,6 +21,7 @@ import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import org.codehaus.groovy.grails.web.servlet.HttpHeaders
+import org.springframework.http.HttpMethod
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -73,27 +74,5 @@ class LoggerControllerSpec extends Specification {
         mime                   | status
         XML_CONTENT_TYPE       | 200
         JSON_CONTENT_TYPE      | 200
-    }
-
-    @Unroll
-    void "test update() handles #mime"() {
-        given:
-        request.addHeader(HttpHeaders.ACCEPT, mime)
-        params.id = 'id'
-
-        and:
-        controller.loggerService.collectLoggerConfig(params.id) >> { ["nothing": "important"] }
-
-        when:
-        controller.show()
-
-        then:
-        response.header('Content-Type').contains(mime)
-        response.status == status
-
-        where:
-        mime              | status  | input
-        XML_CONTENT_TYPE  | 200     |  '''{ "configuredLevel": "DEBUG"}'''
-        JSON_CONTENT_TYPE | 200     |  '''{ "configuredLevel": "DEBUG"}'''
     }
 }

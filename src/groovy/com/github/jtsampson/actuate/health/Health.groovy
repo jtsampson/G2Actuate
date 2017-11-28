@@ -28,7 +28,7 @@ class Health {
     }
 
 
-    String name = 'Unamed'
+    String name = 'Unnamed'
     Status status = Status.UNKNOWN
     Map details = [:]
 
@@ -39,7 +39,7 @@ class Health {
         values << [status: this.status.name()]
         values << this.details
 
-        [(this.name): values]
+       return  [(this.name): values]
 
     }
 }

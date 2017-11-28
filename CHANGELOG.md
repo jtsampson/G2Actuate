@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added 
  - Added documentation on Writing custom HealthIndicators
  - Added ``management.health.defaults.enabled`` to allow disabling all ``HealthIndicators``
- - Added (ISSUE-6) Bintray Badge with latest download link
+ - Added Bintray Badge with latest download link
  - Added TOC to readme with [doctoc](https://github.com/thlorenz/doctoc)
  - Added [Travis CI](https://travis-ci.org/) integration to perform builds; added badge to README.md
  - Added licence badge to README.md
@@ -19,8 +19,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Deprecated 
 ### Removed
 ### Fixed
- - Fixed ISSUE-2: Add management.health.defaults.enabled property
- - Fixed ISSUE-1: HealthIndicator names in /health
+ - Fixed 404/422 Error handling in Logger Controller
+ - Fixed ISSUE-11: Add Coverage Support
+ - Fixed ISSUE-2:  Add management.health.defaults.enabled property
+ - Fixed ISSUE-1:  HealthIndicator names in /health
 ### Security
 
 ## [1.0.1] - 2017-11-16 (Initial release)

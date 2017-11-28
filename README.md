@@ -80,24 +80,24 @@ plugins {
 ## Endpoints
 
 G2Actuate endpoints allow you to monitor and interact with your application.
-G2Actuate includes a numberof built-in endpoints. For example, the ``health``
+G2Actuate includes a number of built-in endpoints. For example, the ``health``
 endpoint provides basic application health information information.
 
 The endpoints are mainly exposed with HTTP where the ID of the endpoint
 is mapped to a URL. For example, by default, the ``health`` endpoint
-will be mappedto ``/health``.
+will be mapped to ``/health``.
 
 The following technology are available:
 
  ID            | Description                                                                       | Sensitive Default | Enabled |
  ------------- | --------------------------------------------------------------------------------- | ----------------- | ------- |
 | ``beans``    | Displays a complete list of all the Spring beans in your application.             | true              | true    |
-| ``env``      | Exposes properties from the servlet/jvm and os   (TODO applicaion)                | true              | true    |
+| ``env``      | Exposes properties from the servlet/jvm and os   (TODO application)                | true              | true    |
 | ``health``   | Returns application health information.                                           | true              | true    |
 | ``heapdump`` | Returns a GZip compressed hprof heap dump file.                                   | true              | true    |
 | ``info``     | Displays arbitrary application info.                                              | false             | true    |
 | ``loggers``  | Displays logger information                                                       | true              | true    |
-| ``mappings`` | Displays a collated list of all URLMapiings paths.                                | true              | true    |
+| ``mappings`` | Displays a collated list of all URLMappings paths.                                | true              | true    |
 | ``metrics``  | Shows 'metrics' information for the current application.                          | true              | true    |
 | ``trace``    | Displays trace information (by default the last 100 HTTP requests).               | true              | true    |
 | ``shutdown`` | Shuts down the application gracefully (or ungracefully) -not enabled by default). | true              | true    |
@@ -227,7 +227,7 @@ The following ``HealthIndicators`` are auto-configured by the G2Actuate plugin w
 
  Name                               | Description                                                         |
  ---------------------------------- | ------------------------------------------------------------------- |
-| ``DataSeourceHealthIndicator``    | Checks that a connection to ``DataSource`` can be obtained.         |
+| ``DataScourceHealthIndicator``    | Checks that a connection to ``DataSource`` can be obtained.         |
 
  > ![Tip](G2ActuateTiny.png ) It is possible to disable them all using the ``management.health.defaults.enabled`` property.
 
@@ -287,7 +287,7 @@ To report any bug, please use the project [Issues](https://github.com/jtsampson/
 
 Since this plugin is designed to mimic Spring Boot Actuator functionality (but for Grails 2),  the documentation is
 patterned after chapter 47 of the [Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html)
-and should seem familiar to developers who are aquainted with the Spring Boot Actuator.
+and should seem familiar to developers who are acquainted with the Spring Boot Actuator.
 
 This project uses:
   * [Grails 2.4.4] (http://docs.grails.org/2.4.4/)

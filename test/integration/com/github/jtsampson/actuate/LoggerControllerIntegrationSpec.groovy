@@ -18,21 +18,25 @@
 package com.github.jtsampson.actuate
 
 import grails.test.spock.IntegrationSpec
-import org.codehaus.groovy.grails.web.servlet.HttpHeaders
 import org.springframework.http.MediaType
 import spock.lang.Unroll
 
 import java.nio.charset.Charset
 
+/**
+ * LoggerController integration tests.
+ * @author jsampson
+ * @since 1.0.2
+ */
 class LoggerControllerIntegrationSpec extends IntegrationSpec {
 
-    static String APPLICATION_JSON = MediaType.APPLICATION_JSON.toString()
-    static String APPLICATION_XML = MediaType.APPLICATION_XML.toString()
-    static String APPLICATION_JSON_UTF8 = new MediaType("application", "json", Charset.forName("UTF-8")).toString()
-    static String APPLICATION_XML_UTF8 = new MediaType("application", "xml", Charset.forName("UTF-8")).toString()
+    static String APP_JSON = MediaType.APPLICATION_JSON.toString()
+    static String APP_XML = MediaType.APPLICATION_XML.toString()
+    static String APP_JSON_UTF8 = new MediaType("application", "json", Charset.forName("UTF-8")).toString()
+    static String APP_XML_UTF8 = new MediaType("application", "xml", Charset.forName("UTF-8")).toString()
 
     @Unroll
-    void "/loggers serves #type"() {
+    void "/loggers (index) serves #type"() {
         given:
         def controller = new LoggerController()
         controller.request.setContentType(type)
@@ -46,9 +50,70 @@ class LoggerControllerIntegrationSpec extends IntegrationSpec {
         controller.response.contentType == mime
 
         where:
-        format | type             | mime
-        'json' | APPLICATION_JSON | APPLICATION_JSON_UTF8
-        'xml'  | APPLICATION_XML  | APPLICATION_XML_UTF8
+        format | type     | mime
+        'json' | APP_JSON | APP_JSON_UTF8
+        'xml'  | APP_XML  | APP_XML_UTF8
+    }
+
+    void "/loggers (show) "() {
+        given:
+        def controller = new LoggerController()
+        controller.request.setContentType(APP_JSON)
+        controller.request.parameters = [id: 'org.codehaus.groovy.grails.commons']
+
+        when:
+        controller.show()
+
+        then:
+        controller.response.status == 200
+        controller.response.contentType == APP_JSON_UTF8
+        controller.response.json == [configuredLevel: "ERROR", effectiveLevel: "ERROR"]
+
+    }
+
+    void "/loggers (update) "() {
+        given:
+        def controller = new LoggerController()
+        controller.request.setContentType(APP_JSON)
+        controller.request.parameters = [id: 'com.madeup.logger'] // upsert on unknow logger
+        controller.request.method = 'put'
+        controller.request.json = [configuredLevel: "DEBUG"]
+        controller.response.format = 'json'
+
+        when:
+        controller.update()
+
+        then:
+        controller.response.status == 200
+        controller.response.contentType == APP_JSON_UTF8
+        controller.response.json == [configuredLevel: "DEBUG", effectiveLevel: "DEBUG"]
+    }
+
+    void "/loggers (update) params.id not set...causes 404 "() {
+        given:
+        def controller = new LoggerController()
+        controller.request.method = 'put'
+
+        when:
+        controller.update()
+
+        then:
+        controller.response.status == 404
+    }
+
+    void "/loggers (update) with bad level is 422 "() {
+        given:
+        def controller = new LoggerController()
+        controller.request.method = 'put'
+        controller.request.parameters = [id: 'com.madeup.logger'] // upsert on unknow logger
+        controller.request.json = [configuredLevel: "BAD_LEVEL"]
+
+        when:
+        controller.update()
+
+        then:
+        controller.response.status == 422
+        controller.response.contentType == APP_JSON_UTF8
     }
 
 
