@@ -1,6 +1,6 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/jtsampson/G2Actuate.svg?branch=master)](https://travis-ci.org/jtsampson/G2Actuate)
-[![Coverage Status](https://coveralls.io/repos/github/jtsampson/G2Actuate/badge.svg?branch=master)](https://coveralls.io/github/jtsampson/G2Actuate?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/jtsampson/G2Actuate/badge.png?branch=master)](https://coveralls.io/github/jtsampson/G2Actuate?branch=master)
 [![Download](https://api.bintray.com/packages/jtsampson/grails-plugins/G2ActuatePlugin/images/download.svg?version=1.0.1) ](https://bintray.com/jtsampson/grails-plugins/G2ActuatePlugin/1.0.1/link)
 
 <p align="center">
