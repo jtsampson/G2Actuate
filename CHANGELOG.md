@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+## [1.0.2] - 2017-11-28
 ### Added 
  - Added documentation on Writing custom HealthIndicators
  - Added ``management.health.defaults.enabled`` to allow disabling all ``HealthIndicators``
@@ -16,8 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added more integration tests
 ### Changed
  - Changed the /health endpoint, it now reports custom health indicators using bean names less the 'HealthIndicator' suffix (if it exists)
-### Deprecated 
-### Removed
 ### Fixed
  - Fixed 404/422 Error handling in Logger Controller
  - Fixed ISSUE-11: Add Coverage Support
@@ -29,7 +35,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - CHANGELOG.md
 - Caching for /health using health.timeToLive
-
 
 ## [Release Candidate]: 2017-11-15
 ### Added
@@ -46,7 +51,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added ``/shutdown`` endpoint and tests
 - Added ``/trace`` endpoint and tests
 - Added basic 'management.context-path' support Adding basic endpoint 'path' rename capabilities.
-        
 - Added Functional Testing with GEB
 - Added sensitive/enabled tests.
 - Added codenarc.
