@@ -51,6 +51,7 @@ g2actuate {
         info['added-by-info-contrib'] = true
         info
     }
+    //management.'context-path'='BOB'
     endpoints {
         beans {
             enabled = true

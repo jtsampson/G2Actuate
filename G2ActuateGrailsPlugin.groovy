@@ -18,6 +18,7 @@
 
 import DefaultActuateUrlMappings
 import com.github.jtsampson.actuate.health.HealthAggregator
+import com.github.jtsampson.actuate.security.ActuateAuthorizer
 import com.github.jtsampson.actuate.security.ActuateSecurity
 import com.github.jtsampson.actuate.shutdown.ShutdownEmbededServletContainer
 import com.github.jtsampson.actuate.shutdown.ShutdownSystemExit
@@ -41,21 +42,7 @@ class G2ActuateGrailsPlugin {
     def author = "John Sampson"
     def authorEmail = "jtsampson2000+G2Actuate@gmail.com"
     def description = '''\
-Provides produxtion readt capabilities similar to the Spring Boot Actuator but for Grails 2 Applications.
-
-The following endpoints:
-* /beans Displays a complete list of all the Spring beans in your application.
-* /env  Displays properties from the environment.
-* /health Displays health information.
-* /heapdump Performs a thread dump.
-* /info Displays arbitrary application info.
-* /loggers Shows and modifies the configuration of loggers in the application.
-* /mappings Displays a collated list of all url-mappings paths.
-* /metrics Shows ‘metrics’ information for the current application.
-* /shutdown (TODO)
-* /trace Displays trace information (by default the last 100 HTTP requests).
-
-Call back 'contributor' closures are provided to you can customise the data returned by the endpoints
+Provides production ready capabilities similar to the Spring Boot Actuator but for Grails 2 Applications.
 '''
 
     def documentation = "https://github.com/jtsampson/G2Actuate"
@@ -64,6 +51,7 @@ Call back 'contributor' closures are provided to you can customise the data retu
     def issueManagement = [system: "Github", url: "https://github.com/jtsampson/G2Actuate/issues"]
     def scm = [url: "https://github.com/jtsampson/G2Actuate"]
     def application = Holders.getGrailsApplication() // is this necessary?
+    def cp = application.config.g2actuate.management.'context-path'
 
     /**
      * Adds additions to web.xml (optional), this event occurs before (not sure what).
@@ -99,13 +87,23 @@ Call back 'contributor' closures are provided to you can customise the data retu
             }
         }
 
+//        Experrimenting with Spting Security
+//        if (Holders.pluginManager.hasGrailsPlugin('spring-security-core') &&  cp != '' ){
+//            String filter =  "/$cp/**': 'JOINED_FILTERS,-exceptionTranslationFilter'"
+//
+//            if (!grails.plugin.springsecurity.filterChain.chainMap.contains(filter)){
+//                grails.plugin.springsecurity.filterChain.chainMap.offerFirst(filter)
+//            }
+//
+//        }
+
         // define other beans
         healthAggregator(HealthAggregator)
-        actuateSecurity(ActuateSecurity)
+        actuateAuthorizer(ActuateSecurity){
+            roles = application.config.g2actuate.management.securiy.roles
+        }
 
         mergeConfig(application)
-        // def agregator application.mainContext.getBean( HealthAggregator.class );
-
 
     }
 

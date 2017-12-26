@@ -22,10 +22,18 @@ package com.github.jtsampson.actuate.security
  * @author jsampson
  * @since 7/24/2017.
  */
-class ActuateSecurity {
+class ActuateSecurity implements ActuateAuthorizer {
 
-    boolean isUserAuthorized(request){
-        true
-        request.isUserInRole('ACTUATOR')
+    def roles
+
+    /*
+    * Returns true if the user is authorized.
+    * @param options  a {@link Map} collection that contains 'request' as
+    * key and {@link HTTPServletRequest} as value.
+    * @return
+    */
+
+    boolean isUserAuthorized(options) {
+        return roles.find { options.request.isUserInRole(it) } == null ? false : true
     }
 }

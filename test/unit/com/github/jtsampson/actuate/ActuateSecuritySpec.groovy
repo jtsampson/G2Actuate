@@ -28,12 +28,12 @@ class ActuateSecuritySpec extends Specification {
     void "security allows role #role"() {
 
         given:
-        def security = new ActuateSecurity()
+        def security = new ActuateSecurity(roles: ['ACTUATOR','JANE'])
         def request = new GrailsMockHttpServletRequest()
         request.addUserRole(role)
 
         expect:
-        security.isUserAuthorized(request) == isAuthed
+        security.isUserAuthorized([request: request]) == isAuthed
 
         where:
         role       | isAuthed

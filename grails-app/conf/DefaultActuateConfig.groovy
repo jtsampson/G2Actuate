@@ -20,10 +20,13 @@ g2actuate{
     reloadMarker = true
     autoDesensitize = true
 
-    management.'context-path'=""
+    security.user.name='user'
+    security.user.password='' // note: '' will be size=0 when accessed.
+
+    management.'context-path'='' // note: '' will be size=0 when accessed.
     management {
         security {
-            roles="ACTUATOR"
+            roles=["ACTUATOR"]
             enabled=true
         }
         health {
@@ -36,7 +39,7 @@ g2actuate{
     endpoints {
         beans {
             id = "beans"
-            path = "/beans"
+            path = "/${endpoints.beans.id}"
             enabled = true
             sensitive = true
             //mappingsClass = Grails2ActuateUrlMappings.BeansUrlMappings.class
@@ -52,7 +55,7 @@ g2actuate{
 
         health {
             id = "health"
-            path = "/health"
+            path = "/${endpoints.health.id}"
             enabled = true
             sensitive = false
             timeToLive = 1000
@@ -61,20 +64,20 @@ g2actuate{
 
         heapdump {
             id = "heapdump"
-            path = "/heapdump"
+            path = "/${endpoints.heapdump.id}"
             enabled = true
             sensitive = true
            // mappingsClass = Grails2ActuateUrlMappings.HeapdumpUrlMappings.class
         }
         env {
             id = "env"
-            path = "/env"
+            path = "/${endpoints.env.id}"
             enabled = true
             sensitive = true
         }
         info {
             id = "info"
-            path = "/info"
+            path = "/${endpoints.info.id}"
             enabled = true
             sensitive = false
         }
@@ -82,40 +85,40 @@ g2actuate{
 //        TODO add logfile
 //        logfile {
 //            id = "logfile"
-//            path = "/logfile"
+//            path = "/${endpoints.logfile.id}"
 //            enabled = true
 //            sensitive = true
 //        }
 
         loggers {
             id = "loggers"
-            path = "/loggers"
+            path = "/${endpoints.loggers.id}"
             enabled = true
             sensitive = true
         }
 
         mappings {
             id = "mappings"
-            path = "/mappings"
+            path = "/${endpoints.mappings.id}"
             enabled = true
             sensitive = true
         }
         metrics {
             id = "metrics"
-            path = "/metrics"
+            path = "/${endpoints.metrics.id}"
             enabled = true
             sensitive = true
         }
         shutdown {
             id = "shutdown"
-            path = "/shutdown"
+            path = "/${endpoints.shutdown.id}"
             enabled = false
             sensitive = true
             delay = 30
         }
         trace {
             id = "trace"
-            path = "/trace"
+            path = "/${endpoints.trace.id}"
             enabled = true
             sensitive = true
             props.collect = true

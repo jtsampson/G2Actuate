@@ -23,12 +23,6 @@ coverage {
 }
 
 grails.project.class.dir = "target/classes"
-
-// To deploy to bintray.....
-// grails maven-deploy  -Drepository=bintray-jtsampson-grails-plugins  --dryRun --noScm --verbose --allowOverwrite
-grails.project.repos.default = "bintray-jtsampson-grails-plugins"
-grails.project.repos."bintray-jtsampson-grails-plugins".url = "https://api.bintray.com/maven/jtsampson/grails-plugins/G2ActuatePlugin/;publish=1"
-
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
@@ -93,9 +87,4 @@ grails.project.dependency.resolution = {
         test ":rest-client-builder:2.1.0"
         test (":code-coverage:2.0.3-3" ){ export = false }
     }
-
-    // Remove the jar before the war is bundled
-    //grails.war.resources = { stagingDir ->
-    //    delete(file:"${stagingDir}/WEB-INF/lib/DisableOptimizationsTransformation-0.1-SNAPSHOT.jar")
-    //}
 }

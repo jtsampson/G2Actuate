@@ -1,7 +1,3 @@
-import com.github.jtsampson.actuate.health.DataSourceHealthIndicator
-import com.github.jtsampson.actuate.health.HealthAggregator
-import com.github.jtsampson.actuate.security.ActuateSecurity
-
 /*
  *  Copyright 2016-2017 John Sampson
  *
@@ -19,20 +15,10 @@ import com.github.jtsampson.actuate.security.ActuateSecurity
  *
  */
 
-beans = {
-    h2DataSourceHealthIndicator(DataSourceHealthIndicator) {
+package com.github.jtsampson.actuate.security
 
-        dataSource = ref("dataSource")
-    }
-    derbyDataSourceHealthIndicator(DataSourceHealthIndicator) {
-        dataSource = ref("dataSource_derby")
-    }
+interface ActuateAuthorizer {
 
-    // todo create with plugin
-    healthAggregator(HealthAggregator)
-    actuateAuthorizer(ActuateSecurity){
-        roles = grailsApplication.config.g2actuate.management.securiy.roles
-    }
-
+    boolean isUserAuthorized(options)
 
 }

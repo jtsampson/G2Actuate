@@ -23,19 +23,21 @@
 - [Grails Versions](#grails-versions)
 - [Run](#run)
 - [Use](#use)
-- [Credit](#credit)
 - [Endpoints](#endpoints)
-  - [Customization](#customization)
-  - [Hypermedia for actuator endpoints](#hypermedia-for-actuator-endpoints)
-  - [CORS support](#cors-support)
-  - [Adding Custom Endpoints](#adding-custom-endpoints)
-  - [Contributing to Endpoints](#contributing-to-endpoints)
+  - [General](#general)
+    - [Customization](#customization)
+    - [Hypermedia for actuator endpoints](#hypermedia-for-actuator-endpoints)
+    - [CORS support](#cors-support)
+    - [Adding Custom Endpoints](#adding-custom-endpoints)
+    - [Contributing to Endpoints](#contributing-to-endpoints)
   - [Health information](#health-information)
-  - [Security with HealthIndicators](#security-with-healthindicators)
+    - [Security with HealthIndicators](#security-with-healthindicators)
     - [Pre-configured HealthIndicators](#pre-configured-healthindicators)
     - [Writing custom HealthIndicators](#writing-custom-healthindicators)
   - [Application Information](#application-information)
     - [Pre-configured InfoContributors](#pre-configured-infocontributors)
+- [Bugs or Enhancements](#bugs-or-enhancements)
+- [Credits](#credits)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -107,8 +109,9 @@ The following technology are available:
 hint. For example, sensitive endpoints will require a username/password when they are accessed over HTTP
  (or simply disabled if Spring Security is not enabled).
 
- 
-### Customization
+### General
+
+#### Customization
 
 Endpoints can be customized using ``Config.groovy``, or by using a stand alone configuration file named 
 ``ActuateConfig.groovy``. You can change if an endpoint is ``enabled``, if it is considered ``sensitive`` 
@@ -161,19 +164,19 @@ g2actuate.endpoints.info.sensitive=false
 ```
 
 
-### Hypermedia for actuator endpoints
+#### Hypermedia for actuator endpoints
 
 Would you find this useful? Please add an enhancement request or contribute.
 
-### CORS support
+#### CORS support
 
 Would you find this useful? Please add an enhancement request or contribute.
 
-### Adding Custom Endpoints
+#### Adding Custom Endpoints
 
 Would you find this useful? Please add an enhancement request or contribute.
 
-### Contributing to Endpoints
+#### Contributing to Endpoints
 
 Additional data can be exposed to the Metrics and Info Endpoints by annotating Grails artefacts with the 
 ``MetricContrib`` or ``InfoContrib`` annotations.  For example, to expose  extra metrics and info from a 
@@ -212,7 +215,7 @@ different manner by first sorting the statuses from each ``HealthIndicator`` bas
 The first status in the sorted list is used as the overall health status. If no ``HealthIndicator`` returns a status 
 that is known to the ``HealthAggregator``, an ``UNKNOWN`` status is used.
 
-### Security with HealthIndicators
+#### Security with HealthIndicators
 
 Information returned by HealthIndicators is often somewhat sensitive in nature. For example, you probably don’t want to 
 publish details of your database server to the world. For this reason, by default, only the health status is exposed 
@@ -271,14 +274,60 @@ beans = {
  ''HealthIndicator''' suffix if it exists. In the example above, the health information will be available in an entry 
  named ''my'''.
 
- ### Application Information
+### Application Information
+ 
  Application information exposes various information collected from all ``InfoContributor`` beans defined in your
  ApplicationContext. G2Actuate includes a number of auto-configured ``InfoContributors`` and you can also write your own.
 
- #### Pre-configured InfoContributors
+#### Pre-configured InfoContributors
  | Name                               | Description                                     |
   ---------------------------------- | ------------------------------------------------ |
  | ``TDB``    | Add an enhancement request if you would like this functionality         |
+
+## Monitoring and Management Over HTTP
+
+ If you are developing a Grails 2 application, The G2Actuate plugin will configure all enabled
+ endpoints to be exposed over HTTP. The default convention is to use the id of the endpoint as
+ the URL path. For example, ``health`` is exposed as ``/health``.
+
+### Accessing Sensitive Endpoints
+
+By default, all sensitive HTTP endpoints are secured such that only users that have a ``ACTUATOR``
+role may access them. Security is enforced using the standard HttpServletRequest.isUserInRole method.
+
+> ![Tip](G2ActuateTiny.png ) Use the ``g2actuate.management.security.roles`` property if you want something
+different to ``ACTUATOR``.
+
+>For example:
+```groovy
+g2actuate.management.security.roles=['BATMAN','SUPEMAN']
+```
+
+
+If you are deploying applications behind a firewall, you may prefer that all your actuator
+endpoints can be accessed without requiring authentication. You can do this by changing the
+``g2actuate.management.security.enabled`` property:
+
+```groovy
+g2actuate.management.security.enabled=false
+```
+
+> ![Tip](G2ActuateTiny.png )
+By default, actuator endpoints are exposed on the same port that serves regular HTTP traffic.
+Take care not to accidentally expose sensitive information if you change the
+``g2actuate.management.security.enabled`` property.
+
+If you’re deploying applications publicly, you may want to add ‘Spring Security Core’ plugin
+to handle user authentication. When the ‘Spring Security Core’’ is added to your application,
+by default ‘basic’ authentication will be used with the username user and a generated password (which is printed on the console when the application starts).
+
+If the target application is *not* using the Spring Security Core or the Shiro plugin then, by default,
+the G2Actuate will desensitize all endpoints (so that they will not require authentication). If this is not desired,
+set ``g2actuate.endpoints.autoDesensitize`` to ``false``.
+
+The default security
+
+
 
 ## Bugs or Enhancements
 To report any bug, please use the project [Issues](https://github.com/jtsampson/G2Actuate/issues) section on GitHub.

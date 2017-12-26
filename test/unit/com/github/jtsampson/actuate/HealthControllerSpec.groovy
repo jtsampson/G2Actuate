@@ -69,7 +69,7 @@ class HealthControllerSpec extends Specification {
         request.secure = true
         request.addHeader(HttpHeaders.ACCEPT, JSON_CONTENT_TYPE)
         controller.healthService = mockHealthService.createMock()
-        controller.actuateSecurity = new Authorized()
+        controller.actuateAuthorizer = new Authorized()
 
         when:
         controller.health()
@@ -88,7 +88,7 @@ class HealthControllerSpec extends Specification {
         request.secure = true
         request.addHeader(HttpHeaders.ACCEPT, JSON_CONTENT_TYPE)
         controller.healthService = mockHealthService.createMock()
-        controller.actuateSecurity = new Unauthorized()
+        controller.actuateAuthorizer = new Unauthorized()
 
         when:
         controller.health()

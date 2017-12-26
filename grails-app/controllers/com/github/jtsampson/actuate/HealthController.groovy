@@ -19,6 +19,7 @@ package com.github.jtsampson.actuate
 
 import grails.converters.JSON
 import grails.converters.XML
+import com.github.jtsampson.actuate.security.ActuateAuthorizer
 
 /**
  * Shows application health information (a simple ‘status’ when accessed over an unauthenticated connection or full
@@ -29,7 +30,7 @@ class HealthController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [health: 'GET']
     def healthService
-    def actuateSecurity
+    def actuateAuthorizer
 
 
     def health() {
@@ -37,7 +38,7 @@ class HealthController {
         def health = healthService.collectHealth()
 
         if (request.isSecure()) {
-            if (actuateSecurity.isUserAuthorized(request)) {
+            if (actuateAuthorizer.isUserAuthorized([request: request])) {
                 respondWithFormat health
             } else {
                 render(status: 401) // unauthorized

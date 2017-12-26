@@ -15,15 +15,15 @@
  *
  */
 
+
 import grails.util.Holders
 
 class DefaultActuateUrlMappings {
 
-    // TODO JTS 6/21/2017 use logger?
     static mappings = {
-        println ''
-        println 'Reconfiguring Actuate Endpoints'
-        println '-------------------------------'
+        println "-" * 60
+        println 'Reconfiguring G2Actuate Endpoints'.center(60)
+        println "-" * 60
 
         def conf = Holders.config.g2actuate
         def endpoints = Holders.config.g2actuate.endpoints
@@ -40,98 +40,106 @@ class DefaultActuateUrlMappings {
         def shutdown = endpoints.shutdown
         def trace = endpoints.trace
 
-        def cp = conf.management.'context-path'
-
+        // deal with possibly empty config Object item
+        def cp = conf.management."context-path".size() == 0 ? "" : "/" + conf.management."context-path"
+        def app = Holders.grailsApplication.metadata['app.name']
 
         // beans mappings
         if (beans.enabled) {
-            enabling(cp, beans)
+            enabling(app, cp, beans)
             "${cp}/${beans.id}"(controller: "actuator", action: "beans", method: 'GET')
         } else {
-            disabling(cp, beans)
+            disabling(app, cp, beans)
         }
 
         // environment mappings
         if (env.enabled) {
-            enabling(cp, env)
+            enabling(app, cp, env)
             "${cp}/${env.id}"(controller: "actuator", action: "env", method: 'GET')
         } else {
-            disabling(cp, env)
+            disabling(app, cp, env)
         }
 
         // health mappings
         if (health.enabled) {
-            enabling(cp, health)
+            enabling(app, cp, health)
             "${cp}/${health.id}"(controller: "health", action: "health", method: 'GET')
         } else {
-            disabling(cp, health)
+            disabling(app, cp, health)
         }
 
         // heapdump mappings
         if (heapdump.enabled) {
-            enabling(cp, heapdump)
+            enabling(app, cp, heapdump)
             "${cp}/${heapdump.id}"(controller: "heapDump", action: "heapdump", method: 'GET')
         } else {
-            disabling(cp, heapdump)
+            disabling(app, cp, heapdump)
         }
 
         // info mappings
         if (info.enabled) {
-            enabling(cp, info)
+            enabling(app, cp, info)
             "${cp}/${info.id}"(controller: "actuator", action: "info", method: 'GET')
         } else {
-            disabling(cp, info)
+            disabling(app, cp, info)
         }
 
         // loggers mappings
         if (loggers.enabled) {
-            enabling(cp, loggers )
+            enabling(app, cp, loggers)
             "${cp}/${loggers.id}"(controller: "logger", action: "index", method: 'GET')
             "${cp}/${loggers.id}/$id"(controller: "logger", action: "show", method: 'GET')
             "${cp}/${loggers.id}/$id"(controller: "logger", action: "update", method: 'PUT')
         } else {
-            disabling(cp, loggers )
+            disabling(app, cp, loggers)
         }
 
         // mappings mappings
-        if ( mappings.enabled) {
-            enabling(cp, mappings)
+        if (mappings.enabled) {
+            enabling(app, cp, mappings)
             "${cp}/${mappings.id}"(controller: "actuator", action: "mappings", method: 'GET')
         } else {
-            disabling(cp,  mappings)
+            disabling(app, cp, mappings)
         }
 
         // metrics mappings
         if (metrics.enabled) {
-            enabling(cp, metrics)
+            enabling(app, cp, metrics)
             "${cp}/${metrics.id}"(controller: "actuator", action: "metrics", method: 'GET')
         } else {
-            disabling(cp, metrics)
+            disabling(app, cp, metrics)
         }
 
         // shutdown mappings
         if (shutdown.enabled) {
-            enabling(cp, shutdown)
+            enabling(app, cp, shutdown)
             "${cp}/${shutdown.id}"(controller: "shutdown", action: "shutdown", method: 'GET')
         } else {
-            disabling(cp, shutdown)
+            disabling(app, cp, shutdown)
         }
 
         // trace mappings
         if (trace.enabled) {
-            enabling(cp, trace)
+            enabling(app, cp, trace)
             "${cp}/${trace.id}"(controller: "trace", action: "trace", method: 'GET')
         } else {
-            disabling(cp, trace)
+            disabling(app, cp, trace)
         }
-        println '-------------------------------'
+        println "-" * 60
     }
 
-    static enabling(cp, conf) {
-        println "Enabling  Actuate endpoint $cp/${conf.id} \t\t[sensitive : ${conf.sensitive}]"
+    static enabling(app, cp, conf) {
+        def out = new StringBuffer()
+        out << "Enabling  $app$cp/${conf.id}".padRight(40, ".")
+        out << "[sensitive : ${conf.sensitive}]".padLeft(20, ".")
+        println out.toString()
     }
 
-    static disabling(cp, conf) {
-        println "Disabling Actuate endpoint $cp/${conf.id} \t\t[sensitive : ${conf.sensitive}]"
+    static disabling(app, cp, conf) {
+        def out = new StringBuffer()
+        out << "Disabling $app$cp/${conf.id}".padRight(40, ".")
+        out << "[sensitive : ${conf.sensitive}]".padLeft(20, ".")
+        println out.toString()
+
     }
 }
