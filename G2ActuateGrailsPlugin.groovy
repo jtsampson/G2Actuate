@@ -29,7 +29,7 @@ import org.codehaus.groovy.grails.plugins.GrailsPlugin
 
 class G2ActuateGrailsPlugin {
     // the plugin version
-    def version = "1.0.2"
+    def version = "1.0.3"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.4 > *"
     // resources that are excluded from plugin packaging
@@ -87,15 +87,24 @@ Provides production ready capabilities similar to the Spring Boot Actuator but f
             }
         }
 
-//        Experrimenting with Spting Security
-//        if (Holders.pluginManager.hasGrailsPlugin('spring-security-core') &&  cp != '' ){
-//            String filter =  "/$cp/**': 'JOINED_FILTERS,-exceptionTranslationFilter'"
-//
-//            if (!grails.plugin.springsecurity.filterChain.chainMap.contains(filter)){
-//                grails.plugin.springsecurity.filterChain.chainMap.offerFirst(filter)
-//            }
-//
-//        }
+        //Experrimenting with Spting Security
+        if (Holders.pluginManager.hasGrailsPlugin('spring-security-core') &&  cp != '' ){
+            def springsecurity = application.config.plugin.springsecurity
+            if (springsecurity.useBasicAuth == true) {
+                String filter = "'$cp/**': 'JOINED_FILTERS,-exceptionTranslationFilter'"
+
+                if (!grails.plugin.springsecurity.filterChain.chainMap.contains(filter)) {
+                    grails.plugin.springsecurity.filterChain.chainMap.offerFirst(filter)
+                }
+            }else if(springsecurity.useDigestAuth){
+                String filter = "'$cp/**': 'JOINED_FILTERS,-exceptionTranslationFilter'"
+
+                if (!grails.plugin.springsecurity.filterChain.chainMap.contains(filter)) {
+                    grails.plugin.springsecurity.filterChain.chainMap.offerFirst(filter)
+                }
+            }
+
+        }
 
         // define other beans
         healthAggregator(HealthAggregator)
